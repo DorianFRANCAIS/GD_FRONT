@@ -30,7 +30,9 @@ const AuthProvider = (props : any) => {
     const [apiErrorMessage, setApiErrorMessage] = useState("");
 
     const getAuthUser = async () => {
-        const { user } = await fetch(`${process.env.SERVER_API}/api/user`)
+        const response = await fetch(`${process.env.SERVER_API}/api/user`).then((response) => {
+
+        })
     }
 
     useEffect(() => {
@@ -148,7 +150,9 @@ const AuthProvider = (props : any) => {
             })
     };
 
-    return ()
+    // return (
+        
+    // )
 }
 
-export default AuthProvider
+export default AuthContext
