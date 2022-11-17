@@ -79,9 +79,9 @@ const Dashboard = () => {
 
   return (
     <div className={classes.wrapper}>
-      <Navbar height="100vh" style={{
-        backgroundColor: "orange",
-        borderRadius: "1.5rem",
+      <Navbar height="100vh" sx={{
+        background: "#9F72BF",
+        borderRadius: "1.5rem"
       }} width={{ sm: 300 }} p="md">
         <Navbar.Section grow>
             <Link href='/'>
@@ -107,8 +107,8 @@ const Dashboard = () => {
   )
 }
 
-Dashboard.getInitialProps = async (ctx : any) => {
+// Dashboard.getInitialProps = async (ctx : any) => {
 
-}
+// }
 
 export default Dashboard

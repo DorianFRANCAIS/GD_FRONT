@@ -20,7 +20,7 @@ export default function App({ Component, pageProps }: AppProps) {
             description="CanineProject website"
             openGraph={{
               type: "website",
-              url: "https://www.cannineproject.net/",
+              url: "https://www.cannineproject.fr/",
               site_name: "CanineProject",
             }}
             twitter={{
