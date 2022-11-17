@@ -46,7 +46,11 @@ const ForgetPassword = () => {
 
     validate: {
       emailAddress: (value) =>
-        /^\S+@\S+$/.test(value) ? null : "Ceci n'est pas une adresse email",
+        /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))/i.test(
+          value,
+        )
+          ? null
+          : "Ceci n'est pas une adresse email",
     },
   });
 
@@ -54,7 +58,10 @@ const ForgetPassword = () => {
     console.log("Mail envoyé !");
     setShowNotification(true);
 
-    setTimeout(() => Router.push("/login"), 2000);
+    setTimeout(() => {
+      setShowNotification(false);
+      Router.push("/login");
+    }, 2000);
   };
 
   return (
