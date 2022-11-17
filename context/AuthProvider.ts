@@ -1,14 +1,14 @@
-import { createContext, useState, useEffect } from "react";
+import React, { createContext, useState, useEffect } from "react";
 import Cookies from 'js-cookie';
 import { useRouter } from "next/router";
 
-export const AuthContext = createContext({});
+export const AuthContext = React.createContext(null);
 
-export const addCookie = (key : string, value : string = '') => {
+const addCookie = (key : string, value : string = '') => {
     if (key) Cookies.set(key, value, { expires: 7 })
 }
 
-export const removeCookie = (key: string) => {
+const removeCookie = (key: string) => {
     if (key) Cookies.remove(key)
 }
 
@@ -26,7 +26,7 @@ const AuthProvider = (props : any) => {
     const [user, setUser] = useState({});
     const [loggedIn, setLoggedIn] = useState(false);
     const [loggedOut, setLoggedOut] = useState(!isValidToken());
-    const [token, setToken] = useState(null);
+    const [token, setToken] = useState("");
     const [apiErrorMessage, setApiErrorMessage] = useState("");
 
     const getAuthUser = async () => {
@@ -116,7 +116,39 @@ const AuthProvider = (props : any) => {
         }) 
     };
 
-    const tokenAuth = (token : string, user = {}) => {
+    const tokenAuth = (token : string, user : any) => {
+        setUser(user)
+        setToken(token)
+        addCookie('token', token)
+        addCookie('user', user)
+        setLoggedIn(true)
+        router.push('/', '/', {locale: locale})
+    };
 
-    }
+    const logOut = () => {
+        fetch(`${process.env.SERVER_API}/api/logout`, 
+            {
+                method: 'POST',
+                headers: {
+                    'Authorization': `Bearer ${Cookies.get('token')}`,
+                    'Accept': 'applcation/json',
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then(response => {
+                if (response.status == 200) {
+                    console.log('logged out');
+                    removeCookie('token');
+                    removeCookie('user');
+                    setLoggedIn(false);
+                    setUser({});
+                    setToken("");
+                    router.push({ pathname: '/' })
+                }
+            })
+    };
+
+    return ()
 }
+
+export default AuthProvider
