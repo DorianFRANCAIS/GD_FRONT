@@ -2,7 +2,7 @@ import React, { createContext, useState, useEffect } from "react";
 import Cookies from 'js-cookie';
 import { useRouter } from "next/router";
 
-export const AuthContext = React.createContext(null);
+export const AuthContext = React.createContext({});
 
 const addCookie = (key : string, value : string = '') => {
     if (key) Cookies.set(key, value, { expires: 7 })
@@ -19,7 +19,7 @@ const isValidToken = () => {
     return false;
 }
 
-const AuthProvider = (props : any) => {
+const AuthProvider = ({ children } : { children: React.ReactNode }) => {
 
     const router = useRouter();
     const { locale } = router;
@@ -150,9 +150,23 @@ const AuthProvider = (props : any) => {
             })
     };
 
-    // return (
-        
-    // )
+    return (
+        <AuthContext.Provider value={{
+            user,
+            setUser,
+            loggedIn,
+            setLoggedIn,
+            signin,
+            signUp,
+            tokenAuth,
+            logOut,
+            token,
+            apiErrorMessage,
+            setApiErrorMessage
+        }}>
+            {children}
+        </AuthContext.Provider>
+    )
 }
 
-export default AuthContext
+export default AuthProvider

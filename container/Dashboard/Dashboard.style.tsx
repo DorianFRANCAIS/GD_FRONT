@@ -33,11 +33,19 @@ const useDashboardStyles = createStyles((theme, _params, getRef) => {
       }`,
     },
 
+    navbar: {
+        background: 'rgba(217, 217, 217, 0.8)',
+        borderRadius: "25px",
+        border: "none",
+        boxShadow: "5px 0px 4px rgba(0, 0, 0, 0.15)",
+    },
+
     link: {
       ...theme.fn.focusStyles(),
       display: "flex",
       alignItems: "center",
       textDecoration: "none",
+      margin: "1rem 0",
       fontSize: theme.fontSizes.sm,
       color:
         theme.colorScheme === "dark"
