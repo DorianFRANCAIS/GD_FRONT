@@ -18,7 +18,7 @@ const Register = () => {
         },
       });
 
-    const handleSubmit = (event : React.FormEvent) => {
+    const handleSubmit = (event : any) => {
         event.preventDefault()
     }
 
