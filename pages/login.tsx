@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { ChangeEvent, FormEventHandler, useState } from "react";
 import {
   TextInput,
   PasswordInput,
@@ -15,7 +15,7 @@ const Login = () => {
     password: "",
   });
 
-  const handleSubmit: React.FormEventHandler = (event: React.ChangeEvent) => {
+  const handleLogin: FormEventHandler = (event: ChangeEvent) => {
     event.preventDefault();
     console.log(credentials);
   };
@@ -23,7 +23,7 @@ const Login = () => {
   return (
     <Container size={420} my={40}>
       <Paper withBorder shadow="md" p={30} mt={30} radius="lg">
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleLogin}>
           <TextInput
             label="Adresse email"
             name="emailAddress"
@@ -60,7 +60,7 @@ const Login = () => {
               Mot de passe oublié ?
             </Anchor>
           </Group>
-          <Button color="violet.6"  radius="lg" fullWidth mt="xl" type="submit">
+          <Button color="violet.6" radius="lg" fullWidth mt="xl" type="submit">
             Je me connecte
           </Button>
         </form>
