@@ -90,6 +90,7 @@ const ForgetPassword = () => {
         <form onSubmit={form.onSubmit(handleSendEmailAddress)}>
           <TextInput
             label="Votre adresse email"
+            name="emailAddress"
             placeholder="john.doe@icloud.com"
             {...form.getInputProps("emailAddress")}
             required

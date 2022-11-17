@@ -64,6 +64,7 @@ const Login = () => {
           />
           <PasswordInput
             label="Mot de passe"
+            name="password"
             placeholder="Votre mot de passe"
             mt="md"
             {...form.getInputProps("password")}
