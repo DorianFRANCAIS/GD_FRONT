@@ -22,7 +22,7 @@ const Register = () => {
       firstName: "",
       email: "",
       tel: "",
-      birthDate: new Date(),
+      birthDate: "",
     },
 
     // functions will be used to validate values at corresponding key
