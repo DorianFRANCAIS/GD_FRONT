@@ -1,5 +1,4 @@
-import React, { FormEventHandler } from "react";
-import useRegisterStyle from "./Register.style";
+import React from "react";
 import { useForm } from "@mantine/form";
 import {
   Container,
@@ -14,8 +13,6 @@ import {
 import { DatePicker } from "@mantine/dates";
 
 const Register = () => {
-  const { classes } = useRegisterStyle();
-
   const form = useForm({
     initialValues: {
       lastName: "",
@@ -23,10 +20,16 @@ const Register = () => {
       email: "",
       tel: "",
       birthDate: "",
+      password: "",
+      confirmPassword: "",
     },
 
     // functions will be used to validate values at corresponding key
     validate: {
+      confirmPassword: (value, values) =>
+        value !== values.password
+          ? "Les mots de passe ne sont pas identiques"
+          : null,
       email: (value) =>
         /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))/i.test(
           value,
@@ -104,12 +107,14 @@ const Register = () => {
           <PasswordInput
             label="Mot de passe"
             placeholder="**********"
+            {...form.getInputProps("password")}
             required
             mt="md"
           />
           <PasswordInput
             label="Confirmation du mot de passe"
             placeholder="**********"
+            {...form.getInputProps("confirmPassword")}
             required
             mt="md"
           />
