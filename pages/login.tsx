@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useContext, useState } from "react";
 import {
   TextInput,
   PasswordInput,
@@ -12,8 +12,10 @@ import {
 import { useForm } from "@mantine/form";
 import Router from "next/router";
 import { IconCheck } from "@tabler/icons";
+import { AuthContext } from "../context/AuthProvider";
 
 const Login = () => {
+  const { signIn }: any = useContext(AuthContext);
   const [showNotification, setShowNotification] = useState(false);
   const form = useForm<{ emailAddress: string; password: string }>({
     initialValues: { emailAddress: "", password: "" },
@@ -29,13 +31,8 @@ const Login = () => {
   });
 
   const handleLogin = () => {
-    console.log("Connecté !");
     setShowNotification(true);
-
-    setTimeout(() => {
-      setShowNotification(false);
-      Router.push("/");
-    }, 2000);
+    signIn(form.values, {});
   };
 
   return (
