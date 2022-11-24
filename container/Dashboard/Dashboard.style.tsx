@@ -93,6 +93,16 @@ const useDashboardStyles = createStyles((theme, _params, getRef) => {
         },
       },
     },
+    title: {
+      marginRight: 'auto',
+    },
+    navbarHeader: {
+      paddingLeft: theme.spacing.xs,
+      paddingRight: theme.spacing.xs,
+      paddingBottom: theme.spacing.lg,
+      borderBottom: `1px solid ${theme.colors.gray[2]}`,
+    },
+    headerMobile: {},
   };
 });
 
