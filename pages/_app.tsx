@@ -1,20 +1,21 @@
-import type { AppProps } from 'next/app'
-import { MantineProvider } from '@mantine/core';
-import Layout from '../container/Layout/Layout';
-import { DefaultSeo } from 'next-seo';
+import type { AppProps } from "next/app";
+import { MantineProvider } from "@mantine/core";
+import Layout from "../container/Layout/Layout";
+import { DefaultSeo } from "next-seo";
+import AuthProvider from "../context/AuthProvider";
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
-    <>
+    <AuthProvider>
       <MantineProvider
         withGlobalStyles
         withNormalizeCSS
         theme={{
-          colorScheme: "light"
+          colorScheme: "light",
         }}
       >
         <Layout>
-          <DefaultSeo 
+          <DefaultSeo
             title="CanineProject"
             titleTemplate="%s | CanineProject"
             description="CanineProject website"
@@ -32,6 +33,6 @@ export default function App({ Component, pageProps }: AppProps) {
           <Component {...pageProps} />
         </Layout>
       </MantineProvider>
-    </>
-  )
+    </AuthProvider>
+  );
 }
