@@ -11,14 +11,15 @@ import {
   Button,
 } from "@mantine/core";
 import { DatePicker } from "@mantine/dates";
+import { AuthContext } from "../../context/AuthProvider";
 
-const Register = () => {
+const Register = ({ role }: { role: string }) => {
   const form = useForm({
     initialValues: {
-      lastName: "",
+      name: "",
       firstName: "",
       email: "",
-      tel: "",
+      phoneNumber: "",
       birthDate: "",
       password: "",
       confirmPassword: "",
@@ -38,9 +39,12 @@ const Register = () => {
           : "Ceci n'est pas une adresse email",
     },
   });
+  
+  const { signUp } : any = useContext(AuthContext);
 
   const handleSubmit = () => {
-    console.log(form.values);
+    console.log('toto');
+    signUp(form.values, `/login`, role);
   };
 
   return (
@@ -68,7 +72,7 @@ const Register = () => {
             name="lastName"
             placeholder="Doe"
             required
-            {...form.getInputProps("lastName")}
+            {...form.getInputProps("name")}
           />
           <TextInput
             label="Prénom"
@@ -91,7 +95,7 @@ const Register = () => {
             placeholder="XX XX XX XX"
             mt="md"
             required
-            {...form.getInputProps("tel")}
+            {...form.getInputProps("phoneNumber")}
           />
 
           <DatePicker

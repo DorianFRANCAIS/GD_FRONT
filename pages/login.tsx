@@ -17,11 +17,11 @@ import { AuthContext } from "../context/AuthProvider";
 const Login = () => {
   const { signIn }: any = useContext(AuthContext);
   const [showNotification, setShowNotification] = useState(false);
-  const form = useForm<{ emailAddress: string; password: string }>({
-    initialValues: { emailAddress: "", password: "" },
+  const form = useForm<{ email: string; password: string }>({
+    initialValues: { email: "", password: "" },
 
     validate: {
-      emailAddress: (value) =>
+      email: (value) =>
         /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))/i.test(
           value,
         )
@@ -54,9 +54,9 @@ const Login = () => {
         <form onSubmit={form.onSubmit(handleLogin)}>
           <TextInput
             label="Adresse email"
-            name="emailAddress"
+            name="email"
             placeholder="john.doe@icloud.com"
-            {...form.getInputProps("emailAddress")}
+            {...form.getInputProps("email")}
             required
           />
           <PasswordInput
