@@ -86,8 +86,8 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       });
   };
 
-  const signUp = (params: any, redirectionUrl: string, locale: string) => {
-    return fetch(`${process.env.SERVER_API}/api/register`, {
+  const signUp = (params: any, redirectionUrl: string, role: string) => {
+    return fetch(`${process.env.SERVER_API}/admin/registration`, {
       method: "POST",
       headers: {
         Accept: "application/json",
@@ -102,9 +102,9 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         return response.json();
       })
       .then((json) => {
-        if (json.token) {
-          let user = json.user;
-          let token = json.token;
+        if (json.access_token) {
+          let user = json.User;
+          let token = json.access_token;
           setUser(user);
           setToken(token);
           addCookie("token", token);
