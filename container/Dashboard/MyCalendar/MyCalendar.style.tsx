@@ -1,9 +1,9 @@
 import { createStyles } from "@mantine/core";
 
 const useMyCalendarStyles = createStyles((theme) => ({
-    wrapper: {
-        // make some style
-    }
+    eventTitle: {
+        marginLeft: 10
+      }
 }));
 
 export default useMyCalendarStyles;

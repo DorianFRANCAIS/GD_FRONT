@@ -3,6 +3,10 @@ import { MantineProvider } from "@mantine/core";
 import Layout from "../container/Layout/Layout";
 import { DefaultSeo } from "next-seo";
 import AuthProvider from "../context/AuthProvider";
+import "@fullcalendar/common/main.css";
+import "@fullcalendar/daygrid/main.css";
+import "@fullcalendar/timegrid/main.css";
+
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
