@@ -9,10 +9,8 @@ import { NavbarCustom } from "../../components/Navbar/NavbarCustom";
 import { useState } from "react";
 import { NavbarHeader } from "../../components/Navbar/NavbarHeader";
 import HomeDashboard from "../../container/Dashboard/HomeDashboard/HomeDashboard";
-import { getUserByToken, withData } from "../../helpers/restrictions";
+import { withData } from "../../helpers/restrictions";
 import { UserInterface } from "../../interfaces/User.interface";
-import Cookies from "js-cookie";
-import nextCookies from 'next-cookies'
 
 const Dashboard = ({ user } : { user: UserInterface }) => {
   const [opened, setOpened] = useState(false);
