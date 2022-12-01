@@ -1,4 +1,4 @@
-import { useRouter } from "next/router"
+import { useRouter } from "next/router";
 import { AppShell, Burger, Header, MediaQuery } from "@mantine/core";
 import MyCalendar from "../../container/Dashboard/MyCalendar/MyCalendar";
 import MyCenters from "../../container/Dashboard/MyCenters/MyCenters";
@@ -33,19 +33,19 @@ const Dashboard = () => {
     } else {
       return <HomeDashboard />
     }
-  }
+  };
 
   return (
     <AppShell
       navbarOffsetBreakpoint="sm"
       asideOffsetBreakpoint="sm"
-      navbar={
-        <NavbarCustom opened={opened} />
-      }
+      navbar={<NavbarCustom opened={opened} />}
       header={
-        <MediaQuery largerThan="sm" styles={{ display: 'none' }}>
+        <MediaQuery largerThan="sm" styles={{ display: "none" }}>
           <Header height={{ base: 70, sm: 0 }} p="md">
-            <div style={{ display: 'flex', alignItems: 'center', height: '100%' }}>
+            <div
+              style={{ display: "flex", alignItems: "center", height: "100%" }}
+            >
               <Burger
                 opened={opened}
                 onClick={() => setOpened((o) => !o)}
@@ -53,7 +53,7 @@ const Dashboard = () => {
                 mr="xl"
               />
 
-              <NavbarHeader source='header' />
+              <NavbarHeader source="header" />
             </div>
           </Header>
         </MediaQuery>
@@ -61,11 +61,12 @@ const Dashboard = () => {
     >
       {displayComponent()}
     </AppShell>
-  )
-}
+  );
+};
 
-// Dashboard.getInitialProps = async (ctx : any) => {
+/* Dashboard.getInitialProps = async (ctx: any) => {
+  const { user } = await withData();
+  return { user };
+}; */
 
-// }
-
-export default Dashboard
+export default Dashboard;
