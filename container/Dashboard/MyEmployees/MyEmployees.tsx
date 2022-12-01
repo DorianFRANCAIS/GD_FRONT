@@ -8,51 +8,59 @@ import {
   Text,
 } from "@mantine/core";
 import { IconEye, IconPencil, IconTrash, IconUserPlus } from "@tabler/icons";
-
-interface IEmployee {
-  name: string;
-  firstname: string;
-  email: string;
-  phoneNumber: string;
-  lastConnection: Date;
-}
+import { RoleEnum, UserInterface } from "../../../interfaces/User.interface";
 
 const MyEmployees = () => {
-  const [employees, setEmployees] = useState<IEmployee[]>([]);
+  const [employees, setEmployees] = useState<UserInterface[]>([]);
 
   useEffect(() => {
     setEmployees([
       {
-        name: "Le Coz",
-        firstname: "Yann",
-        email: "ylcoz@icloud.com",
-        phoneNumber: "0645329078",
-        lastConnection: new Date("2022-11-20T11:10:00.000"),
+        id: 1,
+        name: "Lefort",
+        role: RoleEnum.Administrator,
+        firstName: "Edgar",
+        email: "edgar.lefort@ynov.com",
+        phoneNumber: "0645329089",
+        password: "",
+        birthDate: new Date("1996-07-02T11:10:00.000"),
+        registerDate: new Date("2022-11-04T11:10:00.000"),
+        lastConnectionDate: new Date("2022-11-20T11:10:00.000"),
       },
       {
+        id: 2,
         name: "Chambaud",
-        firstname: "Mathieu",
-        email: "mchambaud2000@gmail.com",
-        phoneNumber: "0645329079",
-        lastConnection: new Date("2021-11-22T11:10:00.000"),
+        role: RoleEnum.Administrator,
+        firstName: "Mathieu",
+        email: "mathieuchambaud2000@gmail.com",
+        phoneNumber: "0645329073",
+        password: "",
+        birthDate: new Date("1999-07-02T11:10:00.000"),
+        registerDate: new Date("2022-11-10T11:10:00.000"),
+        lastConnectionDate: new Date("2022-11-10T11:10:00.000"),
       },
       {
+        id: 3,
         name: "Français",
-        firstname: "Dorian",
-        email: "dorian.francais@ynov.com",
-        phoneNumber: "0645329060",
-        lastConnection: new Date("2022-10-24T11:10:00.000"),
+        role: RoleEnum.Administrator,
+        firstName: "Dorian",
+        email: "dorian.français@ynov.com",
+        phoneNumber: "0645326533",
+        password: "",
+        birthDate: new Date("1998-07-02T11:10:00.000"),
+        registerDate: new Date("2020-10-23T11:10:00.000"),
+        lastConnectionDate: new Date("2022-11-20T11:10:00.000"),
       },
     ]);
   }, []);
 
   const rows = employees.map((employee) => (
-    <tr key={employee.name}>
+    <tr key={employee.id}>
       <td>
         <Group spacing="sm">
           <div>
             <Text size="sm" weight={500}>
-              {employee.name.toUpperCase()} {employee.firstname}
+              {employee.name.toUpperCase()} {employee.firstName}
             </Text>
             <Text size="xs" color="dimmed">
               {employee.email}
@@ -69,13 +77,13 @@ const MyEmployees = () => {
             <Text size="sm" weight={400}>
               Il y a{" "}
               {Math.floor(
-                (new Date().getTime() - employee.lastConnection.getTime()) /
+                (new Date().getTime() - employee.lastConnectionDate.getTime()) /
                   8.64e7,
               )}{" "}
               jours
             </Text>
             <Text size="xs" color="dimmed">
-              le {employee.lastConnection.toLocaleDateString()}
+              le {employee.lastConnectionDate.toLocaleDateString()}
             </Text>
           </div>
         </Group>
