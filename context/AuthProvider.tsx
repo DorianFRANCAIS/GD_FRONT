@@ -1,7 +1,7 @@
 import React, { createContext, useState, useEffect } from "react";
 import Cookies from "js-cookie";
 import { useRouter } from "next/router";
-import { withData } from "../restrictions";
+import { withData } from "../helpers/restrictions";
 
 export const AuthContext = React.createContext({});
 
@@ -20,7 +20,7 @@ const isValidToken = () => {
   return false;
 };
 
-const AuthProvider = ({ children }: { children: React.ReactNode }) => {
+const AuthProvider = ({ children, context }: { children: React.ReactNode, context: any }) => {
   const router = useRouter();
   const { locale } = router;
   const [user, setUser] = useState({});
@@ -30,7 +30,8 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [apiErrorMessage, setApiErrorMessage] = useState("");
 
   const getAuthUser = async () => {
-    const { user } = await withData();
+    const { user } = await withData(context);
+    
 
     setUser(user);
 

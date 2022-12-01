@@ -1,18 +1,23 @@
 import {
   ActionIcon,
   Button,
+  Divider,
+  Drawer,
   Group,
   ScrollArea,
   Table,
   Text,
+  Title,
 } from "@mantine/core";
 import { IconEye, IconPencil, IconTrash, IconUserPlus } from "@tabler/icons";
 import { useEffect, useState } from "react";
+import NewCenterForm from "../../../components/Forms/Center/NewCenterForm";
 import { EstablishmentInterface } from "../../../interfaces/Establishment.interface";
 import { RoleEnum } from "../../../interfaces/User.interface";
 
 const MyCenters = () => {
   const [centers, setCenters] = useState<EstablishmentInterface[]>([]);
+  const [opened, setOpened] = useState(false);
 
   useEffect(() => {
     setCenters([
@@ -79,26 +84,38 @@ const MyCenters = () => {
   );
 
   return (
-    <ScrollArea>
-      <Button type="submit" color="green.7" radius="md" mb="xl">
-        <ActionIcon mr="xs">
-          <IconUserPlus size={20} stroke={1.5} color="white" />
-        </ActionIcon>
-        Ajouter un nouveau centre
-      </Button>
-      <Table sx={{ minWidth: 800 }} verticalSpacing="sm">
-        <thead>
-          <tr>
-            <th>Nom du centre</th>
-            <th>Adresse</th>
-            <th>Numéro de téléphone</th>
-            <th>Adresse e-mail</th>
-            <th></th>
-          </tr>
-        </thead>
-        <tbody>{rows}</tbody>
-      </Table>
-    </ScrollArea>
+    <>
+      <ScrollArea>
+        <Button color="green.7" onClick={() => setOpened(!opened)} radius="md" mb="xl">
+          <ActionIcon mr="xs">
+            <IconUserPlus size={20} stroke={1.5} color="white" />
+          </ActionIcon>
+          Ajouter un nouveau centre
+        </Button>
+        <Table sx={{ minWidth: 800 }} verticalSpacing="sm">
+          <thead>
+            <tr>
+              <th>Nom du centre</th>
+              <th>Adresse</th>
+              <th>Numéro de téléphone</th>
+              <th>Adresse e-mail</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>{rows}</tbody>
+        </Table>
+      </ScrollArea>
+      <Drawer
+        opened={opened}
+        onClose={() => setOpened(!opened)}
+        position="right"
+        size={700}
+      >
+        <Title sx={{ padding: "1rem" }}>Ajouter un centre</Title>
+        <Divider/>
+        <NewCenterForm />
+      </Drawer>
+    </>
   );
 };
 

@@ -8,8 +8,11 @@ import Error from "next/error";
 import { NavbarCustom } from "../../components/Navbar/NavbarCustom";
 import { useState } from "react";
 import { NavbarHeader } from "../../components/Navbar/NavbarHeader";
+import HomeDashboard from "../../container/Dashboard/HomeDashboard/HomeDashboard";
+import { withData } from "../../helpers/restrictions";
+import { UserInterface } from "../../interfaces/User.interface";
 
-const Dashboard = () => {
+const Dashboard = ({ user } : { user: UserInterface }) => {
   const [opened, setOpened] = useState(false);
 
   const router = useRouter();
@@ -29,6 +32,8 @@ const Dashboard = () => {
         default:
           return <Error statusCode={404} title="Page non trouvé" />;
       }
+    } else {
+      return <HomeDashboard />
     }
   };
 
@@ -36,7 +41,7 @@ const Dashboard = () => {
     <AppShell
       navbarOffsetBreakpoint="sm"
       asideOffsetBreakpoint="sm"
-      navbar={<NavbarCustom opened={opened} />}
+      navbar={<NavbarCustom opened={opened} user={user} />}
       header={
         <MediaQuery largerThan="sm" styles={{ display: "none" }}>
           <Header height={{ base: 70, sm: 0 }} p="md">
@@ -61,9 +66,10 @@ const Dashboard = () => {
   );
 };
 
-/* Dashboard.getInitialProps = async (ctx: any) => {
-  const { user } = await withData();
-  return { user };
-}; */
+Dashboard.getInitialProps = async (ctx: any) => {
+  const { user } = await withData(ctx)
+
+  return { user }
+};
 
 export default Dashboard;
