@@ -49,7 +49,7 @@ App.getInitialProps = async ({ Component, ctx }: { Component: any, ctx : any }) 
   }
 
   let isProtectedRoute = [
-    // `/dashboard/[[...tab]]`,
+    `/dashboard/[[...tab]]`,
     // `/configurator`
   ].includes(pathname);
 
