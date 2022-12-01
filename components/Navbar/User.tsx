@@ -7,6 +7,10 @@ export function User() {
   const theme = useMantineTheme();
   const { logOut }: any = useContext(AuthContext);
 
+  const {
+    user: { name, firstName, email },
+  }: any = useContext(AuthContext);
+
   return (
     <Box
       sx={{
@@ -17,10 +21,10 @@ export function User() {
       <Group>
         <Box sx={{ flex: 1 }}>
           <Text size="sm" weight={500}>
-            Yann Le Coz
+            {firstName} {name}
           </Text>
           <Text color="dimmed" size="xs">
-            ylcoz@icloud.com
+            {email}
           </Text>
         </Box>
 
