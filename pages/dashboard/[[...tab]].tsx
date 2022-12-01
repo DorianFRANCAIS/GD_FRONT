@@ -8,6 +8,7 @@ import Error from "next/error";
 import { NavbarCustom } from "../../components/Navbar/NavbarCustom";
 import { useState } from "react";
 import { NavbarHeader } from "../../components/Navbar/NavbarHeader";
+import HomeDashboard from "../../container/Dashboard/HomeDashboard/HomeDashboard";
 
 const Dashboard = () => {
   const [opened, setOpened] = useState(false);
@@ -29,6 +30,8 @@ const Dashboard = () => {
         default:
           return <Error statusCode={404} title="Page non trouvé" />;
       }
+    } else {
+      return <HomeDashboard />
     }
   }
 
