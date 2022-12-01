@@ -1,6 +1,7 @@
 import React, { createContext, useState, useEffect } from "react";
 import Cookies from "js-cookie";
 import { useRouter } from "next/router";
+import { withData } from "../restrictions";
 
 export const AuthContext = React.createContext({});
 
@@ -29,14 +30,16 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [apiErrorMessage, setApiErrorMessage] = useState("");
 
   const getAuthUser = async () => {
-    const response = await fetch(`${process.env.SERVER_API}/api/user`).then(
-      (response) => {},
-    );
+    const { user } = await withData();
+
+    setUser(user);
+
+    return user;
   };
 
   useEffect(() => {
     setLoggedIn(isValidToken());
-    // getAuthUser();
+    getAuthUser();
   }, []);
 
   const signIn = (params: any, redirectionDatas: any) => {
@@ -64,7 +67,6 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
           setUser(user);
           setToken(token);
           addCookie("token", token);
-          addCookie("user", user);
           setLoggedIn(true);
 
           if (redirectionDatas.next !== undefined) {
