@@ -1,11 +1,11 @@
-import React from "react";
-import { IconPlugOff } from "@tabler/icons";
-import { Group, Text, Box, useMantineTheme, Image } from "@mantine/core";
-import Link from "next/link";
-
+import { useContext } from "react";
+import { IconLogout } from "@tabler/icons";
+import { Group, Text, Box, useMantineTheme, ActionIcon } from "@mantine/core";
+import { AuthContext } from "../../context/AuthProvider";
 
 export function User() {
   const theme = useMantineTheme();
+  const { logOut }: any = useContext(AuthContext);
 
   return (
     <Box
@@ -24,9 +24,9 @@ export function User() {
           </Text>
         </Box>
 
-        <Link href="/" onClick={() => console.log("unlogin")}>
-          <IconPlugOff size={18} />
-        </Link>
+        <ActionIcon onClick={() => logOut()}>
+          <IconLogout size={18} />
+        </ActionIcon>
       </Group>
     </Box>
   );
