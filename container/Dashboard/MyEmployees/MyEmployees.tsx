@@ -2,16 +2,22 @@ import React, { useEffect, useState } from "react";
 import {
   ActionIcon,
   Button,
+  Divider,
+  Drawer,
   Group,
   ScrollArea,
   Table,
   Text,
+  Title,
 } from "@mantine/core";
 import { IconEye, IconPencil, IconTrash, IconUserPlus } from "@tabler/icons";
 import { RoleEnum, UserInterface } from "../../../interfaces/User.interface";
+import NewEmployeeForm from "../../../components/Forms/Employees/NewEmployeeForm";
 
 const MyEmployees = () => {
   const [employees, setEmployees] = useState<UserInterface[]>([]);
+  const [opened, setOpened] = useState(false);
+  const [openModify, setOpenModify] = useState(false);
 
   useEffect(() => {
     setEmployees([
@@ -94,7 +100,7 @@ const MyEmployees = () => {
           <ActionIcon onClick={() => console.log("See")}>
             <IconEye size={16} stroke={1.5} />
           </ActionIcon>
-          <ActionIcon onClick={() => console.log("Edit")}>
+          <ActionIcon onClick={() => setOpenModify(!openModify)}>
             <IconPencil size={16} stroke={1.5} />
           </ActionIcon>
           <ActionIcon color="red" onClick={() => console.log("Delete")}>
@@ -106,32 +112,46 @@ const MyEmployees = () => {
   ));
 
   return (
-    <ScrollArea>
-      <Button
-        type="submit"
-        color="green.7"
-        radius="md"
-        mb="xl"
-        component="a"
-        href="/educator/registration"
+    <>
+      <ScrollArea>
+        <Button onClick={() => setOpened(!opened)} color="green.7" radius="md" mb="xl">
+          <ActionIcon mr="xs" component="a" href="/educator/registration">
+            <IconUserPlus size={20} stroke={1.5} color="white" />
+          </ActionIcon>
+          Ajouter un nouvel employé
+        </Button>
+        <Table sx={{ minWidth: 800 }} verticalSpacing="sm">
+          <thead>
+            <tr>
+              <th>Employés</th>
+              <th>Numéro de téléphone</th>
+              <th>Dernière connexion</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>{rows}</tbody>
+        </Table>
+      </ScrollArea>
+      <Drawer
+        opened={opened}
+        onClose={() => setOpened(!opened)}
+        position="right"
+        size={700}
       >
-        <ActionIcon mr="xs" component="a" href="/educator/registration">
-          <IconUserPlus size={20} stroke={1.5} color="white" />
-        </ActionIcon>
-        Ajouter un nouvel employé
-      </Button>
-      <Table sx={{ minWidth: 800 }} verticalSpacing="sm">
-        <thead>
-          <tr>
-            <th>Employés</th>
-            <th>Numéro de téléphone</th>
-            <th>Dernière connexion</th>
-            <th></th>
-          </tr>
-        </thead>
-        <tbody>{rows}</tbody>
-      </Table>
-    </ScrollArea>
+        <Title sx={{ padding: "1rem" }} >Ajouter un employé</Title>
+        <Divider />
+        <NewEmployeeForm />
+      </Drawer>
+      <Drawer
+        opened={openModify}
+        onClose={() => setOpenModify(!openModify)}
+        size={700}
+        position="right"
+      >
+        <Title>Modifier un employé</Title>
+        <Divider />
+      </Drawer>
+    </>
   );
 };
 

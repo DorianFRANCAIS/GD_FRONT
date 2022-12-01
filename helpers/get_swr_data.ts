@@ -1,7 +1,7 @@
 import Cookie from 'js-cookie';
 import { useRouter } from 'next/router';
 
-const getSWRData = (API_URL: string, path: string) => {
+const getSWRData = (API_URL: string | undefined, path: string) => {
     // eslint-disable-next-line react-hooks/rules-of-hooks
     const router = useRouter();
     const { locale } = router;

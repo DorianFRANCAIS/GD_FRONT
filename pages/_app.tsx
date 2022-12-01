@@ -6,7 +6,7 @@ import AuthProvider from "../context/AuthProvider";
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
-    <AuthProvider>
+    <AuthProvider context={pageProps}>
       <MantineProvider
         withGlobalStyles
         withNormalizeCSS

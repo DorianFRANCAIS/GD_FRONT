@@ -2,14 +2,15 @@ import { useContext } from "react";
 import { IconLogout } from "@tabler/icons";
 import { Group, Text, Box, useMantineTheme, ActionIcon } from "@mantine/core";
 import { AuthContext } from "../../context/AuthProvider";
+import { UserInterface } from "../../interfaces/User.interface";
 
-export function User() {
+export function User({ user }: { user: UserInterface}) {
   const theme = useMantineTheme();
   const { logOut }: any = useContext(AuthContext);
 
-  const {
-    user: { name, firstName, email },
-  }: any = useContext(AuthContext);
+  // const {
+  //   user: { name, firstName, email },
+  // }: any = useContext(AuthContext);
 
   return (
     <Box
@@ -21,10 +22,10 @@ export function User() {
       <Group>
         <Box sx={{ flex: 1 }}>
           <Text size="sm" weight={500}>
-            {firstName} {name}
+            {user.firstName} {user.name}
           </Text>
           <Text color="dimmed" size="xs">
-            {email}
+            {user.email}
           </Text>
         </Box>
 

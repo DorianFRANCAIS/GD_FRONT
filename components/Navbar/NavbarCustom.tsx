@@ -7,9 +7,10 @@ import { UserInterface } from "../../interfaces/User.interface";
 
 interface MainLinkProps {
   opened: boolean;
+  user: UserInterface
 }
 
-export const NavbarCustom = ({ opened }: MainLinkProps) => {
+export const NavbarCustom = ({ opened, user }: MainLinkProps) => {
   const [active, setActive] = useState(false);
 
   const handleClick = () => {
@@ -32,7 +33,7 @@ export const NavbarCustom = ({ opened }: MainLinkProps) => {
         <MainLinks />
       </Navbar.Section>
       <Navbar.Section>
-        <User />
+        <User user={user} />
       </Navbar.Section>
     </Navbar>
   );

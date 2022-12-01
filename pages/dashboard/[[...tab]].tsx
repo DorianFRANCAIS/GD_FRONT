@@ -9,8 +9,12 @@ import { NavbarCustom } from "../../components/Navbar/NavbarCustom";
 import { useState } from "react";
 import { NavbarHeader } from "../../components/Navbar/NavbarHeader";
 import HomeDashboard from "../../container/Dashboard/HomeDashboard/HomeDashboard";
+import { getUserByToken, withData } from "../../helpers/restrictions";
+import { UserInterface } from "../../interfaces/User.interface";
+import Cookies from "js-cookie";
+import nextCookies from 'next-cookies'
 
-const Dashboard = () => {
+const Dashboard = ({ user } : { user: UserInterface }) => {
   const [opened, setOpened] = useState(false);
 
   const router = useRouter();
@@ -39,7 +43,7 @@ const Dashboard = () => {
     <AppShell
       navbarOffsetBreakpoint="sm"
       asideOffsetBreakpoint="sm"
-      navbar={<NavbarCustom opened={opened} />}
+      navbar={<NavbarCustom opened={opened} user={user} />}
       header={
         <MediaQuery largerThan="sm" styles={{ display: "none" }}>
           <Header height={{ base: 70, sm: 0 }} p="md">
@@ -64,9 +68,10 @@ const Dashboard = () => {
   );
 };
 
-/* Dashboard.getInitialProps = async (ctx: any) => {
-  const { user } = await withData();
-  return { user };
-}; */
+Dashboard.getInitialProps = async (ctx: any) => {
+  const { user } = await withData(ctx)
+
+  return { user }
+};
 
 export default Dashboard;

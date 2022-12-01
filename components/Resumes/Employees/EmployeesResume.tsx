@@ -1,4 +1,5 @@
 import { MantineNumberSize, Paper, Title } from "@mantine/core";
+import useEmployeesResumeStyles from "./EmployeesResume.style";
 
 const EmployeesResume = ({
   radius,
@@ -7,10 +8,14 @@ const EmployeesResume = ({
   radius: MantineNumberSize;
   height: number;
 }) => {
+
+  const { classes } = useEmployeesResumeStyles();
+
   return (
     <Paper
       radius={radius}
-      sx={{ height: height, backgroundColor: "gray" }}
+      className={classes.wrapper}
+      sx={{ height: height }}
     >
         <Title>Employees Resume</Title>
     </Paper>
