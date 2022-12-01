@@ -1,6 +1,7 @@
 import React, { createContext, useState, useEffect } from "react";
 import Cookies from "js-cookie";
 import { useRouter } from "next/router";
+import { withData } from "../helpers/restrictions";
 
 export const AuthContext = React.createContext({});
 
@@ -19,7 +20,7 @@ const isValidToken = () => {
   return false;
 };
 
-const AuthProvider = ({ children }: { children: React.ReactNode }) => {
+const AuthProvider = ({ children, context }: { children: React.ReactNode, context: any }) => {
   const router = useRouter();
   const { locale } = router;
   const [user, setUser] = useState({});
@@ -29,14 +30,17 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [apiErrorMessage, setApiErrorMessage] = useState("");
 
   const getAuthUser = async () => {
-    const response = await fetch(`${process.env.SERVER_API}/api/user`).then(
-      (response) => {},
-    );
+    const { user } = await withData(context);
+    
+
+    setUser(user);
+
+    return user;
   };
 
   useEffect(() => {
     setLoggedIn(isValidToken());
-    // getAuthUser();
+    getAuthUser();
   }, []);
 
   const signIn = (params: any, redirectionDatas: any) => {
@@ -59,12 +63,11 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       })
       .then((json) => {
         if (json.access_token) {
-          let user = json.User;
+          let user = json.user;
           let token = json.access_token;
           setUser(user);
           setToken(token);
           addCookie("token", token);
-          addCookie("user", user);
           setLoggedIn(true);
 
           if (redirectionDatas.next !== undefined) {
@@ -86,8 +89,8 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       });
   };
 
-  const signUp = (params: any, redirectionUrl: string, locale: string) => {
-    return fetch(`${process.env.SERVER_API}/api/register`, {
+  const signUp = (params: any, redirectionUrl: string, role: string) => {
+    return fetch(`${process.env.SERVER_API}/admin/registration`, {
       method: "POST",
       headers: {
         Accept: "application/json",
@@ -102,13 +105,12 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         return response.json();
       })
       .then((json) => {
-        if (json.token) {
+        if (json.access_token) {
           let user = json.user;
-          let token = json.token;
+          let token = json.access_token;
           setUser(user);
           setToken(token);
           addCookie("token", token);
-          addCookie("user", user);
           setLoggedIn(true);
           router.push({ pathname: redirectionUrl });
         }
@@ -128,7 +130,7 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   };
 
   const logOut = () => {
-    fetch(`${process.env.SERVER_API}/api/logout`, {
+    fetch(`${process.env.SERVER_API}/logout`, {
       method: "POST",
       headers: {
         Authorization: `Bearer ${Cookies.get("token")}`,
@@ -139,11 +141,10 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       if (response.status == 200) {
         console.log("logged out");
         removeCookie("token");
-        removeCookie("user");
         setLoggedIn(false);
         setUser({});
         setToken("");
-        router.push({ pathname: "/" });
+        router.push({ pathname: "/login" });
       }
     });
   };

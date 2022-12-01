@@ -1,38 +1,38 @@
-import React from 'react';
-import { IconPlugOff } from '@tabler/icons';
-import { Group, Avatar, Text, Box, useMantineTheme, Image } from '@mantine/core';
-import Link from 'next/link';
+import { useContext } from "react";
+import { IconLogout } from "@tabler/icons";
+import { Group, Text, Box, useMantineTheme, ActionIcon } from "@mantine/core";
+import { AuthContext } from "../../context/AuthProvider";
+import { UserInterface } from "../../interfaces/User.interface";
 
-export function User() {
+export function User({ user }: { user: UserInterface}) {
   const theme = useMantineTheme();
+  const { logOut }: any = useContext(AuthContext);
+
+  // const {
+  //   user: { name, firstName, email },
+  // }: any = useContext(AuthContext);
 
   return (
     <Box
       sx={{
         paddingTop: theme.spacing.sm,
-        borderTop: `1px solid ${theme.colors.gray[2]
-          }`,
+        borderTop: `1px solid ${theme.colors.gray[2]}`,
       }}
     >
-        <Group>
-          <Avatar
-            radius="xl"
-          >
-            <Image width={50} height={50} alt="" src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" />
-          </Avatar>
-          <Box sx={{ flex: 1 }}>
-            <Text size="sm" weight={500}>
-              Mehdi Test
-            </Text>
-            <Text color="dimmed" size="xs">
-              test@gmail.com
-            </Text>
-          </Box>
+      <Group>
+        <Box sx={{ flex: 1 }}>
+          <Text size="sm" weight={500}>
+            {user.firstName} {user.name}
+          </Text>
+          <Text color="dimmed" size="xs">
+            {user.email}
+          </Text>
+        </Box>
 
-          <Link href="/" onClick={() => console.log('unlogin')}>
-            <IconPlugOff size={18} />
-          </Link>
-        </Group>
+        <ActionIcon onClick={() => logOut()}>
+          <IconLogout size={18} />
+        </ActionIcon>
+      </Group>
     </Box>
   );
 }

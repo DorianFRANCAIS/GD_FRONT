@@ -1,4 +1,6 @@
-enum RoleEnum {
+import React from "react";
+
+export enum RoleEnum {
   Administrator,
   Manager,
   Educator,
@@ -6,12 +8,12 @@ enum RoleEnum {
 }
 
 export interface UserInterface {
-  id: Number;
+  id: React.Key;
   role: RoleEnum;
-  lastName: String;
+  name: String;
   firstName: String;
   phoneNumber: String;
-  emailAddress: String;
+  email: String;
   password: String;
   birthDate: Date;
   registerDate: Date;

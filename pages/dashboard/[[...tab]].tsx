@@ -1,4 +1,4 @@
-import { useRouter } from "next/router"
+import { useRouter } from "next/router";
 import { AppShell, Burger, Header, MediaQuery } from "@mantine/core";
 import MyCalendar from "../../container/Dashboard/MyCalendar/MyCalendar";
 import MyCenters from "../../container/Dashboard/MyCenters/MyCenters";
@@ -8,8 +8,11 @@ import Error from "next/error";
 import { NavbarCustom } from "../../components/Navbar/NavbarCustom";
 import { useState } from "react";
 import { NavbarHeader } from "../../components/Navbar/NavbarHeader";
+import HomeDashboard from "../../container/Dashboard/HomeDashboard/HomeDashboard";
+import { withData } from "../../helpers/restrictions";
+import { UserInterface } from "../../interfaces/User.interface";
 
-const Dashboard = () => {
+const Dashboard = ({ user } : { user: UserInterface }) => {
   const [opened, setOpened] = useState(false);
 
   const router = useRouter();
@@ -29,20 +32,22 @@ const Dashboard = () => {
         default:
           return <Error statusCode={404} title="Page non trouvé" />;
       }
+    } else {
+      return <HomeDashboard />
     }
-  }
+  };
 
   return (
     <AppShell
       navbarOffsetBreakpoint="sm"
       asideOffsetBreakpoint="sm"
-      navbar={
-        <NavbarCustom opened={opened} />
-      }
+      navbar={<NavbarCustom opened={opened} user={user} />}
       header={
-        <MediaQuery largerThan="sm" styles={{ display: 'none' }}>
+        <MediaQuery largerThan="sm" styles={{ display: "none" }}>
           <Header height={{ base: 70, sm: 0 }} p="md">
-            <div style={{ display: 'flex', alignItems: 'center', height: '100%' }}>
+            <div
+              style={{ display: "flex", alignItems: "center", height: "100%" }}
+            >
               <Burger
                 opened={opened}
                 onClick={() => setOpened((o) => !o)}
@@ -50,7 +55,7 @@ const Dashboard = () => {
                 mr="xl"
               />
 
-              <NavbarHeader source='header' />
+              <NavbarHeader source="header" />
             </div>
           </Header>
         </MediaQuery>
@@ -58,11 +63,13 @@ const Dashboard = () => {
     >
       {displayComponent()}
     </AppShell>
-  )
-}
+  );
+};
 
-// Dashboard.getInitialProps = async (ctx : any) => {
+Dashboard.getInitialProps = async (ctx: any) => {
+  const { user } = await withData(ctx)
 
-// }
+  return { user }
+};
 
-export default Dashboard
+export default Dashboard;
