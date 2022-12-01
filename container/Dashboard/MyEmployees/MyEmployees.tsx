@@ -23,11 +23,11 @@ const MyEmployees = () => {
   useEffect(() => {
     setEmployees([
       {
-        name: "Le Coz",
-        firstname: "Yann",
-        email: "ylcoz@icloud.com",
+        name: "Lefort",
+        firstname: "Edgar",
+        email: "edgar.lefort@ynov.com",
         phoneNumber: "0645329078",
-        lastConnection: new Date("2022-11-20T11:10:00.000"),
+        lastConnection: new Date("2022-11-29T11:10:00.000"),
       },
       {
         name: "Chambaud",
@@ -71,7 +71,7 @@ const MyEmployees = () => {
               {Math.floor(
                 (new Date().getTime() - employee.lastConnection.getTime()) /
                   8.64e7,
-              )}{" "}
+              ) + 1}{" "}
               jours
             </Text>
             <Text size="xs" color="dimmed">
@@ -107,7 +107,7 @@ const MyEmployees = () => {
         component="a"
         href="/educator/registration"
       >
-        <ActionIcon mr="xs">
+        <ActionIcon mr="xs" component="a" href="/educator/registration">
           <IconUserPlus size={20} stroke={1.5} color="white" />
         </ActionIcon>
         Ajouter un nouvel employé
