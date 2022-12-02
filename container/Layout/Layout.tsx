@@ -24,7 +24,7 @@ const Layout = ({ children } : {
                     padding: "1rem"
                 }}
             >
-                <Image src="/dogIcon.png" width={40} height={40} alt="logo-canine" />
+                <Image src="/dogIcon.png" width={40} height={40} alt="logo-canine" style={{ margin: "1rem" }} />
                 <h2>Canine Project</h2>
             </nav>
         : null}
