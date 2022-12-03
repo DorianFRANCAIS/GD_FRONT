@@ -43,7 +43,6 @@ const Register = ({ role }: { role: string }) => {
   const { signUp } : any = useContext(AuthContext);
 
   const handleSubmit = () => {
-    console.log('toto');
     signUp(form.values, `/login`, role);
   };
 
