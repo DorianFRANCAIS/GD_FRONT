@@ -25,7 +25,6 @@ const Register = ({ role }: { role: string }) => {
       confirmPassword: "",
     },
 
-    
     validate: {
       confirmPassword: (value, values) =>
         value !== values.password
@@ -39,8 +38,8 @@ const Register = ({ role }: { role: string }) => {
           : "Ceci n'est pas une adresse email",
     },
   });
-  
-  const { signUp } : any = useContext(AuthContext);
+
+  const { signUp }: any = useContext(AuthContext);
 
   const handleSubmit = () => {
     signUp(form.values, `/`, role);

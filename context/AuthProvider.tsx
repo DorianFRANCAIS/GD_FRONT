@@ -134,7 +134,7 @@ const AuthProvider = ({ children, context }: { children: React.ReactNode, contex
       method: "POST",
       headers: {
         Authorization: `Bearer ${Cookies.get("token")}`,
-        Accept: "applcation/json",
+        Accept: "application/json",
         "Content-Type": "application/json",
       },
     }).then((response) => {

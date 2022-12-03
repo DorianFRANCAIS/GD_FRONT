@@ -12,7 +12,7 @@ import HomeDashboard from "../../container/Dashboard/HomeDashboard/HomeDashboard
 import { withData } from "../../helpers/restrictions";
 import { UserInterface } from "../../interfaces/User.interface";
 
-const Dashboard = ({ user } : { user: UserInterface }) => {
+const Dashboard = ({ user }: { user: UserInterface }) => {
   const [opened, setOpened] = useState(false);
 
   const router = useRouter();
@@ -33,7 +33,7 @@ const Dashboard = ({ user } : { user: UserInterface }) => {
           return <Error statusCode={404} title="Page non trouvé" />;
       }
     } else {
-      return <HomeDashboard />
+      return <HomeDashboard />;
     }
   };
 
@@ -67,9 +67,9 @@ const Dashboard = ({ user } : { user: UserInterface }) => {
 };
 
 Dashboard.getInitialProps = async (ctx: any) => {
-  const { user } = await withData(ctx)
+  const { user } = await withData(ctx);
 
-  return { user }
+  return { user };
 };
 
 export default Dashboard;
