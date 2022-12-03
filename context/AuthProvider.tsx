@@ -90,7 +90,7 @@ const AuthProvider = ({ children, context }: { children: React.ReactNode, contex
   };
 
   const signUp = (params: any, redirectionUrl: string, role: string) => {
-    return fetch(`${process.env.SERVER_API}/admin/registration`, {
+    return fetch(`${process.env.SERVER_API}/${role}/registration`, {
       method: "POST",
       headers: {
         Accept: "application/json",

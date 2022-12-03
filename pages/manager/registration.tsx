@@ -1,10 +1,10 @@
-import React from 'react'
+import Register from '../../container/Register/Register'
 
 const ManagerRegistration = () => {
   return (
-    <div>
-        
-    </div>
+    <>
+        <Register role='manager' />
+    </>
   )
 }
 
