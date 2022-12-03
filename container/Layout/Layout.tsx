@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import { useRouter } from 'next/router';
 import React from 'react'
 import useLayoutStyle from './Layout.style'
@@ -23,14 +24,7 @@ const Layout = ({ children } : {
                     padding: "1rem"
                 }}
             >
-                <span style={{
-                    background: "gray",
-                    padding: "0.5rem",
-                    margin: "0.5rem",
-                    fontSize: "12px",
-                    color: "white",
-                    borderRadius: "50%"
-                }}>Logo</span>
+                <Image src="/dogIcon.png" width={40} height={40} alt="logo-canine" style={{ margin: "1rem" }} />
                 <h2>Canine Project</h2>
             </nav>
         : null}

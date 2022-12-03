@@ -25,7 +25,6 @@ const Register = ({ role }: { role: string }) => {
       confirmPassword: "",
     },
 
-    // functions will be used to validate values at corresponding key
     validate: {
       confirmPassword: (value, values) =>
         value !== values.password
@@ -39,11 +38,11 @@ const Register = ({ role }: { role: string }) => {
           : "Ceci n'est pas une adresse email",
     },
   });
-  
-  const { signUp } : any = useContext(AuthContext);
+
+  const { signUp }: any = useContext(AuthContext);
 
   const handleSubmit = () => {
-    signUp(form.values, `/login`, role);
+    signUp(form.values, `/`, role);
   };
 
   return (
