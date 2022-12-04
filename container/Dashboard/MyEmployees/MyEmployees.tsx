@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { Key, useEffect, useState } from "react";
 import moment from "moment";
 import {
   ActionIcon,
@@ -16,10 +16,12 @@ import { RoleEnum, UserInterface } from "../../../interfaces/User.interface";
 import NewEmployeeForm from "../../../components/Forms/Employees/NewEmployeeForm";
 import { withData } from "../../../helpers/restrictions";
 import { useFetchSWR } from "../../../hooks/useFetchSWR";
+import ModifyEmployeeForm from "../../../components/Forms/Employees/ModifyEmployeeForm";
 
 const MyEmployees = () => {
   const [opened, setOpened] = useState(false);
   const [openModify, setOpenModify] = useState(false);
+  const [employeeId, setEmployeeId] = useState(0);
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
@@ -28,12 +30,13 @@ const MyEmployees = () => {
 
   const { data } = useFetchSWR("/user", mounted);
 
-  const rows = data?.map((employee: UserInterface) => {
+  const rows = data?.map((employee: UserInterface, idx: Key) => {
     const lastConnectionDate = moment(employee.lastConnectionDate)
       .format("DD/MM/YYYY")
       .toString();
+
     return (
-      <tr key={employee.id}>
+      <tr key={idx}>
         <td>
           <Group spacing="sm">
             <div>
@@ -60,7 +63,12 @@ const MyEmployees = () => {
             <ActionIcon onClick={() => console.log("See")}>
               <IconEye size={16} stroke={1.5} />
             </ActionIcon>
-            <ActionIcon onClick={() => setOpenModify(!openModify)}>
+            <ActionIcon
+              onClick={() => {
+                setEmployeeId(employee.id);
+                setOpenModify(!openModify);
+              }}
+            >
               <IconPencil size={16} stroke={1.5} />
             </ActionIcon>
             <ActionIcon color="red" onClick={() => console.log("Delete")}>
@@ -114,8 +122,13 @@ const MyEmployees = () => {
         size={700}
         position="right"
       >
-        <Title>Modifier un employé</Title>
+        <Title sx={{ padding: "1rem" }}>Modifier un employé</Title>
         <Divider />
+        <ModifyEmployeeForm
+          employee={data?.find(
+            (employee: UserInterface) => employee.id === employeeId,
+          )}
+        />
       </Drawer>
     </>
   );
