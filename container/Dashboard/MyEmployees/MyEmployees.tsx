@@ -1,4 +1,5 @@
 import React, { Key, useEffect, useState } from "react";
+import { useRouter } from "next/router";
 import moment from "moment";
 import {
   ActionIcon,
@@ -12,13 +13,14 @@ import {
   Title,
 } from "@mantine/core";
 import { IconEye, IconPencil, IconTrash, IconUserPlus } from "@tabler/icons";
-import { RoleEnum, UserInterface } from "../../../interfaces/User.interface";
+import { UserInterface } from "../../../interfaces/User.interface";
 import NewEmployeeForm from "../../../components/Forms/Employees/NewEmployeeForm";
 import { withData } from "../../../helpers/restrictions";
 import { useFetchSWR } from "../../../hooks/useFetchSWR";
 import ModifyEmployeeForm from "../../../components/Forms/Employees/ModifyEmployeeForm";
 
 const MyEmployees = () => {
+  const router = useRouter();
   const [opened, setOpened] = useState(false);
   const [openModify, setOpenModify] = useState(false);
   const [employeeId, setEmployeeId] = useState(0);
@@ -27,6 +29,20 @@ const MyEmployees = () => {
   useEffect(() => {
     setMounted(true);
   }, []);
+
+  const handleDelete = (employeeId: number) => {
+    return fetch(`${process.env.SERVER_API}/user/${employeeId}`, {
+      method: "DELETE",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+    })
+      .then(() => router.push({ pathname: "/dashboard" }))
+      .catch((error) => {
+        return error.message;
+      });
+  };
 
   const { data } = useFetchSWR("/user", mounted);
 
@@ -71,7 +87,7 @@ const MyEmployees = () => {
             >
               <IconPencil size={16} stroke={1.5} />
             </ActionIcon>
-            <ActionIcon color="red" onClick={() => console.log("Delete")}>
+            <ActionIcon color="red" onClick={() => handleDelete(employee.id)}>
               <IconTrash size={16} stroke={1.5} />
             </ActionIcon>
           </Group>

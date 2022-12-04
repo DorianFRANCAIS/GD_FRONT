@@ -20,7 +20,13 @@ const isValidToken = () => {
   return false;
 };
 
-const AuthProvider = ({ children, context }: { children: React.ReactNode, context: any }) => {
+const AuthProvider = ({
+  children,
+  context,
+}: {
+  children: React.ReactNode;
+  context: any;
+}) => {
   const router = useRouter();
   const { locale } = router;
   const [user, setUser] = useState({});
@@ -31,7 +37,6 @@ const AuthProvider = ({ children, context }: { children: React.ReactNode, contex
 
   const getAuthUser = async () => {
     const { user } = await withData(context);
-    
 
     setUser(user);
 
