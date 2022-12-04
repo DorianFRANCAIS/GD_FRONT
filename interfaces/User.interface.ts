@@ -8,7 +8,7 @@ export enum RoleEnum {
 }
 
 export interface UserInterface {
-  id: React.Key;
+  id: number;
   role: number;
   name: String;
   firstName: String;
