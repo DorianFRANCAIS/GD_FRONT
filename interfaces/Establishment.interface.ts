@@ -2,10 +2,10 @@ import { UserInterface } from "./User.interface";
 
 export interface EstablishmentInterface {
   id: number;
-  owner: UserInterface;
+  ownerId: number;
   name: String;
-  description: String | null;
-  address: String;
+  description: String;
+  adress: String;
   phoneNumber: String;
-  emailAddress: String;
+  email: String;
 }

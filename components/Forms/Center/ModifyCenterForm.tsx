@@ -1,18 +1,22 @@
 import { TextInput, Textarea, Button } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { EstablishmentInterface } from "../../../interfaces/Establishment.interface";
+import { UserInterface } from "../../../interfaces/User.interface";
 
 const ModifyCenterForm = ({
   establishment,
+  owner,
 }: {
   establishment: EstablishmentInterface;
+  owner: UserInterface;
 }) => {
   const form = useForm({
     initialValues: {
+      ownerId: owner.id,
       name: establishment.name,
-      address: establishment.address,
+      adress: establishment.adress,
       phoneNumber: establishment.phoneNumber,
-      emailAddress: establishment.emailAddress,
+      email: establishment.email,
       description: establishment.description,
     },
   });
@@ -33,9 +37,9 @@ const ModifyCenterForm = ({
       <TextInput
         required
         label="Adresse du centre"
-        name="address"
+        name="adress"
         p="lg"
-        {...form.getInputProps("address")}
+        {...form.getInputProps("adress")}
       />
       <TextInput
         required
@@ -45,16 +49,15 @@ const ModifyCenterForm = ({
         {...form.getInputProps("phoneNumber")}
       />
       <TextInput
-        name="emailAddress"
+        name="email"
         label="Adresse Email"
         required
         p="lg"
-        {...form.getInputProps("emailAddress")}
+        {...form.getInputProps("email")}
       />
       <Textarea
         name="description"
         label="Description"
-        required
         p="lg"
         {...form.getInputProps("description")}
       />

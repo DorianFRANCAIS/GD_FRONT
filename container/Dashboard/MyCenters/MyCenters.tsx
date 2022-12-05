@@ -10,15 +10,16 @@ import {
   Title,
 } from "@mantine/core";
 import { IconEye, IconPencil, IconTrash, IconUserPlus } from "@tabler/icons";
+import Cookies from "js-cookie";
 import { useRouter } from "next/router";
 import { Key, useEffect, useState } from "react";
 import ModifyCenterForm from "../../../components/Forms/Center/ModifyCenterForm";
 import NewCenterForm from "../../../components/Forms/Center/NewCenterForm";
-import { withData } from "../../../helpers/restrictions";
 import { useFetchSWR } from "../../../hooks/useFetchSWR";
 import { EstablishmentInterface } from "../../../interfaces/Establishment.interface";
+import { UserInterface } from "../../../interfaces/User.interface";
 
-const MyCenters = () => {
+const MyCenters = ({ user }: { user: UserInterface }) => {
   const router = useRouter();
   const [opened, setOpened] = useState(false);
   const [openModify, setOpenModify] = useState(false);
@@ -35,6 +36,7 @@ const MyCenters = () => {
       {
         method: "DELETE",
         headers: {
+          Authorization: `Bearer ${Cookies.get("token")}`,
           Accept: "application/json",
           "Content-Type": "application/json",
         },
@@ -46,7 +48,7 @@ const MyCenters = () => {
       });
   };
 
-  const { data } = useFetchSWR("/establishments", mounted);
+  const { data } = useFetchSWR("/establishments/list", mounted);
 
   const rows = data?.map((establishment: EstablishmentInterface, idx: Key) => (
     <tr key={idx}>
@@ -63,11 +65,11 @@ const MyCenters = () => {
         </Group>
       </td>
 
-      <td>{establishment.address}</td>
+      <td>{establishment.adress}</td>
 
       <td>{establishment.phoneNumber}</td>
 
-      <td>{establishment.emailAddress}</td>
+      <td>{establishment.email}</td>
 
       <td>
         <Group spacing={0} position="center">
@@ -128,7 +130,7 @@ const MyCenters = () => {
       >
         <Title sx={{ padding: "1rem" }}>Ajouter un centre</Title>
         <Divider />
-        <NewCenterForm />
+        <NewCenterForm owner={user} />
       </Drawer>
       <Drawer
         opened={openModify}
@@ -143,16 +145,11 @@ const MyCenters = () => {
             (establishment: EstablishmentInterface) =>
               establishment.id === establishmentId,
           )}
+          owner={user}
         />
       </Drawer>
     </>
   );
-};
-
-MyCenters.getInitialProps = async (ctx: any) => {
-  const { user } = await withData(ctx);
-
-  return { user };
 };
 
 export default MyCenters;

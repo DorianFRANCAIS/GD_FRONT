@@ -26,7 +26,7 @@ const Dashboard = ({ user }: { user: UserInterface }) => {
         case "my-employees":
           return <MyEmployees />;
         case "my-centers":
-          return <MyCenters />;
+          return <MyCenters user={user} />;
         case "my-profile":
           return <MyProfile />;
         default:

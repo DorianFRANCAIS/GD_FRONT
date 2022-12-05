@@ -1,20 +1,23 @@
 import { TextInput, Textarea, Button } from "@mantine/core";
 import { useForm } from "@mantine/form";
+import Cookies from "js-cookie";
 import { useRouter } from "next/router";
+import { UserInterface } from "../../../interfaces/User.interface";
 
-const NewCenterForm = () => {
+const NewCenterForm = ({ owner }: { owner: UserInterface }) => {
   const router = useRouter();
   const form = useForm({
     initialValues: {
+      ownerId: owner.id,
       name: "",
-      address: "",
+      adress: "",
       phoneNumber: "",
-      emailAddress: "",
+      email: "",
       description: "",
     },
 
     validate: {
-      emailAddress: (value) =>
+      email: (value) =>
         /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))/i.test(
           value,
         )
@@ -27,6 +30,7 @@ const NewCenterForm = () => {
     return fetch(`${process.env.SERVER_API}/establishments/create`, {
       method: "POST",
       headers: {
+        Authorization: `Bearer ${Cookies.get("token")}`,
         Accept: "application/json",
         "Content-Type": "application/json",
       },
@@ -38,16 +42,15 @@ const NewCenterForm = () => {
         }
         return response.json();
       })
-      .then((json) => {
-        if (json.access_token) router.push({ pathname: "/dashboard" });
-      })
+      .then(() => router.push({ pathname: "/dashboard" }))
       .catch((error) => {
         console.log("error : " + error.message);
       });
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={form.onSubmit(handleSubmit)}>
+      {JSON.stringify(form.values)}
       <TextInput
         required
         label="Nom du centre"
@@ -58,9 +61,9 @@ const NewCenterForm = () => {
       <TextInput
         required
         label="Adresse du centre"
-        name="address"
+        name="adress"
         p="lg"
-        {...form.getInputProps("address")}
+        {...form.getInputProps("adress")}
       />
       <TextInput
         required
@@ -70,16 +73,15 @@ const NewCenterForm = () => {
         {...form.getInputProps("phoneNumber")}
       />
       <TextInput
-        name="emailAddress"
+        name="email"
         label="Adresse Email"
         required
         p="lg"
-        {...form.getInputProps("emailAddress")}
+        {...form.getInputProps("email")}
       />
       <Textarea
         name="description"
         label="Description"
-        required
         p="lg"
         {...form.getInputProps("description")}
       />
