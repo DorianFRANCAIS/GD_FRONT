@@ -8,10 +8,6 @@ export function User({ user }: { user: UserInterface}) {
   const theme = useMantineTheme();
   const { logOut }: any = useContext(AuthContext);
 
-  // const {
-  //   user: { name, firstName, email },
-  // }: any = useContext(AuthContext);
-
   return (
     <Box
       sx={{

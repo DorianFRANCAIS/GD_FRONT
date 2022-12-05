@@ -135,23 +135,11 @@ const AuthProvider = ({
   };
 
   const logOut = () => {
-    fetch(`${process.env.SERVER_API}/logout`, {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${Cookies.get("token")}`,
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      },
-    }).then((response) => {
-      if (response.status == 200) {
-        console.log("logged out");
-        removeCookie("token");
-        setLoggedIn(false);
-        setUser({});
-        setToken("");
-        router.push({ pathname: "/login" });
-      }
-    });
+    removeCookie("token");
+    setLoggedIn(false);
+    setUser({});
+    setToken("");
+    router.push({ pathname: "/login" });
   };
 
   return (
