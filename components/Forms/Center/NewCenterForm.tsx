@@ -1,75 +1,93 @@
-import { TextInput, Textarea, Button } from '@mantine/core';
-import { useState } from 'react'
+import { TextInput, Textarea, Button } from "@mantine/core";
+import { useForm } from "@mantine/form";
+import { useRouter } from "next/router";
 
 const NewCenterForm = () => {
+  const router = useRouter();
+  const form = useForm({
+    initialValues: {
+      name: "",
+      address: "",
+      phoneNumber: "",
+      emailAddress: "",
+      description: "",
+    },
 
-    const [credentials, setCredentials] = useState({
-        name: "",
-        address: "",
-        phoneNumber: "",
-        emailAddress: "",
-        description: ""
-    });
+    validate: {
+      emailAddress: (value) =>
+        /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))/i.test(
+          value,
+        )
+          ? null
+          : "Ceci n'est pas une adresse email",
+    },
+  });
 
-    const handleSubmit = () => {
-      console.log('lol');
-    }
+  const handleSubmit = () => {
+    return fetch(`${process.env.SERVER_API}/establishments/create`, {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(form.values),
+    })
+      .then((response) => {
+        if (response.status === 422) {
+          throw new Error("This Establishment already exists");
+        }
+        return response.json();
+      })
+      .then((json) => {
+        if (json.access_token) router.push({ pathname: "/dashboard" });
+      })
+      .catch((error) => {
+        console.log("error : " + error.message);
+      });
+  };
 
   return (
     <form onSubmit={handleSubmit}>
-      <TextInput 
+      <TextInput
         required
         label="Nom du centre"
         p="lg"
-        name='name'
-        onChange={(event) => {
-          event.preventDefault()
-          setCredentials({ ...credentials, name: event.currentTarget.value })
-        }}
+        name="name"
+        {...form.getInputProps("name")}
       />
-      <TextInput 
+      <TextInput
         required
         label="Adresse du centre"
-        name='address'
+        name="address"
         p="lg"
-        onChange={(event) => {
-          event.preventDefault()
-          setCredentials({ ...credentials, address: event.currentTarget.value })
-        }}
+        {...form.getInputProps("address")}
       />
-      <TextInput 
+      <TextInput
         required
         label="Numéro de Téléphone"
-        name='phoneNumber'
+        name="phoneNumber"
         p="lg"
-        onChange={(event) => {
-          event.preventDefault()
-          setCredentials({ ...credentials, phoneNumber: event.currentTarget.value })
-        }}
+        {...form.getInputProps("phoneNumber")}
       />
-      <TextInput 
-        name='emailAddress'
+      <TextInput
+        name="emailAddress"
         label="Adresse Email"
         required
         p="lg"
-        onChange={(event) => {
-          event.preventDefault()
-          setCredentials({ ...credentials, emailAddress: event.currentTarget.value })
-        }}
+        {...form.getInputProps("emailAddress")}
       />
-      <Textarea 
-        name='description'
+      <Textarea
+        name="description"
         label="Description"
         required
         p="lg"
-        onChange={(event) => {
-          event.preventDefault()
-          setCredentials({ ...credentials, description: event.currentTarget.value })
-        }}
+        {...form.getInputProps("description")}
       />
-      <Button m="lg" type='submit' color="violet.6" radius="lg">Enregistrer ce centre</Button>
+      <Button m="lg" type="submit" color="violet.6" radius="lg">
+        Ajouter ce centre
+      </Button>
     </form>
-  )
-}
+  );
+};
 
-export default NewCenterForm
+export default NewCenterForm;

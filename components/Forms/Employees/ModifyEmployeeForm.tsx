@@ -22,7 +22,7 @@ const ModifyEmployeeForm = ({ employee }: { employee: UserInterface }) => {
   return (
     <form onSubmit={form.onSubmit(handleSubmit)}>
       <TextInput
-        label="Nom (String)"
+        label="Nom"
         name="name"
         required
         p="lg"
