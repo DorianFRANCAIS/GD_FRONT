@@ -38,7 +38,7 @@ const MyEmployees = () => {
         "Content-Type": "application/json",
       },
     })
-      .then(() => router.push({ pathname: "/dashboard" }))
+      .then(() => router.push({ pathname: "/dashboard/my-employees" }))
       .catch((error) => {
         return error.message;
       });
