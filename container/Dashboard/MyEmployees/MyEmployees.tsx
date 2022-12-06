@@ -30,6 +30,8 @@ const MyEmployees = () => {
     setMounted(true);
   }, []);
 
+  const { data, mutate } = useFetchSWR("/user", mounted);
+
   const handleDelete = (employeeId: number) => {
     return fetch(`${process.env.SERVER_API}/user/${employeeId}`, {
       method: "DELETE",
@@ -38,13 +40,11 @@ const MyEmployees = () => {
         "Content-Type": "application/json",
       },
     })
-      .then(() => router.push({ pathname: "/dashboard/my-employees" }))
+      .then(() => mutate())
       .catch((error) => {
         return error.message;
       });
   };
-
-  const { data } = useFetchSWR("/user", mounted);
 
   const rows = data?.map((employee: UserInterface, idx: Key) => {
     const lastConnectionDate = moment(employee.lastConnectionDate)

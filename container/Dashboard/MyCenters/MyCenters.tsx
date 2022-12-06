@@ -30,6 +30,10 @@ const MyCenters = ({ user }: { user: UserInterface }) => {
     setMounted(true);
   }, []);
 
+  
+
+  const { data, mutate } = useFetchSWR("/establishments/list", mounted);
+
   const handleDelete = (establishmentId: number) => {
     return fetch(
       `${process.env.SERVER_API}/establishments/${establishmentId}`,
@@ -42,13 +46,11 @@ const MyCenters = ({ user }: { user: UserInterface }) => {
         },
       },
     )
-      .then(() => router.push({ pathname: "/dashboard" }))
+      .then(() => mutate())
       .catch((error) => {
         return error.message;
       });
   };
-
-  const { data } = useFetchSWR("/establishments/list", mounted);
 
   const rows = data?.map((establishment: EstablishmentInterface, idx: Key) => (
     <tr key={idx}>
