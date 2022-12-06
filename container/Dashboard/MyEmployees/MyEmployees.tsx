@@ -20,7 +20,6 @@ import { useFetchSWR } from "../../../hooks/useFetchSWR";
 import ModifyEmployeeForm from "../../../components/Forms/Employees/ModifyEmployeeForm";
 
 const MyEmployees = () => {
-  const router = useRouter();
   const [opened, setOpened] = useState(false);
   const [openModify, setOpenModify] = useState(false);
   const [employeeId, setEmployeeId] = useState(0);

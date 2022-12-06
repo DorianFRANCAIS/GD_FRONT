@@ -20,7 +20,6 @@ import { EstablishmentInterface } from "../../../interfaces/Establishment.interf
 import { UserInterface } from "../../../interfaces/User.interface";
 
 const MyCenters = ({ user }: { user: UserInterface }) => {
-  const router = useRouter();
   const [opened, setOpened] = useState(false);
   const [openModify, setOpenModify] = useState(false);
   const [establishmentId, setEstablishmentId] = useState(0);
@@ -29,9 +28,7 @@ const MyCenters = ({ user }: { user: UserInterface }) => {
   useEffect(() => {
     setMounted(true);
   }, []);
-
   
-
   const { data, mutate } = useFetchSWR("/establishments/list", mounted);
 
   const handleDelete = (establishmentId: number) => {
