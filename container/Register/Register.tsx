@@ -25,6 +25,7 @@ const Register = ({ role }: { role: string }) => {
       confirmPassword: "",
     },
 
+    
     validate: {
       confirmPassword: (value, values) =>
         value !== values.password
