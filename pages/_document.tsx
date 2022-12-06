@@ -12,7 +12,7 @@ class MyDocument extends Document {
         return (
             <Html>
                 <Head>
-                    {/* Paste here some custom fonts or use font balise of nextjs */}
+                    <link rel="shortcut icon" href="/dogIcon.png"/> 
                 </Head>
                 <body>
                     <Main />

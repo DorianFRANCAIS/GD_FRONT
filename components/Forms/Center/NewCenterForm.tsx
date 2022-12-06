@@ -1,75 +1,95 @@
-import { TextInput, Textarea, Button } from '@mantine/core';
-import { useState } from 'react'
+import { TextInput, Textarea, Button } from "@mantine/core";
+import { useForm } from "@mantine/form";
+import Cookies from "js-cookie";
+import { useRouter } from "next/router";
+import { UserInterface } from "../../../interfaces/User.interface";
 
-const NewCenterForm = () => {
+const NewCenterForm = ({ owner }: { owner: UserInterface }) => {
+  const router = useRouter();
+  const form = useForm({
+    initialValues: {
+      ownerId: owner.id,
+      name: "",
+      adress: "",
+      phoneNumber: "",
+      email: "",
+      description: "",
+    },
 
-    const [credentials, setCredentials] = useState({
-        name: "",
-        address: "",
-        phoneNumber: "",
-        emailAddress: "",
-        description: ""
-    });
+    validate: {
+      email: (value) =>
+        /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))/i.test(
+          value,
+        )
+          ? null
+          : "Ceci n'est pas une adresse email",
+    },
+  });
 
-    const handleSubmit = () => {
-      console.log('lol');
-    }
+  const handleSubmit = () => {
+    return fetch(`${process.env.SERVER_API}/establishments/create`, {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${Cookies.get("token")}`,
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(form.values),
+    })
+      .then((response) => {
+        if (response.status === 422) {
+          throw new Error("This Establishment already exists");
+        }
+        return response.json();
+      })
+      .then(() => router.push({ pathname: "/dashboard" }))
+      .catch((error) => {
+        console.log("error : " + error.message);
+      });
+  };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <TextInput 
+    <form onSubmit={form.onSubmit(handleSubmit)}>
+      {JSON.stringify(form.values)}
+      <TextInput
         required
         label="Nom du centre"
         p="lg"
-        name='name'
-        onChange={(event) => {
-          event.preventDefault()
-          setCredentials({ ...credentials, name: event.currentTarget.value })
-        }}
+        name="name"
+        {...form.getInputProps("name")}
       />
-      <TextInput 
+      <TextInput
         required
         label="Adresse du centre"
-        name='address'
+        name="adress"
         p="lg"
-        onChange={(event) => {
-          event.preventDefault()
-          setCredentials({ ...credentials, address: event.currentTarget.value })
-        }}
+        {...form.getInputProps("adress")}
       />
-      <TextInput 
+      <TextInput
         required
         label="Numéro de Téléphone"
-        name='phoneNumber'
+        name="phoneNumber"
         p="lg"
-        onChange={(event) => {
-          event.preventDefault()
-          setCredentials({ ...credentials, phoneNumber: event.currentTarget.value })
-        }}
+        {...form.getInputProps("phoneNumber")}
       />
-      <TextInput 
-        name='emailAddress'
+      <TextInput
+        name="email"
         label="Adresse Email"
         required
         p="lg"
-        onChange={(event) => {
-          event.preventDefault()
-          setCredentials({ ...credentials, emailAddress: event.currentTarget.value })
-        }}
+        {...form.getInputProps("email")}
       />
-      <Textarea 
-        name='description'
+      <Textarea
+        name="description"
         label="Description"
-        required
         p="lg"
-        onChange={(event) => {
-          event.preventDefault()
-          setCredentials({ ...credentials, description: event.currentTarget.value })
-        }}
+        {...form.getInputProps("description")}
       />
-      <Button m="lg" type='submit' color="violet.6" radius="lg">Enregistrer ce centre</Button>
+      <Button m="lg" type="submit" color="violet.6" radius="lg">
+        Ajouter ce centre
+      </Button>
     </form>
-  )
-}
+  );
+};
 
-export default NewCenterForm
+export default NewCenterForm;

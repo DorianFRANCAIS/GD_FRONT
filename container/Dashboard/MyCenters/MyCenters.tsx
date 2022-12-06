@@ -10,84 +10,101 @@ import {
   Title,
 } from "@mantine/core";
 import { IconEye, IconPencil, IconTrash, IconUserPlus } from "@tabler/icons";
-import { useEffect, useState } from "react";
+import Cookies from "js-cookie";
+import { useRouter } from "next/router";
+import { Key, useEffect, useState } from "react";
+import ModifyCenterForm from "../../../components/Forms/Center/ModifyCenterForm";
 import NewCenterForm from "../../../components/Forms/Center/NewCenterForm";
+import { useFetchSWR } from "../../../hooks/useFetchSWR";
 import { EstablishmentInterface } from "../../../interfaces/Establishment.interface";
-import { RoleEnum } from "../../../interfaces/User.interface";
+import { UserInterface } from "../../../interfaces/User.interface";
 
-const MyCenters = () => {
-  const [centers, setCenters] = useState<EstablishmentInterface[]>([]);
+const MyCenters = ({ user }: { user: UserInterface }) => {
+  const router = useRouter();
   const [opened, setOpened] = useState(false);
+  const [openModify, setOpenModify] = useState(false);
+  const [establishmentId, setEstablishmentId] = useState(0);
+  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
-    setCenters([
-      {
-        id: 1,
-        owner: {
-          id: 1,
-          name: "Le Coz",
-          role: RoleEnum.Administrator,
-          firstName: "Yann",
-          email: "ylcoz@icloud.com",
-          phoneNumber: "0645329078",
-          password: "",
-          birthDate: new Date("1996-07-02T11:10:00.000"),
-          registerDate: new Date("2022-11-04T11:10:00.000"),
-          lastConnectionDate: new Date("2022-11-20T11:10:00.000"),
-        },
-        name: "Canine Center",
-        description: "",
-        address: "20 rue de la Vieille Roue, 33400 Bordeaux",
-        phoneNumber: "0645656789",
-        emailAddress: "contact@canine-center.com",
-      },
-    ]);
+    setMounted(true);
   }, []);
 
-  const rows = centers.map(
-    ({ id, name, description, address, phoneNumber, emailAddress }) => (
-      <tr key={id}>
-        <td>
-          <Group spacing="sm">
-            <div>
-              <Text size="sm" weight={500}>
-                {name}
-              </Text>
-              <Text size="xs" color="dimmed">
-                {description}
-              </Text>
-            </div>
-          </Group>
-        </td>
+  const handleDelete = (establishmentId: number) => {
+    return fetch(
+      `${process.env.SERVER_API}/establishments/${establishmentId}`,
+      {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${Cookies.get("token")}`,
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+      },
+    )
+      .then(() => router.push({ pathname: "/dashboard" }))
+      .catch((error) => {
+        return error.message;
+      });
+  };
 
-        <td>{address}</td>
+  const { data } = useFetchSWR("/establishments/list", mounted);
 
-        <td>{phoneNumber}</td>
+  const rows = data?.map((establishment: EstablishmentInterface, idx: Key) => (
+    <tr key={idx}>
+      <td>
+        <Group spacing="sm">
+          <div>
+            <Text size="sm" weight={500}>
+              {establishment.name}
+            </Text>
+            <Text size="xs" color="dimmed">
+              {establishment.description}
+            </Text>
+          </div>
+        </Group>
+      </td>
 
-        <td>{emailAddress}</td>
+      <td>{establishment.adress}</td>
 
-        <td>
-          <Group spacing={0} position="center">
-            <ActionIcon onClick={() => console.log("See")}>
-              <IconEye size={16} stroke={1.5} />
-            </ActionIcon>
-            <ActionIcon onClick={() => console.log("Edit")}>
-              <IconPencil size={16} stroke={1.5} />
-            </ActionIcon>
-            <ActionIcon color="red" onClick={() => console.log("Delete")}>
-              <IconTrash size={16} stroke={1.5} />
-            </ActionIcon>
-          </Group>
-        </td>
-      </tr>
-    ),
-  );
+      <td>{establishment.phoneNumber}</td>
+
+      <td>{establishment.email}</td>
+
+      <td>
+        <Group spacing={0} position="center">
+          <ActionIcon onClick={() => console.log("See")}>
+            <IconEye size={16} stroke={1.5} />
+          </ActionIcon>
+          <ActionIcon
+            onClick={() => {
+              setEstablishmentId(establishment.id);
+              setOpenModify(!openModify);
+            }}
+          >
+            <IconPencil size={16} stroke={1.5} />
+          </ActionIcon>
+          <ActionIcon
+            color="red"
+            onClick={() => handleDelete(establishment.id)}
+          >
+            <IconTrash size={16} stroke={1.5} />
+          </ActionIcon>
+        </Group>
+      </td>
+    </tr>
+  ));
 
   return (
     <>
       <ScrollArea>
-        <Button color="green.7" onClick={() => setOpened(!opened)} radius="md" mb="xl">
-          <ActionIcon mr="xs">
+        <Button
+          color="green.7"
+          onClick={() => setOpened(!opened)}
+          radius="md"
+          mb="xl"
+        >
+          <ActionIcon mr="xs" component="a" href="/establishment/new">
             <IconUserPlus size={20} stroke={1.5} color="white" />
           </ActionIcon>
           Ajouter un nouveau centre
@@ -112,8 +129,24 @@ const MyCenters = () => {
         size={700}
       >
         <Title sx={{ padding: "1rem" }}>Ajouter un centre</Title>
-        <Divider/>
-        <NewCenterForm />
+        <Divider />
+        <NewCenterForm owner={user} />
+      </Drawer>
+      <Drawer
+        opened={openModify}
+        onClose={() => setOpenModify(!openModify)}
+        size={700}
+        position="right"
+      >
+        <Title sx={{ padding: "1rem" }}>Modifier un centre</Title>
+        <Divider />
+        <ModifyCenterForm
+          establishment={data?.find(
+            (establishment: EstablishmentInterface) =>
+              establishment.id === establishmentId,
+          )}
+          owner={user}
+        />
       </Drawer>
     </>
   );

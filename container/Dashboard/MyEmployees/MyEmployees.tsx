@@ -1,4 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React, { Key, useEffect, useState } from "react";
+import { useRouter } from "next/router";
+import moment from "moment";
 import {
   ActionIcon,
   Button,
@@ -11,110 +13,98 @@ import {
   Title,
 } from "@mantine/core";
 import { IconEye, IconPencil, IconTrash, IconUserPlus } from "@tabler/icons";
-import { RoleEnum, UserInterface } from "../../../interfaces/User.interface";
+import { UserInterface } from "../../../interfaces/User.interface";
 import NewEmployeeForm from "../../../components/Forms/Employees/NewEmployeeForm";
+import { withData } from "../../../helpers/restrictions";
+import { useFetchSWR } from "../../../hooks/useFetchSWR";
+import ModifyEmployeeForm from "../../../components/Forms/Employees/ModifyEmployeeForm";
 
 const MyEmployees = () => {
-  const [employees, setEmployees] = useState<UserInterface[]>([]);
+  const router = useRouter();
   const [opened, setOpened] = useState(false);
   const [openModify, setOpenModify] = useState(false);
+  const [employeeId, setEmployeeId] = useState(0);
+  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
-    setEmployees([
-      {
-        id: 1,
-        name: "Lefort",
-        role: RoleEnum.Administrator,
-        firstName: "Edgar",
-        email: "edgar.lefort@ynov.com",
-        phoneNumber: "0645329089",
-        password: "",
-        birthDate: new Date("1996-07-02T11:10:00.000"),
-        registerDate: new Date("2022-11-04T11:10:00.000"),
-        lastConnectionDate: new Date("2022-11-20T11:10:00.000"),
-      },
-      {
-        id: 2,
-        name: "Chambaud",
-        role: RoleEnum.Administrator,
-        firstName: "Mathieu",
-        email: "mathieuchambaud2000@gmail.com",
-        phoneNumber: "0645329073",
-        password: "",
-        birthDate: new Date("1999-07-02T11:10:00.000"),
-        registerDate: new Date("2022-11-10T11:10:00.000"),
-        lastConnectionDate: new Date("2022-11-10T11:10:00.000"),
-      },
-      {
-        id: 3,
-        name: "Français",
-        role: RoleEnum.Administrator,
-        firstName: "Dorian",
-        email: "dorian.français@ynov.com",
-        phoneNumber: "0645326533",
-        password: "",
-        birthDate: new Date("1998-07-02T11:10:00.000"),
-        registerDate: new Date("2020-10-23T11:10:00.000"),
-        lastConnectionDate: new Date("2022-11-20T11:10:00.000"),
-      },
-    ]);
+    setMounted(true);
   }, []);
 
-  const rows = employees.map((employee) => (
-    <tr key={employee.id}>
-      <td>
-        <Group spacing="sm">
-          <div>
-            <Text size="sm" weight={500}>
-              {employee.name.toUpperCase()} {employee.firstName}
-            </Text>
-            <Text size="xs" color="dimmed">
-              {employee.email}
-            </Text>
-          </div>
-        </Group>
-      </td>
+  const handleDelete = (employeeId: number) => {
+    return fetch(`${process.env.SERVER_API}/user/${employeeId}`, {
+      method: "DELETE",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+    })
+      .then(() => router.push({ pathname: "/dashboard/my-employees" }))
+      .catch((error) => {
+        return error.message;
+      });
+  };
 
-      <td>{employee.phoneNumber}</td>
+  const { data } = useFetchSWR("/user", mounted);
 
-      <td>
-        <Group spacing="sm">
-          <div>
-            <Text size="sm" weight={400}>
-              Il y a{" "}
-              {Math.floor(
-                (new Date().getTime() - employee.lastConnectionDate.getTime()) /
-                  8.64e7,
-              ) + 1}{" "}
-              jours
-            </Text>
-            <Text size="xs" color="dimmed">
-              le {employee.lastConnectionDate.toLocaleDateString()}
-            </Text>
-          </div>
-        </Group>
-      </td>
+  const rows = data?.map((employee: UserInterface, idx: Key) => {
+    const lastConnectionDate = moment(employee.lastConnectionDate)
+      .format("DD/MM/YYYY")
+      .toString();
 
-      <td>
-        <Group spacing={0} position="center">
-          <ActionIcon onClick={() => console.log("See")}>
-            <IconEye size={16} stroke={1.5} />
-          </ActionIcon>
-          <ActionIcon onClick={() => setOpenModify(!openModify)}>
-            <IconPencil size={16} stroke={1.5} />
-          </ActionIcon>
-          <ActionIcon color="red" onClick={() => console.log("Delete")}>
-            <IconTrash size={16} stroke={1.5} />
-          </ActionIcon>
-        </Group>
-      </td>
-    </tr>
-  ));
+    return (
+      <tr key={idx}>
+        <td>
+          <Group spacing="sm">
+            <div>
+              <Text size="sm" weight={500}>
+                {employee.name.toUpperCase()} {employee.firstName}
+              </Text>
+              <Text size="xs" color="dimmed">
+                {employee.email}
+              </Text>
+            </div>
+          </Group>
+        </td>
+
+        <td>{employee.phoneNumber}</td>
+
+        <td>
+          <Text size="sm" weight={400}>
+            Le {`${lastConnectionDate}`}
+          </Text>
+        </td>
+
+        <td>
+          <Group spacing={0} position="center">
+            <ActionIcon onClick={() => console.log("See")}>
+              <IconEye size={16} stroke={1.5} />
+            </ActionIcon>
+            <ActionIcon
+              onClick={() => {
+                setEmployeeId(employee.id);
+                setOpenModify(!openModify);
+              }}
+            >
+              <IconPencil size={16} stroke={1.5} />
+            </ActionIcon>
+            <ActionIcon color="red" onClick={() => handleDelete(employee.id)}>
+              <IconTrash size={16} stroke={1.5} />
+            </ActionIcon>
+          </Group>
+        </td>
+      </tr>
+    );
+  });
 
   return (
     <>
       <ScrollArea>
-        <Button onClick={() => setOpened(!opened)} color="green.7" radius="md" mb="xl">
+        <Button
+          onClick={() => setOpened(!opened)}
+          color="green.7"
+          radius="md"
+          mb="xl"
+        >
           <ActionIcon mr="xs" component="a" href="/educator/registration">
             <IconUserPlus size={20} stroke={1.5} color="white" />
           </ActionIcon>
@@ -138,7 +128,7 @@ const MyEmployees = () => {
         position="right"
         size={700}
       >
-        <Title sx={{ padding: "1rem" }} >Ajouter un employé</Title>
+        <Title sx={{ padding: "1rem" }}>Ajouter un employé</Title>
         <Divider />
         <NewEmployeeForm />
       </Drawer>
@@ -148,11 +138,22 @@ const MyEmployees = () => {
         size={700}
         position="right"
       >
-        <Title>Modifier un employé</Title>
+        <Title sx={{ padding: "1rem" }}>Modifier un employé</Title>
         <Divider />
+        <ModifyEmployeeForm
+          employee={data?.find(
+            (employee: UserInterface) => employee.id === employeeId,
+          )}
+        />
       </Drawer>
     </>
   );
+};
+
+MyEmployees.getInitialProps = async (ctx: any) => {
+  const { user } = await withData(ctx);
+
+  return { user };
 };
 
 export default MyEmployees;

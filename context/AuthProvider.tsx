@@ -20,7 +20,13 @@ const isValidToken = () => {
   return false;
 };
 
-const AuthProvider = ({ children, context }: { children: React.ReactNode, context: any }) => {
+const AuthProvider = ({
+  children,
+  context,
+}: {
+  children: React.ReactNode;
+  context: any;
+}) => {
   const router = useRouter();
   const { locale } = router;
   const [user, setUser] = useState({});
@@ -31,7 +37,6 @@ const AuthProvider = ({ children, context }: { children: React.ReactNode, contex
 
   const getAuthUser = async () => {
     const { user } = await withData(context);
-    
 
     setUser(user);
 
@@ -90,7 +95,7 @@ const AuthProvider = ({ children, context }: { children: React.ReactNode, contex
   };
 
   const signUp = (params: any, redirectionUrl: string, role: string) => {
-    return fetch(`${process.env.SERVER_API}/admin/registration`, {
+    return fetch(`${process.env.SERVER_API}/${role}/registration`, {
       method: "POST",
       headers: {
         Accept: "application/json",
@@ -130,23 +135,11 @@ const AuthProvider = ({ children, context }: { children: React.ReactNode, contex
   };
 
   const logOut = () => {
-    fetch(`${process.env.SERVER_API}/logout`, {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${Cookies.get("token")}`,
-        Accept: "applcation/json",
-        "Content-Type": "application/json",
-      },
-    }).then((response) => {
-      if (response.status == 200) {
-        console.log("logged out");
-        removeCookie("token");
-        setLoggedIn(false);
-        setUser({});
-        setToken("");
-        router.push({ pathname: "/login" });
-      }
-    });
+    removeCookie("token");
+    setLoggedIn(false);
+    setUser({});
+    setToken("");
+    router.push({ pathname: "/login" });
   };
 
   return (
