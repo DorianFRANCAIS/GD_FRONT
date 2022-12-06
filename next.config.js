@@ -26,5 +26,3 @@ module.exports = withTM({
     ];
   },
 });
-
-module.exports = nextConfig;
