@@ -11,6 +11,7 @@ import { NavbarHeader } from "../../components/Navbar/NavbarHeader";
 import HomeDashboard from "../../container/Dashboard/HomeDashboard/HomeDashboard";
 import { withData } from "../../helpers/restrictions";
 import { UserInterface } from "../../interfaces/User.interface";
+import Dogs from "../../container/Dashboard/Dogs/Dogs";
 
 const Dashboard = ({ user }: { user: UserInterface }) => {
   const [opened, setOpened] = useState(false);
@@ -29,6 +30,8 @@ const Dashboard = ({ user }: { user: UserInterface }) => {
           return <MyCenters user={user} />;
         case "my-profile":
           return <MyProfile />;
+        case "dogs":
+          return <Dogs />;
         default:
           return <Error statusCode={404} title="Page non trouvé" />;
       }

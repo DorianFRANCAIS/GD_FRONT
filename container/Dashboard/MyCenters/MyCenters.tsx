@@ -28,7 +28,7 @@ const MyCenters = ({ user }: { user: UserInterface }) => {
   useEffect(() => {
     setMounted(true);
   }, []);
-
+  
   const { data, mutate } = useFetchSWR("/establishments/list", mounted);
 
   const handleDelete = (establishmentId: number) => {
@@ -129,7 +129,7 @@ const MyCenters = ({ user }: { user: UserInterface }) => {
       >
         <Title sx={{ padding: "1rem" }}>Ajouter un centre</Title>
         <Divider />
-        <NewCenterForm owner={user} />
+        <NewCenterForm owner={user} onClose={() => setOpened(!opened)} mutate={mutate} />
       </Drawer>
       <Drawer
         opened={openModify}

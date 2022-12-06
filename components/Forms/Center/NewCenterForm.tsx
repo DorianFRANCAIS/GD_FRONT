@@ -2,9 +2,10 @@ import { TextInput, Textarea, Button } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import Cookies from "js-cookie";
 import { useRouter } from "next/router";
+import { mutate, MutatorCallback } from "swr";
 import { UserInterface } from "../../../interfaces/User.interface";
 
-const NewCenterForm = ({ owner }: { owner: UserInterface }) => {
+const NewCenterForm = ({ owner, onClose, mutate }: { owner: UserInterface, onClose: () => void, mutate: MutatorCallback }) => {
   const router = useRouter();
   const form = useForm({
     initialValues: {
@@ -42,7 +43,10 @@ const NewCenterForm = ({ owner }: { owner: UserInterface }) => {
         }
         return response.json();
       })
-      .then(() => router.push({ pathname: "/dashboard" }))
+      .then(() => {
+        onClose()
+        mutate()
+      })
       .catch((error) => {
         console.log("error : " + error.message);
       });
@@ -50,7 +54,6 @@ const NewCenterForm = ({ owner }: { owner: UserInterface }) => {
 
   return (
     <form onSubmit={form.onSubmit(handleSubmit)}>
-      {JSON.stringify(form.values)}
       <TextInput
         required
         label="Nom du centre"
