@@ -440,11 +440,6 @@ export const MyCalendar = () => {
             eventContent={renderEventContent}
             eventClick={handleEventClick}
             eventsSet={handleEvents}
-          // eventAdd={addApi()}
-          /*
-          eventChange={function(){}}
-          eventRemove={function(){}}
-          */
           />
         </StyleWrapper>
 
