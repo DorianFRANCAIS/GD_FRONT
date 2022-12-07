@@ -129,7 +129,7 @@ export const MyCalendar = () => {
           </>
         )}
         <i className={classes.eventTitle}>
-          {user?.name}
+          {/* {user?.name} */}
         </i>
       </>
     )
@@ -147,7 +147,7 @@ export const MyCalendar = () => {
             <b>{format(event?.end, "HH:mm").toString()}</b>
           </>
         )}
-        <i>  {user?.name}</i>
+        {/* <i>  {user?.name}</i> */}
       </li>
     )
   }
@@ -398,8 +398,8 @@ export const MyCalendar = () => {
     const activity = allActivity.filter((u: any) => u.id === activityId)[0]
     setModalRemove(true)
     editClickInfo(clickInfo);
-    setValueUser(educator?.id)
-    setValueActivity(activity?.id)
+    // setValueUser(educator?.id)
+    // setValueActivity(activity?.id)
     setTask(clickInfo.event.title)
     setHour([
       new Date(clickInfo?.event.startStr),

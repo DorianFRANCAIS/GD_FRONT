@@ -9,7 +9,7 @@ const withTM = require("next-transpile-modules")([
   "@fullcalendar/timegrid",
 ]);
 
-export default withTM({
+module.exports = withTM({
   reactStrictMode: true,
   swcMinify: true,
   env: {
