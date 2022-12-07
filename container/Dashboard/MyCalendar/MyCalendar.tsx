@@ -118,7 +118,7 @@ export const MyCalendar = () => {
 
   const renderEventContent = (eventInfo: { event: any }) => {
     const id = eventInfo?.event?.extendedProps?.educatorId
-    const user = allUser.filter((u: any) => u.id === id)[0]
+    const user: any = allUser.filter((u: any) => u.id === id)[0]
     return (
       <>
         <b>{format(eventInfo.event?.start, "HH:mm").toString()}</b>
@@ -129,7 +129,7 @@ export const MyCalendar = () => {
           </>
         )}
         <i className={classes.eventTitle}>
-          {/* {user?.name} */}
+          {user?.name}
         </i>
       </>
     )
@@ -137,7 +137,7 @@ export const MyCalendar = () => {
 
   const renderSidebarEvent = (event: any) => {
     const id = event?.extendedProps?.educatorId
-    const user = allUser.filter((u: any) => u.id === id)[0]
+    const user: any = allUser.filter((u: any) => u.id === id)[0]
     return (
       <li key={event.id}>
         <b>{format(event?.start, "HH:mm").toString()}</b>
@@ -147,7 +147,7 @@ export const MyCalendar = () => {
             <b>{format(event?.end, "HH:mm").toString()}</b>
           </>
         )}
-        {/* <i>  {user?.name}</i> */}
+        <i>  {user?.name}</i>
       </li>
     )
   }
@@ -393,13 +393,13 @@ export const MyCalendar = () => {
 
   const handleEventClick = (clickInfo: { event: any, view: any }) => {
     const userId = clickInfo?.event?.extendedProps?.educatorId
-    const educator = allUser.filter((u: any) => u.id === userId)[0]
+    const educator: any = allUser.filter((u: any) => u.id === userId)[0]
     const activityId = clickInfo?.event?.extendedProps?.activityTypeId
-    const activity = allActivity.filter((u: any) => u.id === activityId)[0]
+    const activity: any = allActivity.filter((u: any) => u.id === activityId)[0]
     setModalRemove(true)
     editClickInfo(clickInfo);
-    // setValueUser(educator?.id)
-    // setValueActivity(activity?.id)
+    setValueUser(educator?.id)
+    setValueActivity(activity?.id)
     setTask(clickInfo.event.title)
     setHour([
       new Date(clickInfo?.event.startStr),
