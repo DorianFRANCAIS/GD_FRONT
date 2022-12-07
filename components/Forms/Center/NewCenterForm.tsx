@@ -5,7 +5,15 @@ import { useRouter } from "next/router";
 import { mutate, MutatorCallback } from "swr";
 import { UserInterface } from "../../../interfaces/User.interface";
 
-const NewCenterForm = ({ owner, onClose, mutate }: { owner: UserInterface, onClose: () => void, mutate: MutatorCallback }) => {
+const NewCenterForm = ({
+  owner,
+  onClose,
+  mutate,
+}: {
+  owner: UserInterface;
+  onClose: () => void;
+  mutate: MutatorCallback;
+}) => {
   const router = useRouter();
   const form = useForm({
     initialValues: {
@@ -44,8 +52,8 @@ const NewCenterForm = ({ owner, onClose, mutate }: { owner: UserInterface, onClo
         return response.json();
       })
       .then(() => {
-        onClose()
-        mutate()
+        onClose();
+        mutate();
       })
       .catch((error) => {
         console.log("error : " + error.message);

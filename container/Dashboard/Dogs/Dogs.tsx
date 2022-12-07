@@ -21,7 +21,7 @@ const Dogs = () => {
       setMounted(true)
     }, []);
 
-    const { data, mutate } = useFetchSWR(`/dogs/list`, mounted)
+    const { data, mutate } = useFetchSWR(`/dogs`, mounted)
 
     const handleDelete = (dogId: number) => {
       return fetch(
