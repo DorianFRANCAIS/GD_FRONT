@@ -1,9 +1,9 @@
 import { UserInterface } from "./User.interface";
 
 export interface DogInterface {
-  id: Number;
+  id: number;
   owner: UserInterface;
-  name: String;
+  name: string;
   birthDate: Date;
-  breed: String;
+  breed: string;
 }

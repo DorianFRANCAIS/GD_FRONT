@@ -20,7 +20,6 @@ import { EstablishmentInterface } from "../../../interfaces/Establishment.interf
 import { UserInterface } from "../../../interfaces/User.interface";
 
 const MyCenters = ({ user }: { user: UserInterface }) => {
-  const router = useRouter();
   const [opened, setOpened] = useState(false);
   const [openModify, setOpenModify] = useState(false);
   const [establishmentId, setEstablishmentId] = useState(0);
@@ -29,6 +28,8 @@ const MyCenters = ({ user }: { user: UserInterface }) => {
   useEffect(() => {
     setMounted(true);
   }, []);
+  
+  const { data, mutate } = useFetchSWR("/establishments/list", mounted);
 
   const handleDelete = (establishmentId: number) => {
     return fetch(
@@ -42,13 +43,11 @@ const MyCenters = ({ user }: { user: UserInterface }) => {
         },
       },
     )
-      .then(() => router.push({ pathname: "/dashboard" }))
+      .then(() => mutate())
       .catch((error) => {
         return error.message;
       });
   };
-
-  const { data } = useFetchSWR("/establishments/list", mounted);
 
   const rows = data?.map((establishment: EstablishmentInterface, idx: Key) => (
     <tr key={idx}>
@@ -130,7 +129,7 @@ const MyCenters = ({ user }: { user: UserInterface }) => {
       >
         <Title sx={{ padding: "1rem" }}>Ajouter un centre</Title>
         <Divider />
-        <NewCenterForm owner={user} />
+        <NewCenterForm owner={user} onClose={() => setOpened(!opened)} mutate={mutate} />
       </Drawer>
       <Drawer
         opened={openModify}

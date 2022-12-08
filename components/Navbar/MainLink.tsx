@@ -1,5 +1,5 @@
 import React from 'react';
-import { IconAdjustments, IconAffiliate, IconCalendar, IconHome, IconUsers } from '@tabler/icons';
+import { IconAdjustments, IconAffiliate, IconCalendar, IconDogBowl, IconHome, IconUsers } from '@tabler/icons';
 import { ThemeIcon, UnstyledButton, Group, Text } from '@mantine/core';
 import Link from 'next/link';
 import useDashboardStyles from "../../container/Dashboard/Dashboard.style";
@@ -54,6 +54,11 @@ const data = [
     title: "Mes centres",
     link: "/dashboard/my-centers",
     icon: <IconAffiliate />,
+  },
+  {
+    title: "Chiens",
+    link: "/dashboard/dogs",
+    icon: <IconDogBowl />
   },
   {
     title: "Mon profil",
