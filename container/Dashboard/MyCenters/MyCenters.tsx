@@ -72,9 +72,6 @@ const MyCenters = ({ user }: { user: UserInterface }) => {
 
       <td>
         <Group spacing={0} position="center">
-          <ActionIcon onClick={() => console.log("See")}>
-            <IconEye size={16} stroke={1.5} />
-          </ActionIcon>
           <ActionIcon
             onClick={() => {
               setEstablishmentId(establishment.id);
