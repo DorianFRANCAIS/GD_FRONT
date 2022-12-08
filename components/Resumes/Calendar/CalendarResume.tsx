@@ -28,7 +28,7 @@ const CalendarResume = ({ height, radius }: { height: number, radius: MantineNum
     const allSessions = await getApi()
     editSessions(allSessions.filter((a: any) =>
       a.beginDate.includes(new Date().getDate()) && a.beginDate.includes(new Date().getMonth() + 1)
-    ).sort((a: any, b: any) =>  Date.parse(a.beginDate) - Date.parse(a.beginDate)));
+    ).sort((a: any, b: any) =>  Date.parse(a.beginDate) - Date.parse(b.beginDate)));
   }
 
   const findTitleActivity = (s: any) => {
