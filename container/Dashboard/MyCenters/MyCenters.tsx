@@ -29,7 +29,7 @@ const MyCenters = ({ user }: { user: UserInterface }) => {
     setMounted(true);
   }, []);
   
-  const { data, mutate } = useFetchSWR("/establishments/list", mounted);
+  const { data, mutate } = useFetchSWR("/establishments/", mounted);
 
   const handleDelete = (establishmentId: number) => {
     return fetch(
