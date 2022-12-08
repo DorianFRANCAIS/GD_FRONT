@@ -28,8 +28,7 @@ const CalendarResume = ({ height, radius }: { height: number, radius: MantineNum
     const allSessions = await getApi()
     editSessions(allSessions.filter((a: any) =>
       a.beginDate.includes(new Date().getDate()) && a.beginDate.includes(new Date().getMonth() + 1)
-    ))
-    console.log(sessions)
+    ).sort((a: any, b: any) =>  Date.parse(a.beginDate) - Date.parse(a.beginDate)));
   }
 
   const findTitleActivity = (s: any) => {
@@ -61,20 +60,21 @@ const CalendarResume = ({ height, radius }: { height: number, radius: MantineNum
           <Timeline.Item
             key={i}
             bullet={<IconCalendarTime size={12} />}
-            title={findTitleActivity(s)}
+            title={"Activité: " + findTitleActivity(s)}
             onClick={() => router.push('/dashboard/my-calendar')}
           >
             <Text color="dimmed" size="sm">
+              <span>De </span>
               {format(new Date(s.beginDate), "HH:mm").toString()}
               {s?.endDate && (
                 <>
-                  -
+                  <span> à </span>
                   {format(new Date(s?.endDate), "HH:mm").toString()}
                 </>
               )}
             </Text>
 
-            <Text size="xs" mt={4}>{findNameEducator(s)}</Text>
+            <Text size="xs" mt={4}>La session est dirigée par: <b>{findNameEducator(s)}</b></Text>
           </Timeline.Item>
         )) : (
           <Text color="dimmed" size="sm">Aucune session planifiée aujourd&apos;hui.</Text>
