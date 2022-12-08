@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@emotion/react": "^11.10.5",
+    "@emotion/server": "^11.10.0",
     "@mantine/carousel": "^5.8.0",
     "@mantine/core": "^5.8.0",
     "@mantine/dates": "^5.8.0",
@@ -22,6 +23,7 @@
     "@mantine/prism": "^5.8.0",
     "@tabler/icons": "^1.110.0",
     "cookies-next": "^2.1.1",
+    "date-fns": "^2.29.3",
     "dayjs": "^1.11.6",
     "embla-carousel-react": "^7.0.4",
     "js-cookie": "^3.0.1",
