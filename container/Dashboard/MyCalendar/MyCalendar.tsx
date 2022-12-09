@@ -228,14 +228,16 @@ export const MyCalendar = () => {
             placeholder="En choisir un"
             onChange={setValueUser}
             data={userClean}
+            required
           />
           <Select
             label="L'activité"
             placeholder="En choisir un"
             onChange={setValueActivity}
             data={activityClean}
+            required
           />
-          <Button type="submit" color="violet.6" radius="lg" fullWidth mt="xl">
+          <Button type="submit" color="violet.6" radius="lg" fullWidth mt="xl" disabled={!valueActivity || !valueActivity}>
             Ajouter
           </Button>
         </form>
@@ -339,7 +341,7 @@ export const MyCalendar = () => {
           onChange={setValueActivity}
           data={activityClean}
         />
-          <Button type="submit" color="violet.6" radius="lg" fullWidth mt="xl">
+          <Button type="submit" color="violet.6" radius="lg" fullWidth mt="xl" disabled={!valueActivity || !valueActivity}>
             Editer
           </Button>
         </form>
