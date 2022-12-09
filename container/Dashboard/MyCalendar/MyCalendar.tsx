@@ -199,6 +199,8 @@ export const MyCalendar = () => {
     const onClose = () => {
       setModalAdd(false)
       editSelectInfo(defaultTask)
+      setValueUser(null)
+      setValueActivity(null)
     }
 
     return (
