@@ -29,9 +29,9 @@ const HomeDashboard = () => {
             {getChildCalendar(getSubHeight(2, theme.spacing.lg))}
           </Stack>
           <Stack>
-            {getChildProfileResume(getSubHeight(3, theme.spacing.lg))}
+            {/* {getChildProfileResume(getSubHeight(3, theme.spacing.lg))} */}
             {getChildCenter(getSubHeight(3, theme.spacing.lg))}
-            {getChild(getSubHeight(3, theme.spacing.lg))}
+            {/* {getChild(getSubHeight(3, theme.spacing.lg))} */}
           </Stack>
         </SimpleGrid>
       </Container>

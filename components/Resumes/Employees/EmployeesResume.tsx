@@ -17,7 +17,7 @@ const EmployeesResume = ({
       className={classes.wrapper}
       sx={{ height: height }}
     >
-        <Title>Employees Resume</Title>
+        <Title>Derniers employés</Title>
     </Paper>
   );
 };

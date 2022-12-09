@@ -11,7 +11,7 @@ const CentersResume = ({ radius, height }: { radius: MantineNumberSize, height: 
         className={classes.wrapper}
         sx={{ height: height }}
     >
-        <Title>Centers Resume</Title>
+        <Title>Derniers centres</Title>
     </Paper>
   );
 };
