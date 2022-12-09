@@ -49,23 +49,19 @@ const Dogs = () => {
   };
 
   const rows = data?.map((dog: DogInterface, idx: Key) => {
-
-    const birthDate = moment(dog.birthDate).format("DD/MM/YYYY").toString()
+    const birthDate = moment(dog.birthDate).format("DD/MM/YYYY").toString();
 
     return (
       <tr key={idx}>
         <td>
           <Group spacing="sm">
-            <div>
-              <Text size="sm" weight={500}>
-                {dog.name}
-              </Text>
-              <Text size="xs" color="dimmed">
-                {`${dog.owner}`}
-              </Text>
-            </div>
+            <Text size="sm" weight={500}>
+              {dog.name}
+            </Text>
           </Group>
         </td>
+
+        <td>{`${dog.owner}`}</td>
 
         <td>{dog.breed}</td>
 
