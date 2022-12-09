@@ -1,47 +1,58 @@
-import { ActionIcon, Button, Group, ScrollArea, Table, Text, Drawer, Title, Divider } from '@mantine/core';
-import { IconEye, IconPencil, IconTrash, IconUserPlus } from '@tabler/icons';
-import Cookies from 'js-cookie';
-import { useState, useEffect, Key } from 'react'
-import ModifyDogForm from '../../../components/Forms/Dogs/ModifyDogForm';
-import NewDogForm from '../../../components/Forms/Dogs/NewDogForm';
-import { TOKEN_COOKIE } from '../../../helpers/restrictions';
-import { useFetchSWR } from '../../../hooks/useFetchSWR';
-import { DogInterface } from '../../../interfaces/Dog.interface';
-import useDogsStyles from './Dogs.style'
+import {
+  ActionIcon,
+  Button,
+  Group,
+  ScrollArea,
+  Table,
+  Text,
+  Drawer,
+  Title,
+  Divider,
+} from "@mantine/core";
+import { IconEye, IconPencil, IconTrash, IconUserPlus } from "@tabler/icons";
+import Cookies from "js-cookie";
+import moment from "moment";
+import { useState, useEffect, Key } from "react";
+import ModifyDogForm from "../../../components/Forms/Dogs/ModifyDogForm";
+import NewDogForm from "../../../components/Forms/Dogs/NewDogForm";
+import { TOKEN_COOKIE } from "../../../helpers/restrictions";
+import { useFetchSWR } from "../../../hooks/useFetchSWR";
+import { DogInterface } from "../../../interfaces/Dog.interface";
+import useDogsStyles from "./Dogs.style";
 
 const Dogs = () => {
+  const [mounted, setMounted] = useState(false);
+  const [open, setOpen] = useState(false);
+  const [openModify, setOpenModify] = useState(false);
+  const [dogId, setDogId] = useState(0);
+  const { classes } = useDogsStyles();
 
-    const [mounted, setMounted] = useState(false);
-    const [open, setOpen] = useState(false);
-    const [openModify, setOpenModify] = useState(false);
-    const [dogId, setDogId] = useState(0);
-    const { classes } = useDogsStyles();
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
-    useEffect(() => {
-      setMounted(true)
-    }, []);
+  const { data, mutate } = useFetchSWR(`/dogs`, mounted);
 
-    const { data, mutate } = useFetchSWR(`/dogs`, mounted)
-
-    const handleDelete = (dogId: number) => {
-      return fetch(
-        `${process.env.SERVER_API}/dogs/${dogId}`,
-        {
-          method: "DELETE",
-          headers: { 
-            Authorization: `Bearer ${Cookies.get(TOKEN_COOKIE)}`,
-            Accept: "application/json",
-            "Content-Type": "application/json"
-          }
-        }
-      )
+  const handleDelete = (dogId: number) => {
+    return fetch(`${process.env.SERVER_API}/dogs/${dogId}`, {
+      method: "DELETE",
+      headers: {
+        Authorization: `Bearer ${Cookies.get(TOKEN_COOKIE)}`,
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+    })
       .then(() => mutate())
       .catch((error) => {
-        return error.message
-      })
-    }
+        return error.message;
+      });
+  };
 
-    const rows = data?.map((dog: DogInterface, idx: Key) => (
+  const rows = data?.map((dog: DogInterface, idx: Key) => {
+
+    const birthDate = moment(dog.birthDate).format("DD/MM/YYYY").toString()
+
+    return (
       <tr key={idx}>
         <td>
           <Group spacing="sm">
@@ -56,16 +67,16 @@ const Dogs = () => {
           </Group>
         </td>
 
-        <td>{`${dog.birthDate}`}</td>
-
         <td>{dog.breed}</td>
+
+        <td>{birthDate}</td>
 
         <td>
           <Group spacing={0} position="center">
             <ActionIcon
               onClick={() => {
-                setDogId(dog.id)
-                setOpenModify(!openModify)
+                setDogId(dog.id);
+                setOpenModify(!openModify);
               }}
             >
               <IconPencil size={16} stroke={1.5} />
@@ -73,7 +84,7 @@ const Dogs = () => {
             <ActionIcon
               color="red"
               onClick={() => {
-                handleDelete(dog.id)
+                handleDelete(dog.id);
               }}
             >
               <IconTrash size={16} stroke={1.5} />
@@ -81,7 +92,8 @@ const Dogs = () => {
           </Group>
         </td>
       </tr>
-    ))
+    );
+  });
 
   return (
     <>
@@ -92,7 +104,7 @@ const Dogs = () => {
           radius="md"
           mb="xl"
         >
-          <ActionIcon mr="xs" component='a' href='/dog/new'>
+          <ActionIcon mr="xs" component="a" href="/dog/new">
             <IconUserPlus size={20} stroke={1.5} color="white" />
           </ActionIcon>
           Ajouter un nouveau chien
@@ -102,8 +114,8 @@ const Dogs = () => {
             <tr>
               <th>Nom</th>
               <th>Propriétaire</th>
-              <th>Date de naissance</th>
               <th>Race</th>
+              <th>Date de naissance</th>
             </tr>
           </thead>
           <tbody>{rows}</tbody>
@@ -127,10 +139,14 @@ const Dogs = () => {
       >
         <Title>Modifier un chien</Title>
         <Divider />
-        <ModifyDogForm dog={data?.find((dog: DogInterface) => dog.id === dogId)} onClose={() => setOpenModify(!openModify)} mutate={mutate} />
+        <ModifyDogForm
+          dog={data?.find((dog: DogInterface) => dog.id === dogId)}
+          onClose={() => setOpenModify(!openModify)}
+          mutate={mutate}
+        />
       </Drawer>
     </>
-  )
-}
+  );
+};
 
-export default Dogs
+export default Dogs;
