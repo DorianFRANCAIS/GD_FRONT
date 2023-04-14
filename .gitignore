@@ -4,6 +4,9 @@
 /node_modules
 /.pnp
 .pnp.js
+package-lock.json
+yarn.lock
+
 
 # testing
 /coverage
@@ -27,6 +30,8 @@ yarn-error.log*
 
 # local env files
 .env*.local
+.env
+.prettierrc.json
 
 # vercel
 .vercel
