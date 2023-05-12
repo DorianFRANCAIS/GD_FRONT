@@ -1,11 +1,15 @@
 import axios from 'axios';
 
-const localStorageToken = localStorage.getItem('token');
+let localStorageToken;
+if (typeof window !== 'undefined') {
+  localStorageToken = localStorage.getItem('accessToken');
+}
 const axiosClient = axios.create({
-  baseURL: process.env.SERVER_APIL,
+  baseURL: process.env.SERVER_API,
   headers: {
     Accept: 'application/json',
     'Content-Type': 'application/json',
+    'Access-Control-Allow-Origin':'*',
   },
 });
 
@@ -36,7 +40,7 @@ axiosClient.interceptors.response.use(
         data.errors.includes('Unauthenticated.')
       ) {
         localStorage.removeItem('token');
-        window.location.href = '/connexion';
+        window.location.href = '/login';
         /*toast.error(() => {
           return `Vous n'êtes pas autorisé à accéder à la plateforme.`;
         });*/

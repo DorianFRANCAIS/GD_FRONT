@@ -33,13 +33,7 @@ export default function RegisterPage() {
         ,
     ) => {
         try {
-            const response = await axiosClient.post('https://dev.api.gestidogs.ianlcz.io/users/register',data,{
-                  headers: {
-                      'Content-Type': 'application/json',
-                      'Accept': 'application/json',
-                      'Access-Control-Allow-Origin': '*'
-                  }
-            })
+            const response = await axiosClient.post('/users/register',data,)
             return response
         } catch (error) {
             throw error;

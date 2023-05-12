@@ -23,19 +23,13 @@ export default function LoginPage() {
     ,
   ) => {
     try {
-      const response = await axiosClient.post('https://dev.api.gestidogs.ianlcz.io/users/login',data,{
-        headers: {
-          'Content-Type': 'application/json',
-          'Accept': 'application/json',
-          'Access-Control-Allow-Origin': '*'
-        }
-      })
+      const response = await axiosClient.post('/users/login',data,)
       const res = response.data
       if(res.tokens.accessToken) {
-        const accesToken = res.tokens.accessToken
+        const accessToken = res.tokens.accessToken
         const refreshToken = res.tokens.refreshToken
 
-        localStorage.setItem("accesToken", accesToken)
+        localStorage.setItem("accesToken", accessToken)
         localStorage.setItem("refreshToken", refreshToken)
         await router.push('/');
       }
@@ -47,7 +41,7 @@ export default function LoginPage() {
     return (
         <div id="login-page" className="flex flex-col items-center w-full sm:h-fit bg-main p-12 sm:w-[40rem] sm:self-center sm:rounded-3xl sm:p-32 sm:drop-shadow-xl">
             <img src="/logo.svg"/>
-            <h1>Bienvenue !</h1>
+            <h1 onClick={() => console.log(process.env)}>Bienvenue !</h1>
             <form className="mt-12 flex w-full flex-col items-stretch justify-center" onSubmit={handleSubmit(onSubmit)}>
                 <div className="flex flex-col gap-3">
                     <input type="email" {...register("emailAddress")} placeholder="E-mail"/>
