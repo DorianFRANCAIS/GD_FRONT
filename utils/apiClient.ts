@@ -1,13 +1,17 @@
 import axios from 'axios';
 
+const localStorageToken = localStorage.getItem('token');
 const axiosClient = axios.create({
-  baseURL: process.env.REACT_APP_BACK_OPX_API_URL,
+  baseURL: process.env.SERVER_APIL,
   headers: {
     Accept: 'application/json',
     'Content-Type': 'application/json',
   },
 });
 
+if (localStorageToken) {
+  axiosClient.defaults.headers.common.Authorization = `Bearer ${localStorageToken}`;
+}
 
 axiosClient.interceptors.response.use(
   (response) => {
