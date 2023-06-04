@@ -10,7 +10,7 @@
 
 html,
 body {
-  @apply min-h-screen max-w-full flex overflow-hidden bg-white;
+  @apply min-h-screen min-w-full flex bg-white;
 }
 
 .btn {
@@ -30,7 +30,7 @@ h1 {
 }
 
 .navbar-menu {
-  height:100vh;
+  height:100%;
   box-shadow: 1px 1px 7px rgba(0,0,0,0.15);
   transition: all 0.5s ease;
   
@@ -48,7 +48,7 @@ h1 {
 }
 .navbar__list {
   list-style-type: none;
-
+  color: black;
   
 }
 .navbar__li {
