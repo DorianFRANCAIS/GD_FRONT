@@ -29,7 +29,7 @@ export default function LoginPage() {
         const accessToken = res.tokens.accessToken
         const refreshToken = res.tokens.refreshToken
 
-        localStorage.setItem("accesToken", accessToken)
+        localStorage.setItem("accessToken", accessToken)
         localStorage.setItem("refreshToken", refreshToken)
         await router.push('/');
       }

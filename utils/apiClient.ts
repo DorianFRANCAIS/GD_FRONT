@@ -15,6 +15,7 @@ const axiosClient = axios.create({
 });
 
 if (localStorageToken) {
+  console.log("here")
   axiosClient.defaults.headers.common.Authorization = `Bearer ${localStorageToken}`;
 }
 
