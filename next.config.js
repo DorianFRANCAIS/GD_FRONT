@@ -4,7 +4,7 @@ const nextConfig = {
     appDir: true,
   },
   env: {
-    SERVER_API: 'https://dev.api.gestidogs.ianlcz.io/',
+    SERVER_API: 'https://dev.api.gestidogs.ianlcz.io',
   },
 }
 
