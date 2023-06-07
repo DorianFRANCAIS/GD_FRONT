@@ -2,6 +2,7 @@
 import { signOut, useSession } from "next-auth/react";
 import React, { ReactElement, useEffect, useState } from "react";
 import { GiHamburgerMenu } from "react-icons/gi";
+import { BiLogOut } from "react-icons/bi";
 
 interface NavItem {
     name: string;
@@ -23,13 +24,14 @@ export default function Navbar({ menuItem }: NavbarProps) {
             setWindow(false);
         }
     };
+
     return (
         session?.user ?
             <nav className="navbar-menu bg-main text-white" style={{ width: window === false ? 250 : 60 }}>
                 <div className="burger-wrapper" onClick={() => openClose()}>
                     <GiHamburgerMenu className="cursor-pointer w-24 h-auto" />
                 </div>
-                <ul className="navbar__list">
+                <ul className="navbar__list h-full justify-between">
                     {menuItem.map((item: any, i: number) => (
                         <div className="navbar__li-box flex items-center p-4" key={i}>
                             {item.icon}
@@ -41,8 +43,16 @@ export default function Navbar({ menuItem }: NavbarProps) {
                             </li>
                         </div>
                     ))}
+                    <div className="navbar__li-box flex items-center p-4">
+                        <BiLogOut />
+                        <li
+                            className="navbar__li"
+                            style={{ display: window === false ? "inline-block" : "none" }}
+                        >
+                            Se déconnecter
+                        </li>
+                    </div>
                 </ul>
-                <span className="text-black" onClick={() => signOut()}>Se déconnecter</span>
             </nav > :
             <></>
     )

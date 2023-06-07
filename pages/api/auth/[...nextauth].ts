@@ -28,7 +28,6 @@ export const authOptions: NextAuthOptions = {
                 const user = await res.json();
 
                 if (res.ok && user) {
-                    console.log(user)
                     return user;
                 } else {
                     return null;
@@ -36,8 +35,16 @@ export const authOptions: NextAuthOptions = {
             },
         }),
     ],
-    session: {
-        strategy: "jwt",
+    callbacks: {
+        async jwt({ token, user, account }) {
+
+            return { ...token, ...user };
+        },
+        async session({ session, token, user }) {
+            session.user = token as any;
+
+            return session;
+        },
     },
     pages: {
         signIn: '/login',
