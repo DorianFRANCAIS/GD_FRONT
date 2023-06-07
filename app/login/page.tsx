@@ -29,7 +29,7 @@ export default function LoginPage() {
         const accessToken = res.tokens.accessToken
         const refreshToken = res.tokens.refreshToken
 
-        localStorage.setItem("accesToken", accessToken)
+        localStorage.setItem("accessToken", accessToken)
         localStorage.setItem("refreshToken", refreshToken)
         await router.push('/');
       }
@@ -41,7 +41,7 @@ export default function LoginPage() {
     return (
         <div id="login-page" className="flex flex-col items-center w-full sm:h-fit bg-main p-12 sm:w-[40rem] sm:self-center sm:rounded-3xl sm:p-32 sm:drop-shadow-xl">
             <img src="/logo.svg"/>
-            <h1 onClick={() => console.log(process.env)}>Bienvenue !</h1>
+            <h1>Bienvenue !</h1>
             <form className="mt-12 flex w-full flex-col items-stretch justify-center" onSubmit={handleSubmit(onSubmit)}>
                 <div className="flex flex-col gap-3">
                     <input type="email" {...register("emailAddress")} placeholder="E-mail"/>

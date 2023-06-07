@@ -4,6 +4,7 @@ let localStorageToken;
 if (typeof window !== 'undefined') {
   localStorageToken = localStorage.getItem('accessToken');
 }
+
 const axiosClient = axios.create({
   baseURL: process.env.SERVER_API,
   headers: {
@@ -16,8 +17,10 @@ const axiosClient = axios.create({
 });
 
 if (localStorageToken) {
+  console.log("here")
   axiosClient.defaults.headers.common.Authorization = `Bearer ${localStorageToken}`;
 }
+
 
 axiosClient.interceptors.response.use(
   (response) => {
