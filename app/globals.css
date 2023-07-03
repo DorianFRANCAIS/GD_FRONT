@@ -10,7 +10,7 @@
 
 html,
 body {
-  @apply min-h-screen min-w-full flex bg-white;
+  @apply min-h-screen min-w-full flex overflow-hidden bg-white;
 }
 
 .btn {
