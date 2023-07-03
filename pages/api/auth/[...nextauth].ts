@@ -27,7 +27,7 @@ export const authOptions: NextAuthOptions = {
                 });
                 const user = await res.json();
 
-                if (res.ok && user) {
+                if (user) {
                     return user;
                 } else {
                     return null;
@@ -36,19 +36,22 @@ export const authOptions: NextAuthOptions = {
         }),
     ],
     callbacks: {
-        async jwt({ token, user, account }) {
-
-            return { ...token, ...user };
+        async jwt({ token, user }) {
+            // Vérifiez si l'objet user existe et contient la propriété jwt
+            return { ...token, ...user }
         },
-        async session({ session, token, user }) {
+        async session({ session, token }) {
             session.user = token as any;
-
             return session;
         },
     },
     pages: {
         signIn: '/login',
+        signOut: '/login',
     },
+    session: {
+        strategy: "jwt",
+    }
 };
 
 export default NextAuth(authOptions);

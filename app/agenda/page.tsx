@@ -102,7 +102,7 @@ export default function AgendaPage() {
           <button type="submit" className='btn rounded-3xl w-full flex justify-between items-center'>Enregistrer</button>
         </div>
       </form >
-      <div className='md:col-span-9 min-h-screen auto border-2 border-mainColor rounded-3xl p-4 mb-5'>
+      <div className='md:col-span-9 border-2 border-mainColor rounded-3xl p-4 mb-5'>
         <FullCalendar
           plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
           initialView={"timeGridWeek"}
@@ -137,7 +137,7 @@ export default function AgendaPage() {
           allDaySlot={false}
           weekends={false}
           slotMinTime="08:00:00"
-          slotMaxTime="20:00:00"
+          slotMaxTime="19:00:00"
           ref={calendarRef}
         />
       </div>

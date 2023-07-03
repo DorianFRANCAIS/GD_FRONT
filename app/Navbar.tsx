@@ -4,7 +4,6 @@ import React, { ReactElement, useEffect, useState } from "react";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { BiLogOut } from "react-icons/bi";
 import Link from 'next/link'
-import { set } from "date-fns";
 
 interface NavItem {
     name: string;
@@ -28,6 +27,8 @@ export default function Navbar({ menuItem }: NavbarProps) {
             setWindow(false);
         }
     };
+
+    console.log(session)
 
     return (
         session?.user ?
@@ -53,6 +54,7 @@ export default function Navbar({ menuItem }: NavbarProps) {
                         <li
                             className="navbar__li"
                             style={{ display: window === false ? "inline-block" : "none" }}
+                            onClick={() => signOut({ callbackUrl: '/login' })}
                         >
                             Se déconnecter
                         </li>
