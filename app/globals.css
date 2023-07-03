@@ -77,7 +77,7 @@ h1 {
 }
 
 .wrapper {
-  @apply bg-white w-full p-6;
+  @apply bg-white w-full p-6 rounded-md;
   min-height: 75vh;
   -webkit-box-shadow: 0px 0px 15px 5px rgba(0,0,0,0.10); 
   box-shadow: 0px 0px 15px 5px rgba(0,0,0,0.10);

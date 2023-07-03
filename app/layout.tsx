@@ -12,9 +12,7 @@ interface IProps {
 }
 
 export default function RootLayout({ children, session }: IProps) {
-  useEffect(() => {
-    console.log("session:", session)
-  }, [])
+
   return (
     <html lang="en">
       <body>
