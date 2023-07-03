@@ -12,6 +12,7 @@ module.exports = {
     extend: {
       backgroundColor: {
         main: "#B0D3F3",
+        lightBlueColor: '#F8F9FD',
       }
     },
   },

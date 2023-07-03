@@ -3,8 +3,8 @@ import { signOut, useSession } from "next-auth/react";
 import React, { ReactElement, useEffect, useState } from "react";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { BiLogOut } from "react-icons/bi";
-import { useRouter } from 'next/router';
 import Link from 'next/link'
+import { set } from "date-fns";
 
 interface NavItem {
     name: string;
@@ -18,6 +18,7 @@ interface NavbarProps {
 
 export default function Navbar({ menuItem }: NavbarProps) {
     const [window, setWindow] = useState(false);
+    const [activeIndex, setActiveIndex] = useState<number | null>(0);
     const { data: session } = useSession();
 
     let openClose = () => {
@@ -36,7 +37,7 @@ export default function Navbar({ menuItem }: NavbarProps) {
                 </div>
                 <ul className="navbar__list h-full justify-between">
                     {menuItem.map((item: any, i: number) => (
-                        <div className="navbar__li-box flex items-center p-4" key={i}>
+                        <div className={`navbar__li-box flex items-center p-4 ${activeIndex === i ? 'active-menu' : ''}`} onClick={() => setActiveIndex(i)} key={i}>
                             {item.icon}
                             <Link
                                 href={item.url}

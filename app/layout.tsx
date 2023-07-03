@@ -3,7 +3,7 @@ import Navbar from '@/app/Navbar'
 import './globals.css'
 import { RxDashboard } from "react-icons/rx";
 import { MdOutlineHomeWork } from "react-icons/md";
-import { ReactNode } from 'react';
+import { ReactNode, useEffect } from 'react';
 import { SessionProvider } from "next-auth/react";
 
 interface IProps {
@@ -12,11 +12,14 @@ interface IProps {
 }
 
 export default function RootLayout({ children, session }: IProps) {
+  useEffect(() => {
+    console.log("session:", session)
+  }, [])
   return (
     <html lang="en">
       <body>
         <SessionProvider session={session}>
-          <Navbar menuItem={[{ name: "Dashboard", icon: <RxDashboard />, url: "/dashboard" }, { name: "Etablissements", icon: <MdOutlineHomeWork />, url: "establishments" }]} />
+          <Navbar menuItem={[{ name: "Dashboard", icon: <RxDashboard />, url: "/dashboard" }, { name: "Etablissements", icon: <MdOutlineHomeWork />, url: "establishments" }, { name: "Agenda", icon: <MdOutlineHomeWork />, url: "agenda" }]} />
           <div className="w-full">{children}</div>
         </SessionProvider>
       </body>
