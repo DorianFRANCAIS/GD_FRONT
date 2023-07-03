@@ -16,7 +16,7 @@ export default function RootLayout({ children, session }: IProps) {
     <html lang="en">
       <body>
         <SessionProvider session={session}>
-          <Navbar menuItem={[{ name: "Dashboard", icon: <RxDashboard /> }, { name: "Etablissements", icon: <MdOutlineHomeWork /> }]} />
+          <Navbar menuItem={[{ name: "Dashboard", icon: <RxDashboard />, url: "/dashboard" }, { name: "Etablissements", icon: <MdOutlineHomeWork />, url: "establishments" }]} />
           <div className="w-full">{children}</div>
         </SessionProvider>
       </body>

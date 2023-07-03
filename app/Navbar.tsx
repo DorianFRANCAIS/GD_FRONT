@@ -3,10 +3,13 @@ import { signOut, useSession } from "next-auth/react";
 import React, { ReactElement, useEffect, useState } from "react";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { BiLogOut } from "react-icons/bi";
+import { useRouter } from 'next/router';
+import Link from 'next/link'
 
 interface NavItem {
     name: string;
     icon: ReactElement;
+    url: string;
 }
 interface NavbarProps {
     menuItem: NavItem[];
@@ -35,12 +38,13 @@ export default function Navbar({ menuItem }: NavbarProps) {
                     {menuItem.map((item: any, i: number) => (
                         <div className="navbar__li-box flex items-center p-4" key={i}>
                             {item.icon}
-                            <li
+                            <Link
+                                href={item.url}
                                 className="navbar__li"
                                 style={{ display: window === false ? "inline-block" : "none" }}
                             >
                                 {item.name}
-                            </li>
+                            </Link>
                         </div>
                     ))}
                     <div className="navbar__li-box flex items-center p-4">
