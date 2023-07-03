@@ -1,5 +1,6 @@
 'use client';
 import { axiosClient } from "@/utils/apiClient";
+import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 
 export interface IEstablishments {
@@ -13,6 +14,7 @@ export interface IEstablishments {
 }
 
 export default function EtablishmentPage() {
+    const { data: session } = useSession();
     const establishments = [
         { id: 1, name: 'Dog Paradise', location: 'City A' },
         { id: 2, name: 'Paws Inn', location: 'City B' },
@@ -26,13 +28,19 @@ export default function EtablishmentPage() {
     ];
     const [estasblishments, setEstablishments] = useState<IEstablishments[]>([]);
 
-    useEffect(() => {
+    /*useEffect(() => {
         const fetchEstablishments = async () => {
             try {
-                const response = await axiosClient.get('/establishments')
-                if (response) {
-                    setEstablishments(response.data)
+                const response = await fetch(process.env.SERVER_API + '/establishments',{
+                    headers: {
+                        Authorisation: `Bearer ${session?.user?.token.accessToken}`
+                    }
+                })
+                if (!response.ok) {
+                    throw new Error('La requête a échoué avec le statut : ' + response.status);
                 }
+                const data = await response.json();
+                setEstablishments(data)
                 return response
             } catch (error) {
                 throw error;
@@ -40,7 +48,7 @@ export default function EtablishmentPage() {
         }
         fetchEstablishments()
 
-    }, [])
+    }, [])*/
     return (
         <div className="bg-primary min-h-screen py-12 px-4 sm:px-6 lg:px-8">
             <div className="w-full mx-auto">
