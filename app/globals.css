@@ -13,7 +13,13 @@ body {
   @apply min-h-screen min-w-full flex flex-col overflow-hidden;
   background: linear-gradient(180deg, #0289F5 0%, #4466E2 100%); 
 }
-
+.pattes {
+  width: 1208.529px;
+  height: 1004.111px;
+  transform: rotate(-47.516deg);
+  flex-shrink: 0;
+  position: absolute;
+}
 .btn {
   @apply bg-mainColor font-bold text-white rounded-twenty p-8 w-full;
 }

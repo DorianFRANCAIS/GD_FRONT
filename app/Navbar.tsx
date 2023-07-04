@@ -26,7 +26,9 @@ export default function Navbar() {
             <div className="">
                 <div className="flex justify-between items-center">
                     <div className="">
-                        <p className="text-white font-bold text-3xl">GestiDogs</p>
+                        <Link href="/dashboard">
+                            <p className="text-white font-bold text-3xl">GestiDogs</p>
+                        </Link>
                     </div>
                     <div className="flex items-center space-x-4 text-white font-bold">
                         <Link href="/activities">
@@ -41,11 +43,14 @@ export default function Navbar() {
                         <Link href="/team">
                             Mon équipe
                         </Link>
-                        <img
-                            src={session.user.user.avatarUrl}
-                            alt="Profile"
-                            className="avatar rounded-full"
-                        />
+                        <Link href="/account">
+                            <img
+                                src={session?.user.user.avatarUrl ? session?.user.user.avatarUrl : "/img/avatar.svg"}
+                                alt="Profile"
+                                className="avatar rounded-full"
+                            />
+                        </Link>
+
                     </div>
                 </div>
             </div>
