@@ -42,9 +42,9 @@ export default function Navbar() {
                             Mon équipe
                         </Link>
                         <img
-                            src="/images/profile.jpg"
+                            src={session.user.user.avatarUrl}
                             alt="Profile"
-                            className="w-8 h-8 rounded-full"
+                            className="avatar rounded-full"
                         />
                     </div>
                 </div>

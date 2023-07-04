@@ -27,7 +27,7 @@ export const authOptions: NextAuthOptions = {
                 });
                 const user = await res.json();
 
-                if (user) {
+                if (user && user.statusCode !== 400) {
                     return user;
                 } else {
                     return null;

@@ -15,7 +15,7 @@ body {
 }
 
 .btn {
-  @apply bg-secondColor font-bold text-white rounded-twenty p-8 w-full;
+  @apply bg-mainColor font-bold text-white rounded-twenty p-8 w-full;
 }
 
 .btn:hover {
@@ -27,55 +27,13 @@ input {
 }
 
 h1 {
-  @apply text-secondColor text-4xl font-extrabold;
+  @apply text-mainColor text-4xl font-extrabold;
 }
 
-.navbar-menu {
-  height:100%;
-  box-shadow: 1px 1px 7px rgba(0,0,0,0.15);
-  transition: all 0.5s ease;
-  
+.avatar {
+  @apply h-16 w-16;
 }
-.burger-wrapper{
-  display:flex;
-  justify-content: flex-end;
-  padding:6px 0 6px 0;
-  height: 60px;
-  
-}
-.burger {
-  padding: 25px 8px 0px 0px;
-  cursor: pointer;
-}
-.navbar__list {
-  list-style-type: none;
-  color: black;
-  
-}
-.navbar__li {
-  display: inline-block;
-  padding:0px 0px 0px 12px;
-  position: relative;
-  top:2.5px;
-  font-size: 16px;
-  letter-spacing: 0px;
-  line-height: 38px;
-  color: black;
-  font-family: "Lato";
-  font-weight: bold;
-}
-.navbar__li-box:first-child {
-  margin-top:53px;
-  
-}
-.navbar__li-box {
-  height: 43px;
-  margin-top:15px;
-}
-.navbar__li-box:hover {
-  border-left: 7px solid #58b5fc;
-  cursor: pointer;
-}
+
 
 .wrapper {
   @apply bg-white w-full p-6 rounded-md;

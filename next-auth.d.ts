@@ -17,6 +17,7 @@ declare module "next-auth" {
                 activities: [],
                 registeredAt: string;
                 lastConnectionAt: string;
+                avatarUrl: string;
                 __v: 0,
                 refreshToken: string;
                 accessToken: string;
