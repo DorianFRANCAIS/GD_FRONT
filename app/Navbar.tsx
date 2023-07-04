@@ -1,21 +1,11 @@
 'use client';
 import { signOut, useSession } from "next-auth/react";
 import React, { ReactElement, useEffect, useState } from "react";
-import { GiHamburgerMenu } from "react-icons/gi";
-import { BiLogOut } from "react-icons/bi";
 import Link from 'next/link'
 
-interface NavItem {
-    name: string;
-    icon: ReactElement;
-    url: string;
-}
-interface NavbarProps {
-    menuItem: NavItem[];
-}
 
 
-export default function Navbar({ menuItem }: NavbarProps) {
+export default function Navbar() {
     const [window, setWindow] = useState(false);
     const [activeIndex, setActiveIndex] = useState<number | null>(0);
     const { data: session } = useSession();
@@ -31,36 +21,34 @@ export default function Navbar({ menuItem }: NavbarProps) {
     console.log(session)
 
     return (
-        session?.user ?
-            <nav className="navbar-menu bg-main text-white" style={{ width: window === false ? 250 : 60 }}>
-                <div className="burger-wrapper" onClick={() => openClose()}>
-                    <GiHamburgerMenu className="cursor-pointer w-24 h-auto" />
-                </div>
-                <ul className="navbar__list h-full justify-between">
-                    {menuItem.map((item: any, i: number) => (
-                        <div className={`navbar__li-box flex items-center p-4 ${activeIndex === i ? 'active-menu' : ''}`} onClick={() => setActiveIndex(i)} key={i}>
-                            {item.icon}
-                            <Link
-                                href={item.url}
-                                className="navbar__li"
-                                style={{ display: window === false ? "inline-block" : "none" }}
-                            >
-                                {item.name}
-                            </Link>
-                        </div>
-                    ))}
-                    <div className="navbar__li-box flex items-center p-4">
-                        <BiLogOut />
-                        <li
-                            className="navbar__li"
-                            style={{ display: window === false ? "inline-block" : "none" }}
-                            onClick={() => signOut({ callbackUrl: '/login' })}
-                        >
-                            Se déconnecter
-                        </li>
+        session &&
+        <nav className="bg-blue-500 p-4">
+            <div className="">
+                <div className="flex justify-between items-center">
+                    <div className="">
+                        <p className="text-white font-bold text-3xl">GestiDogs</p>
                     </div>
-                </ul>
-            </nav > :
-            <></>
+                    <div className="flex items-center space-x-4 text-white font-bold">
+                        <Link href="/activities">
+                            Mes activités
+                        </Link>
+                        <Link href="/agenda">
+                            Agenda
+                        </Link>
+                        <Link href="/dogs">
+                            Mes chiens
+                        </Link>
+                        <Link href="/team">
+                            Mon équipe
+                        </Link>
+                        <img
+                            src="/images/profile.jpg"
+                            alt="Profile"
+                            className="w-8 h-8 rounded-full"
+                        />
+                    </div>
+                </div>
+            </div>
+        </nav>
     )
 };

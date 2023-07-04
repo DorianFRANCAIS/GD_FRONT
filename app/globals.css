@@ -10,23 +10,24 @@
 
 html,
 body {
-  @apply min-h-screen min-w-full flex overflow-hidden bg-white;
+  @apply min-h-screen min-w-full flex flex-col overflow-hidden;
+  background: linear-gradient(180deg, #0289F5 0%, #4466E2 100%); 
 }
 
 .btn {
-  @apply bg-white font-bold text-black rounded-2xl py-3 px-8;
+  @apply bg-secondColor font-bold text-white rounded-twenty p-8 w-full;
 }
 
 .btn:hover {
-  @apply bg-slate-50;
+  @apply opacity-70;
 }
 
 input {
-  @apply rounded-md p-2 bg-white w-full;
+  @apply rounded-twenty p-4 bg-greyColor w-full;
 }
 
 h1 {
-  @apply text-4xl font-extrabold;
+  @apply text-secondColor text-4xl font-extrabold;
 }
 
 .navbar-menu {
@@ -87,9 +88,6 @@ h1 {
   @apply rounded-md p-2 bg-lightBlueColor w-full;
 }
 
-.btn {
-  @apply rounded-full p-2 bg-main w-full;
-}
 
 .active-menu {
   @apply bg-white;
