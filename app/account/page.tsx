@@ -76,7 +76,7 @@ export default function Account() {
             <div className="bg-greyColor w-full p-6 rounded-md ">
                 <div className="flex gap-x-8 w-full">
                     <img
-                        src={userInformations?.avatarUrl}
+                        src={userInformations?.avatarUrl ? userInformations?.avatarUrl : "/img/avatar.svg"}
                         alt="Profile"
                         className="h-36 w-36 rounded-full"
                     />
@@ -104,7 +104,7 @@ export default function Account() {
                             <div className="flex bg-white rounded-twenty p-4 mt-5 w-full">
                                 <div className="flex flex-col items-center">
                                     <img
-                                        src={session?.user.user.avatarUrl}
+                                        src={userInformations?.avatarUrl ? userInformations?.avatarUrl : "/img/avatar.svg"}
                                         alt="Profile"
                                         className="avatar rounded-full"
                                     />
@@ -123,7 +123,7 @@ export default function Account() {
                         <div>
                             <label className="font-bold">Date de naissance</label>
                             <div className="bg-white rounded-twenty p-4 mt-5 w-1/2">
-                                <p className="font-bold">{formatDateToFrench(userInformations?.birthDate)}</p>
+                                <p className="font-bold">{userInformations?.birthDate}</p>
                             </div>
                         </div>
                         <div className="flex flex-col flex-1">

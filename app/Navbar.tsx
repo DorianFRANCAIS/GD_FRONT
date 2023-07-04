@@ -43,7 +43,7 @@ export default function Navbar() {
                         </Link>
                         <Link href="/account">
                             <img
-                                src={session.user.user.avatarUrl}
+                                src={session?.user.user.avatarUrl ? session?.user.user.avatarUrl : "/img/avatar.svg"}
                                 alt="Profile"
                                 className="avatar rounded-full"
                             />
