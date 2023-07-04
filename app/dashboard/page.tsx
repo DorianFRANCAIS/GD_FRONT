@@ -1,9 +1,91 @@
 "use client";
 import { useSession } from "next-auth/react"
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+
+export interface IEstablishments {
+    _id: string,
+    owner: string,
+    name: string,
+    description: string,
+    address: string,
+    phoneNumber: string,
+    emailAddress: string,
+    employees: [
+        string
+    ],
+    schedules: [any]
+}
+
+export interface IDogs {
+    nationalId: string,
+    name: string,
+    imageUrl: string,
+    gender: string,
+    breed: string,
+    birthDate: string,
+    weight: number,
+    height: number,
+}
+
 
 export default function Dashboard() {
-    const { data: session } = useSession();
+    const { data: session, status } = useSession();
+    const [establishments, setEstablishments] = useState<IEstablishments[]>([]);
+    const [dogs, setDogs] = useState<IDogs[]>([]);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            if (status === 'authenticated') {
+                console.log("hello", session?.user.user._id)
+                try {
+                    const response = await fetch(`/api/establishments/establishmentsApi?ownerId=${session?.user.user._id}`, {
+                        headers: {
+                            Authorization: `Bearer ${session?.user.tokens.accessToken}`,
+                        },
+                    });
+                    const data = await response.json();
+                    localStorage.setItem('establishments', JSON.stringify(data[0]._id));
+                    console.log(data)
+                    setEstablishments(data);
+                } catch (error) {
+                    console.error('Error fetching data:', error);
+                }
+            }
+        };
+
+        fetchData();
+        console.log(establishments)
+    }, [session, status]);
+
+    useEffect(() => {
+        const establishmentId = localStorage.getItem("establishments");
+        let establishmentIdWithoutQuotes: string;
+        if (establishmentId) {
+            establishmentIdWithoutQuotes = establishmentId.replace(/"/g, "");
+            console.log(establishmentIdWithoutQuotes)
+        }
+
+
+        const fetchDogs = async () => {
+            if (status === 'authenticated') {
+                try {
+                    console.log("establishmentId", establishmentId)
+                    const response = await fetch(`/api/dogs/dogsApi?establishmentId=${establishmentIdWithoutQuotes}`, {
+                        headers: {
+                            Authorization: `Bearer ${session?.user.tokens.accessToken}`,
+                        },
+                    });
+                    const data = await response.json();
+                    console.log("dogs", data)
+                    setDogs(data);
+                } catch (error) {
+                    console.error('Error fetching data:', error);
+                }
+            }
+        };
+
+        fetchDogs();
+    }, [status, establishments]);
 
     return (
         <div className="grid grid-cols-2 justify-center items-start gap-x-12 w-full">
@@ -84,6 +166,20 @@ export default function Dashboard() {
             <div className="flex flex-col gap-y-8">
                 <div className="wrapper">
                     <h3 className="text-mainColor text-2xl font-bold">Mes chiens</h3>
+                    <div className="flex flex-grow items-center gap-x-2">
+                        {dogs.map((dog, idx) => (
+                            <div key={idx} className="flex flex-col">
+                                <img
+                                    src={dog?.imageUrl ? dog?.imageUrl : "/img/avatar.svg"}
+                                    alt="Profile"
+                                    className="avatar rounded-full"
+                                />
+                                <span className="text-xs font-bold">{dog.name}</span>
+                            </div>
+                        ))}
+                    </div>
+
+
                 </div>
                 <div className="wrapper">
                     <h3 className="text-mainColor text-2xl font-bold">Mon équipe</h3>
