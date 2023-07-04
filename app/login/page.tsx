@@ -10,6 +10,7 @@ const loginSchema = yup.object({
 }).required();
 
 type FormData = yup.InferType<typeof loginSchema>;
+
 export default function LoginPage() {
   const { register, handleSubmit, formState: { errors } } = useForm<FormData>({
     resolver: yupResolver(loginSchema),
@@ -27,15 +28,24 @@ export default function LoginPage() {
     });
   };
   return (
-    <div id="login-page" className="flex flex-col items-center w-full sm:h-fit bg-main p-12 sm:w-[40rem] sm:self-center sm:rounded-3xl sm:p-32 sm:drop-shadow-xl">
-      <img src="/logo.svg" />
-      <h1>Bienvenue !</h1>
-      <form className="mt-12 flex w-full flex-col items-stretch justify-center" onSubmit={handleSubmit(onSubmit)}>
+    <div id="login-page" className="flex flex-col items-start w-full sm:h-fit bg-white p-12 sm:w-[40rem] sm:self-center sm:rounded-3xl sm:p-12 sm:drop-shadow-xl">
+      <h1>Connectez vous</h1>
+      <form className="mt-20 flex w-full flex-col items-stretch justify-center" onSubmit={handleSubmit(onSubmit)}>
         <div className="flex flex-col gap-3">
-          <input type="email" {...register("emailAddress")} placeholder="E-mail" />
-          <input type="password" {...register("password")} placeholder="Mot de passe" />
+          <div className="mb-4">
+            <label className="text-lg	">Email</label>
+            <input className="mt-2" type="email" {...register("emailAddress")} placeholder="E-mail" />
+          </div>
+          <div className="flex flex-col">
+            <label className="text-lg	">Mot de passe</label>
+            <input className="mt-2" type="password" {...register("password")} placeholder="Mot de passe" />
+            <span className="flex justify-end text-mainColor mt-2 text-lg">Mot de passe oublié ?</span>
+          </div>
         </div>
-        <button type="submit" className="btn mt-5">Connexion</button>
+        <div className="flex flex-col">
+          <button type="submit" className="btn mt-5">Connexion</button>
+          <p className="flex justify-center text-mainColor my-2">Vous n'avez pas de compte ?  <span className="font-bold"> Inscrivez-vous</span></p>
+        </div>
       </form>
     </div>
   )
