@@ -41,11 +41,14 @@ export default function Navbar() {
                         <Link href="/team">
                             Mon équipe
                         </Link>
-                        <img
-                            src={session.user.user.avatarUrl}
-                            alt="Profile"
-                            className="avatar rounded-full"
-                        />
+                        <Link href="/account">
+                            <img
+                                src={session.user.user.avatarUrl}
+                                alt="Profile"
+                                className="avatar rounded-full"
+                            />
+                        </Link>
+
                     </div>
                 </div>
             </div>

@@ -4,11 +4,6 @@ import { useEffect } from "react";
 
 export default function Dashboard() {
     const { data: session } = useSession();
-    console.log(session)
-
-    useEffect(() => {
-
-    }, [])
 
     return (
         <div className="grid grid-cols-2 justify-center items-start gap-x-12 w-full">
