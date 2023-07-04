@@ -15,7 +15,8 @@ export default function RootLayout({ children, session }: IProps) {
       <body>
         <SessionProvider session={session}>
           <Navbar />
-          <div className="w-full">{children}</div>
+          <div className="w-full">{children}
+          </div>
         </SessionProvider>
       </body>
     </html>
