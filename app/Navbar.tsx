@@ -28,10 +28,8 @@ export default function Navbar({ menuItem }: NavbarProps) {
         }
     };
 
-    console.log(session)
-
     return (
-        session?.user ?
+        session?.user.tokens ?
             <nav className="navbar-menu bg-main text-white" style={{ width: window === false ? 250 : 60 }}>
                 <div className="burger-wrapper" onClick={() => openClose()}>
                     <GiHamburgerMenu className="cursor-pointer w-24 h-auto" />
