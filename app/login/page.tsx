@@ -27,6 +27,10 @@ export default function LoginPage() {
       callbackUrl: "/dashboard"
     });
   };
+
+  const toLogin = () => {
+    window.location.href = "/register";
+  }
   return (
     <div id="login-page" className="flex flex-col items-start w-full sm:h-fit bg-white p-12 sm:w-[40rem] sm:self-center sm:rounded-3xl sm:p-12 sm:drop-shadow-xl">
       <h1>Connectez vous</h1>
@@ -44,7 +48,7 @@ export default function LoginPage() {
         </div>
         <div className="flex flex-col">
           <button type="submit" className="btn p-8 mt-5">Connexion</button>
-          <p className="flex justify-center text-mainColor my-2">Vous n'avez pas de compte ?  <span className="font-bold"> Inscrivez-vous</span></p>
+          <p className="flex justify-center text-mainColor my-2">Vous n'avez pas de compte ?  <span className="font-bold cursor-pointer" onClick={toLogin}> Inscrivez-vous</span></p>
         </div>
       </form>
     </div>

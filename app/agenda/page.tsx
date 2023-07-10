@@ -5,6 +5,8 @@ import timeGridPlugin from '@fullcalendar/timegrid';
 import interactionPlugin from '@fullcalendar/interaction';
 import { addHours, format } from 'date-fns';
 import React, { useEffect, useRef, useState } from "react";
+import NewSessionModal from "@/components/modal/NewSessionModal";
+import { useSession } from "next-auth/react";
 
 
 export interface IEvent {
@@ -26,11 +28,13 @@ export interface IEvent {
 }
 
 export default function AgendaPage() {
+  const { data: session, status } = useSession();
   const calendarRef = useRef<FullCalendar | null>(null);
   const [events, setEvents] = useState<IEvent[]>()
   const [dateMeeting, setDateMeeting] = useState('')
   const [startDate, setStartDate] = useState('')
   const [endDate, setEndDate] = useState('');
+  const [isModalSessionOpen, setIsModalSessionOpen] = useState<boolean>(false);
 
   useEffect(() => {
     const eventTempo: IEvent[] = []
@@ -68,6 +72,11 @@ export default function AgendaPage() {
       setEvents(eventTempo);
     }
   }, [dateMeeting, startDate, endDate])
+
+  const openModalSession = (e: any) => {
+    e.preventDefault()
+    setIsModalSessionOpen(true)
+  }
 
   return (
     <div className='grid md:grid-cols-12 gap-4'>
@@ -112,7 +121,7 @@ export default function AgendaPage() {
       </div>
       <form className='md:col-span-4 flex-col'>
         <h2 className="text-white text-2xl">Vous souhaitez créer une nouvelle session ?</h2>
-        <button className="btn p-4 mt-2">Créer une nouvelle session</button>
+        <button className="btn p-4 mt-2" onClick={openModalSession}>Créer une nouvelle session</button>
         <div className="mt-12">
           <h5 className="text-white text-2xl">Sessions prévues :</h5>
         </div>
@@ -159,6 +168,9 @@ export default function AgendaPage() {
           <p>Voir plus</p>
         </div>
       </form >
+      {isModalSessionOpen === true &&
+        <NewSessionModal isModalSessionOpen={isModalSessionOpen}/>
+      }
     </div>
   )
 }

@@ -23,12 +23,11 @@ export interface IUser {
 export default function Account() {
     const { data: session, status } = useSession();
     const [userInformations, setUserInformations] = useState<IUser | null>(null);
-    console.log(session?.user.user._id)
 
     useEffect(() => {
+        console.log(session)
         const fetchData = async () => {
             if (status === 'authenticated') {
-                console.log("hello")
                 try {
                     const response = await fetch(`/api/users/getUserInformations?userId=${session?.user.user._id}`, {
                         headers: {
@@ -83,19 +82,19 @@ export default function Account() {
                     <div className="flex flex-col w-full">
                         <div>
                             <label className="font-bold">Prénom / Nom</label>
-                            <div className="bg-white rounded-twenty p-4 mt-5 w-full">
+                            <div className="flex items-center bg-white rounded-twenty p-4 mt-5 input-custom w-full">
                                 <p className="font-bold">{userInformations?.firstname} {userInformations?.lastname}</p>
                             </div>
                         </div>
                         <div>
                             <label className="font-bold">Âge</label>
-                            <div className="bg-white rounded-twenty p-4 mt-5 w-full">
-                                <p className="font-bold">{calculateAge(userInformations?.birthDate)} ans</p>
+                            <div className="bg-white rounded-twenty p-4 mt-5 w-full flex items-center input-custom">
+                                <p className="font-bold">{userInformations?.birthDate ? calculateAge(userInformations?.birthDate) + "ans" : ""}</p>
                             </div>
                         </div>
                         <div>
                             <label className="font-bold">Adresse mail</label>
-                            <div className="bg-white rounded-twenty p-4 mt-5 w-full">
+                            <div className="bg-white rounded-twenty p-4 mt-5 w-full flex items-center input-custom">
                                 <p className="font-bold">{userInformations?.emailAddress}</p>
                             </div>
                         </div>
@@ -116,13 +115,13 @@ export default function Account() {
                     <div className="flex flex-col w-full">
                         <div>
                             <label className="font-bold">Numéro de téléphone</label>
-                            <div className="bg-white rounded-twenty p-4 mt-5 w-1/2">
-                                <p className="font-bold">{userInformations?.phoneNumber}</p>
+                            <div className="bg-white rounded-twenty p-4 mt-5 w-1/2 flex items-center input-custom">
+                                <p className="font-bold">{userInformations?.phoneNumber ? userInformations?.phoneNumber : ""}</p>
                             </div>
                         </div>
                         <div>
                             <label className="font-bold">Date de naissance</label>
-                            <div className="bg-white rounded-twenty p-4 mt-5 w-1/2">
+                            <div className="bg-white rounded-twenty p-4 mt-5 w-1/2 flex items-center input-custom">
                                 <p className="font-bold">{userInformations?.birthDate}</p>
                             </div>
                         </div>

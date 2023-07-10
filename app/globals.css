@@ -13,6 +13,10 @@ body {
   @apply min-h-screen min-w-full flex flex-col;
   background: linear-gradient(180deg, #0289F5 0%, #4466E2 100%); 
 }
+
+.bg-blueColor {
+  background: linear-gradient(180deg, #0289F5 0%, #4466E2 100%);
+}
 .btn {
   @apply bg-mainColor font-bold text-white rounded-twenty  w-full;
 }
@@ -42,7 +46,7 @@ h1 {
 }
 
 .input-custom {
-  @apply rounded-md p-2 bg-lightBlueColor w-full;
+  @apply rounded-twenty p-2 bg-lightBlueColor w-full h-16;
 }
 
 
