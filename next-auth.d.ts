@@ -10,6 +10,7 @@ declare module "next-auth" {
             user: {
                 _id: string;
                 firstname: string;
+                lastname: string;
                 role: string;
                 emailAddress: string;
                 phoneNumber: string;
@@ -17,6 +18,7 @@ declare module "next-auth" {
                 activities: [],
                 registeredAt: string;
                 lastConnectionAt: string;
+                avatarUrl: string;
                 __v: 0,
                 refreshToken: string;
                 accessToken: string;

@@ -10,9 +10,13 @@ module.exports = {
   ],
   theme: {
     extend: {
-      backgroundColor: {
-        main: "#B0D3F3",
+      colors: {
+        mainColor: "#242B5C",
         lightBlueColor: '#F8F9FD',
+        greyColor: "#F5F4F7",
+      },
+      borderRadius: {
+        twenty: "20px",
       }
     },
   },
