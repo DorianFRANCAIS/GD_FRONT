@@ -88,7 +88,7 @@ export default function RegisterPage() {
                     </div>
                 </div>
                 <div className="flex flex-col">
-                    <button type="submit" className="btn mt-5">Inscription</button>
+                    <button type="submit" className="btn p-8 mt-5">Inscription</button>
                     <p className="flex justify-center text-mainColor my-2">Vous avez déjà un compte ?  <span className="font-bold"> Connectez-vous</span></p>
                 </div>
             </form>

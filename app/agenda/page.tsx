@@ -4,7 +4,7 @@ import dayGridPlugin from '@fullcalendar/daygrid'
 import timeGridPlugin from '@fullcalendar/timegrid';
 import interactionPlugin from '@fullcalendar/interaction';
 import { addHours, format } from 'date-fns';
-import { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 
 
 export interface IEvent {
@@ -70,39 +70,8 @@ export default function AgendaPage() {
   }, [dateMeeting, startDate, endDate])
 
   return (
-    <div className='grid md:grid-cols-12 gap-4 wrapper'>
-      <form className='md:col-span-3'>
-        <div className='flex flex-col border-2 border-lightBlueColor rounded-3xl p-4 mb-5'>
-          <label className='mt-3 font-bold'>Nouvelle session</label>
-          <select className="bg-main rounded-lg p-2">
-            <option>Choix de l'activité</option>
-            <option>Session 1</option>
-            <option>Session 2</option>
-          </select>
-        </div>
-        <div className='border-2 border-mainColor rounded-3xl p-4 mb-5'>
-          <div className='mt-3'>
-            <label className='label mt-3 font-bold'>RDV</label>
-            <div className='2xl:col-span-5 flex justify-between items-center gap-1 bg-lightBlueColor rounded-md px-2'>
-              Le
-              <input type="date" className='p-1 bg-transparent text-center input-custom' value={dateMeeting} onChange={(e) => setDateMeeting(e.target.value)} />
-            </div>
-            <div className='2xl:col-span-7 flex justify-between items-center gap-1 bg-lightBlueColor rounded-md px-2 mt-1'>
-              de
-              <input type="time" className='p-1 bg-transparent text-center input-custom' value={startDate} onChange={(e) => setStartDate(e.target.value)} />
-              à
-              <input type="time" className='p-1 bg-transparent text-center input-custom' value={endDate} onChange={(e) => setEndDate(e.target.value)} />
-            </div>
-          </div>
-        </div>
-        <div className='border-2 border-mainColor rounded-3xl p-4 mb-5 text-start'>
-          <h3 className="text-mainColor text-base font-bold">Participants</h3>
-        </div>
-        <div className='mb-5 flex justify-center items-center gap-3'>
-          <button type="submit" className='btn rounded-3xl w-full flex justify-between items-center'>Enregistrer</button>
-        </div>
-      </form >
-      <div className='md:col-span-9 border-2 border-mainColor rounded-3xl p-4 mb-5'>
+    <div className='grid md:grid-cols-12 gap-4'>
+      <div className='md:col-span-8 rounded-3xl p-4 mb-5 wrapper'>
         <FullCalendar
           plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
           initialView={"timeGridWeek"}
@@ -141,6 +110,55 @@ export default function AgendaPage() {
           ref={calendarRef}
         />
       </div>
+      <form className='md:col-span-4 flex-col'>
+        <h2 className="text-white text-2xl">Vous souhaitez créer une nouvelle session ?</h2>
+        <button className="btn p-4 mt-2">Créer une nouvelle session</button>
+        <div className="mt-12">
+          <h5 className="text-white text-2xl">Sessions prévues :</h5>
+        </div>
+        <div className='mt-2 bg-white flex justify-between items-center rounded-3xl p-4 mb-5'>
+          <div className="flex">
+            <img
+              src="/img/avatar.svg"
+              alt="Profile"
+              className="avatar rounded-full"
+            />
+            <div className="ml-2 flex flex-col">
+              <p>Dressage</p>
+              <p className="text-greyBoldColor">26/06/2023 à 13:00</p>
+            </div>
+          </div>
+          <p>Voir plus</p>
+        </div>
+        <div className='mt-2 bg-white flex justify-between items-center rounded-3xl p-4 mb-5'>
+          <div className="flex">
+            <img
+              src="/img/avatar.svg"
+              alt="Profile"
+              className="avatar rounded-full"
+            />
+            <div className="ml-2 flex flex-col">
+              <p>Dressage</p>
+              <p className="text-greyBoldColor">26/06/2023 à 13:00</p>
+            </div>
+          </div>
+          <p>Voir plus</p>
+        </div>
+        <div className='mt-2 bg-white flex justify-between items-center rounded-3xl p-4 mb-5'>
+          <div className="flex">
+            <img
+              src="/img/avatar.svg"
+              alt="Profile"
+              className="avatar rounded-full"
+            />
+            <div className="ml-2 flex flex-col">
+              <p>Dressage</p>
+              <p className="text-greyBoldColor">26/06/2023 à 13:00</p>
+            </div>
+          </div>
+          <p>Voir plus</p>
+        </div>
+      </form >
     </div>
   )
 }
