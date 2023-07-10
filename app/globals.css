@@ -10,18 +10,11 @@
 
 html,
 body {
-  @apply min-h-screen min-w-full flex flex-col overflow-hidden;
+  @apply min-h-screen min-w-full flex flex-col;
   background: linear-gradient(180deg, #0289F5 0%, #4466E2 100%); 
 }
-.pattes {
-  width: 1208.529px;
-  height: 1004.111px;
-  transform: rotate(-47.516deg);
-  flex-shrink: 0;
-  position: absolute;
-}
 .btn {
-  @apply bg-mainColor font-bold text-white rounded-twenty p-8 w-full;
+  @apply bg-mainColor font-bold text-white rounded-twenty  w-full;
 }
 
 .btn:hover {
@@ -42,8 +35,8 @@ h1 {
 
 
 .wrapper {
-  @apply bg-white w-full p-6 rounded-md;
-  max-height: 95vh;
+  @apply bg-white w-full h-full p-6 rounded-md;
+
   -webkit-box-shadow: 0px 0px 15px 5px rgba(0,0,0,0.10); 
   box-shadow: 0px 0px 15px 5px rgba(0,0,0,0.10);
 }

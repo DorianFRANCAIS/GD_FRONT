@@ -88,7 +88,7 @@ export default function Dashboard() {
     }, [status, establishments]);
 
     return (
-        <div className="grid grid-cols-2 justify-center items-start gap-x-12 w-full">
+        <div className="grid grid-cols-2 justify-center items-start gap-x-12 my-4 w-full">
             {/* <h1>Bienvenue {session?.user.user.firstname}</h1> */}
             <div className="wrapper">
                 <h3 className="text-mainColor text-2xl font-bold">Session du jour</h3>
@@ -168,7 +168,7 @@ export default function Dashboard() {
                     <h3 className="text-mainColor text-2xl font-bold">Mes chiens</h3>
                     <div className="flex flex-grow items-center gap-x-2">
                         {dogs.map((dog, idx) => (
-                            <div key={idx} className="flex flex-col">
+                            <div key={idx} className="flex flex-col justify-center items-center">
                                 <img
                                     src={dog?.imageUrl ? dog?.imageUrl : "/img/avatar.svg"}
                                     alt="Profile"

@@ -14,6 +14,7 @@ module.exports = {
         mainColor: "#242B5C",
         lightBlueColor: '#F8F9FD',
         greyColor: "#F5F4F7",
+        greyBoldColor: "#A3A3A3",
       },
       borderRadius: {
         twenty: "20px",

@@ -43,7 +43,7 @@ export default function LoginPage() {
           </div>
         </div>
         <div className="flex flex-col">
-          <button type="submit" className="btn mt-5">Connexion</button>
+          <button type="submit" className="btn p-8 mt-5">Connexion</button>
           <p className="flex justify-center text-mainColor my-2">Vous n'avez pas de compte ?  <span className="font-bold"> Inscrivez-vous</span></p>
         </div>
       </form>
