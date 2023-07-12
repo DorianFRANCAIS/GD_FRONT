@@ -1,6 +1,7 @@
-"use client";
-import { useSession } from "next-auth/react"
-import { useEffect, useState } from "react";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/pages/api/auth/[...nextauth]";
+import { handleDogs } from "@/pages/api/dogs/dogsApi";
+import handleEstablishments from "@/pages/api/establishments/establishmentsApi";
 
 export interface IEstablishments {
     _id: string,
@@ -28,68 +29,13 @@ export interface IDogs {
 }
 
 
-export default function Dashboard() {
-    const { data: session, status } = useSession();
-    const [establishments, setEstablishments] = useState<IEstablishments[]>([]);
-    const [dogs, setDogs] = useState<IDogs[]>([]);
-
-    useEffect(() => {
-        const fetchData = async () => {
-            if (status === 'authenticated') {
-                console.log("hello", session?.user.user._id)
-                try {
-                    const response = await fetch(`/api/establishments/establishmentsApi?ownerId=${session?.user.user._id}`, {
-                        headers: {
-                            Authorization: `Bearer ${session?.user.tokens.accessToken}`,
-                        },
-                    });
-                    const data = await response.json();
-                    localStorage.setItem('establishments', JSON.stringify(data[0]._id));
-                    console.log(data)
-                    setEstablishments(data);
-                } catch (error) {
-                    console.error('Error fetching data:', error);
-                }
-            }
-        };
-
-        fetchData();
-        console.log(establishments)
-    }, [session, status]);
-
-    useEffect(() => {
-        const establishmentId = localStorage.getItem("establishments");
-        let establishmentIdWithoutQuotes: string;
-        if (establishmentId) {
-            establishmentIdWithoutQuotes = establishmentId.replace(/"/g, "");
-            console.log(establishmentIdWithoutQuotes)
-        }
-
-
-        const fetchDogs = async () => {
-            if (status === 'authenticated') {
-                try {
-                    console.log("establishmentId", establishmentId)
-                    const response = await fetch(`/api/dogs/dogsApi?establishmentId=${establishmentIdWithoutQuotes}`, {
-                        headers: {
-                            Authorization: `Bearer ${session?.user.tokens.accessToken}`,
-                        },
-                    });
-                    const data = await response.json();
-                    console.log("dogs", data)
-                    setDogs(data);
-                } catch (error) {
-                    console.error('Error fetching data:', error);
-                }
-            }
-        };
-
-        fetchDogs();
-    }, [status, establishments]);
+async function Dashboard() {
+    const session = await getServerSession(authOptions);
+    const establishments: IEstablishments[] = await handleEstablishments(session);
+    const dogs: IDogs[] = await handleDogs(session,establishments[0]._id);
 
     return (
         <div className="grid grid-cols-2 justify-center items-start gap-x-12 my-4 w-full">
-            {/* <h1>Bienvenue {session?.user.user.firstname}</h1> */}
             <div className="wrapper">
                 <h3 className="text-mainColor text-2xl font-bold">Session du jour</h3>
                 <div className="flex flex-col gap-y-12 mt-9">
@@ -167,7 +113,7 @@ export default function Dashboard() {
                 <div className="wrapper">
                     <h3 className="text-mainColor text-2xl font-bold">Mes chiens</h3>
                     <div className="flex flex-grow items-center gap-x-2">
-                        {dogs.map((dog, idx) => (
+                        {dogs && dogs.map((dog, idx) => (
                             <div key={idx} className="flex flex-col justify-center items-center">
                                 <img
                                     src={dog?.imageUrl ? dog?.imageUrl : "/img/avatar.svg"}
@@ -227,4 +173,6 @@ export default function Dashboard() {
 
         </div>
     )
-}
+};
+
+export default Dashboard;

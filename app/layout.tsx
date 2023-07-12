@@ -9,7 +9,7 @@ interface IProps {
   session: any;
 }
 
-export default function RootLayout({ children, session }: IProps) {
+function RootLayout({ children, session }: IProps) {
   return (
     <html lang="en">
       <body>
@@ -22,3 +22,5 @@ export default function RootLayout({ children, session }: IProps) {
     </html>
   )
 }
+
+export default RootLayout;

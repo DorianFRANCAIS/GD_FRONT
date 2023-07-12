@@ -3,8 +3,6 @@ import { signOut, useSession } from "next-auth/react";
 import React, { ReactElement, useEffect, useState } from "react";
 import Link from 'next/link'
 
-
-
 export default function Navbar() {
     const [window, setWindow] = useState(false);
     const [activeIndex, setActiveIndex] = useState<number | null>(0);

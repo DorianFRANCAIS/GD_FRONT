@@ -1,9 +1,8 @@
-"use client";
 import { format } from "date-fns";
 import { fr } from 'date-fns/locale';
-import { useSession } from "next-auth/react"
-import { useEffect, useState } from "react";
-
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/pages/api/auth/[...nextauth]";
+import { handleInfosUser } from "@/pages/api/users/getUserInformations";
 export interface IUser {
     _id: string;
     lastname: string;
@@ -20,31 +19,11 @@ export interface IUser {
     __v: 0
 }
 
-export default function Account() {
-    const { data: session, status } = useSession();
-    const [userInformations, setUserInformations] = useState<IUser | null>(null);
 
-    useEffect(() => {
-        console.log(session)
-        const fetchData = async () => {
-            if (status === 'authenticated') {
-                try {
-                    const response = await fetch(`/api/users/getUserInformations?userId=${session?.user.user._id}`, {
-                        headers: {
-                            Authorization: `Bearer ${session?.user.tokens.accessToken}`,
-                        },
-                    });
-                    const data = await response.json();
-                    console.log(data)
-                    setUserInformations(data);
-                } catch (error) {
-                    console.error('Error fetching data:', error);
-                }
-            }
-        };
 
-        fetchData();
-    }, [session, status]);
+async function Page() {
+    const session = await getServerSession(authOptions);
+    const userInformations: IUser = await handleInfosUser(session);
 
     const calculateAge = (dateOfBirth: any) => {
         const birthDate = new Date(dateOfBirth);
@@ -89,7 +68,7 @@ export default function Account() {
                         <div>
                             <label className="font-bold">Âge</label>
                             <div className="bg-white rounded-twenty p-4 mt-5 w-full flex items-center input-custom">
-                                <p className="font-bold">{userInformations?.birthDate ? calculateAge(userInformations?.birthDate) + "ans" : ""}</p>
+                                <p className="font-bold">{userInformations?.birthDate ? `${calculateAge(userInformations?.birthDate)} ans` : ""}</p>
                             </div>
                         </div>
                         <div>
@@ -135,4 +114,6 @@ export default function Account() {
             </div>
         </div>
     )
-}
+};
+
+export default Page;
