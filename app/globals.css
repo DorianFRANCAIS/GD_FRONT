@@ -46,7 +46,7 @@ h1 {
 }
 
 .input-custom {
-  @apply rounded-twenty p-2 bg-lightBlueColor w-full h-16;
+  @apply rounded-twenty p-4 bg-lightBlueColor w-full h-16;
 }
 
 

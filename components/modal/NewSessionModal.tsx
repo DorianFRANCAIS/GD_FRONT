@@ -1,10 +1,15 @@
+'use client';
 import { SubmitHandler, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import {  useSession } from "next-auth/react";
+import { IEstablishments } from "@/app/dashboard/page";
+import handleEstablishments from "@/pages/api/establishments/establishmentsApi";
+import { PostSession } from "@/pages/api/sessions/sessionsApi";
+import { ISession } from "@/types/ISession";
 
 const sessionSchema = yup.object({
-  educator: yup.string().required('Veuillez choisir un éducateur').email(),
+  educator: yup.string().required('Veuillez choisir un éducateur'),
   activity: yup.string().required('Veuillez choisir une activité'),
   establishment: yup.string().required('Veuillez choisir un établissement'),
   maximumCapacity: yup.number().required('Veuillez renseigner une capacité maximale'),
@@ -23,21 +28,7 @@ export default function NewSessionModal(props:{isModalSessionOpen: boolean}) {
   const onSubmit: SubmitHandler<FormData> = async (
     data: FormData
   ) => {
-    if (status === 'authenticated') {
-      try {
-        const postNewSession = await fetch(`/api/sessions/dogsApi`, {
-          method: 'POST',
-          headers: {
-            Authorization: `Bearer ${session?.user.tokens.accessToken}`,
-          },
-          body: JSON.stringify(data),
-        });
-        const res = await postNewSession.json();
-        console.log(res)
-      } catch (error) {
-        console.error('Error fetching data:', error);
-      }
-    }
+     await PostSession(session, { ...data, status: "Pending" });
   };
   return (
     <div className="flex justify-center h-full p-6 z-50 w-full absolute">
@@ -46,28 +37,32 @@ export default function NewSessionModal(props:{isModalSessionOpen: boolean}) {
           <h2 className="text-3xl text-white">Créer une nouvelle session</h2>
           <div className="">
             <label className="text-white">Educateur</label>
-            <select className="input-custom">
-              <option value="1">Educateur</option>
+            <select className="input-custom" {...register("educator")}>
+              <option value="test coco educateur">Educateur</option>
             </select>
           </div>
           <div className="">
             <label className="text-white">Activité</label>
-            <select className="input-custom">
-              <option value="1">Educateur</option>
+            <select className="input-custom" {...register("activity")}>
+              <option value="test coco activity">Educateur</option>
             </select>
           </div>
           <div className="">
             <label className="text-white">Etablissement</label>
-            <select className="input-custom">
-              <option value="1">Educateur</option>
+            <select className="input-custom" {...register("establishment")}>
+              <option value="test coco etablissement">Educateur</option>
             </select>
           </div>
           <div>
             <label className="text-white">Capacité de la session</label>
-            <input className="input-custom" type="number"/>
+            <input className="input-custom" type="number" {...register("maximumCapacity")}/>
+          </div>
+          <div>
+            <label className="text-white">Date de la session</label>
+            <input className="input-custom" type="date" {...register("beginDate")}/>
           </div>
         </div>
-        <button className="btn p-4">Créer la session</button>
+        <button type="submit" className="btn p-4">Créer la session</button>
       </form>
     </div>
   )
