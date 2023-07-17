@@ -7,5 +7,6 @@ export interface ISession {
   status: "Pending" | "Confirmed" | "Cancelled";
   maximumCapacity: number;
   beginDate: string;
+  endDate: string;
 
 }

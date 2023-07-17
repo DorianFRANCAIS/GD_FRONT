@@ -36,43 +36,22 @@ function AgendaPage(props: {sessions: ISession[]}) {
   const [startDate, setStartDate] = useState('')
   const [endDate, setEndDate] = useState('');
   const [isModalSessionOpen, setIsModalSessionOpen] = useState<boolean>(false);
-  console.log(props.sessions)
+
   useEffect(() => {
     const eventTempo: IEvent[] = []
-    eventTempo.push({
-      title: `Test`,
-      start: '2023-07-03T13:30:45.000Z',
-      end: '2023-07-03T14:30:45.000Z',
-      editable: false,
-      color: `#C3C2DB`,
-      textColor: `white`
+    props.sessions.map((session) => {
+      eventTempo.push({
+        title: `${session.activity.title}`,
+        start: `${session.beginDate}`,
+        end: `${session.endDate}`,
+        editable: false,
+        color: "#37347A",
+        textColor: `white`
+      })
     })
     setEvents(eventTempo)
 
   }, [])
-
-  useEffect(() => {
-    if (dateMeeting !== "" && startDate !== "" && endDate !== "") {
-
-      if (events && events.length > 0) {
-        if (events[events?.length - 1].color == "#37347A") {
-          events?.pop()
-        }
-      }
-
-      const eventTempo: IEvent[] = [
-        ...(events ?? []), // Copie des événements existants
-        {
-          title: `Test titre`,
-          start: `${dateMeeting}T${startDate}:00+02:00`,
-          end: `${dateMeeting}T${endDate}:00+02:00`,
-          color: "#37347A"
-        },
-      ];
-
-      setEvents(eventTempo);
-    }
-  }, [dateMeeting, startDate, endDate])
 
   const openModalSession = (e: any) => {
     e.preventDefault()
@@ -116,7 +95,7 @@ function AgendaPage(props: {sessions: ISession[]}) {
           allDaySlot={false}
           weekends={false}
           slotMinTime="08:00:00"
-          slotMaxTime="19:00:00"
+          slotMaxTime="23:00:00"
           ref={calendarRef}
         />
       </div>
