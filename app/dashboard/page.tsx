@@ -4,8 +4,8 @@ import { handleDogs } from "@/pages/api/dogs/dogsApi";
 import handleEstablishments from "@/pages/api/establishments/establishmentsApi";
 import { IEstablishments } from "@/types/IEstablishments";
 import { IDogs } from "@/types/IDogs";
-import { GetSessions } from "@/pages/api/sessions/sessionsApi";
-import { ISession } from "@/types/ISession";
+import { GetDailySessions } from "@/pages/api/sessions/sessionsApi";
+import { IDailySession } from "@/types/ISession";
 import { GetAllStaff } from "@/pages/api/users/getUserInformations";
 import { IUser } from "@/types/IUser";
 import { format } from "date-fns";
@@ -17,21 +17,22 @@ async function Dashboard() {
     const session = await getServerSession(authOptions);
     const establishments: IEstablishments[] = await handleEstablishments(session);
     let dogs: IDogs[] = [];
-    let sessions: ISession[] = [];
+    let sessions: IDailySession | null = null;
     let usersStaff: IUser[] = [];
     if(establishments.length > 0) {
         dogs = await handleDogs(session,establishments[0]._id);
-        sessions = await GetSessions(session, { establishmentId: establishments[0]._id, begin: new Date().toISOString() });
+        sessions = await GetDailySessions(session, establishments[0]._id, format(new Date(), 'yyyy-MM-dd'));
         usersStaff = await GetAllStaff(session,establishments[0]._id);
     }
+    console.log("daily",sessions?.today)
 
     return (
         <div className="grid grid-cols-2 justify-center items-start gap-x-12 my-4 w-full">
             <div className="wrapper">
                 <h3 className="text-mainColor text-2xl font-bold">Session du jour</h3>
                 <div className="flex flex-col gap-y-12 mt-9">
-                    {sessions.length > 0 ? (
-                        sessions.map((session, idx) => (
+                    {sessions && sessions?.today.length > 0 ? (
+                        sessions.today.map((session, idx) => (
                       <div key={idx} className="flex justify-between bg-greyColor rounded-twenty px-5 py-2" >
                           <img
                             src={session.activity.imageUrl}

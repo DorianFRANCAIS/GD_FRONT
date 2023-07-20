@@ -32,9 +32,6 @@ function AgendaPage(props: {sessions: ISession[]}) {
   const { data: session, status } = useSession();
   const calendarRef = useRef<FullCalendar | null>(null);
   const [events, setEvents] = useState<IEvent[]>()
-  const [dateMeeting, setDateMeeting] = useState('')
-  const [startDate, setStartDate] = useState('')
-  const [endDate, setEndDate] = useState('');
   const [isModalSessionOpen, setIsModalSessionOpen] = useState<boolean>(false);
 
   useEffect(() => {
@@ -74,18 +71,6 @@ function AgendaPage(props: {sessions: ISession[]}) {
             month: "Mois",
             week: "Semaine",
             day: "Jour"
-          }}
-          eventChange={(e) => {
-            if (e.event.start && e.event.end) {
-              setDateMeeting(format(new Date(e.event.start), 'yyyy-MM-dd'));
-              setStartDate(format(new Date(e.event.start), "HH:mm"))
-              setEndDate(format(new Date(e.event.end), "HH:mm"))
-            }
-          }}
-          dateClick={(e) => {
-            setDateMeeting(format(new Date(e.date), "yyyy-MM-dd"))
-            setStartDate(format(new Date(e.date), "HH:mm"))
-            setEndDate(format(addHours(e.date, 1), 'HH:mm'));
           }}
           events={events}
           locale="fr"

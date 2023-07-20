@@ -8,5 +8,16 @@ export interface ISession {
   maximumCapacity: number;
   beginDate: string;
   endDate: string;
+}
 
+export interface IDailySession {
+  today: [{
+    educator: string;
+    activity: IActivity;
+    establishment: string;
+    status: "Pending" | "Confirmed" | "Cancelled";
+    maximumCapacity: number;
+    beginDate: string;
+    endDate: string;
+  }]
 }

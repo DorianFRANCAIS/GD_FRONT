@@ -24,16 +24,27 @@ export async function GetSessions(session: any,params: any) {
     if (params.establishmentId) {
       url += `?establishmentId=${params.establishmentId}`;
     }
-    if(params.begin) {
-      url += `&begin=${params.begin}`;
-    }
     const response = await fetch(url, {
       headers: {
         Authorization: `Bearer ${session.user.tokens.accessToken}`,
       },
     });
     const data = await response.json();
-    console.log("sessions",data)
+    return data;
+  } catch (error) {
+    console.error('Error post data:', error);
+  }
+}
+
+export async function GetDailySessions(session: any,establishmentId: string, date: string) {
+  try {
+    const response = await fetch(process.env.SERVER_API + `/sessions/daily?establishmentId=${establishmentId}&date=${date}`, {
+      headers: {
+        Authorization: `Bearer ${session.user.tokens.accessToken}`,
+      },
+    });
+    const data = await response.json();
+    console.log("sessions daily",data)
     return data;
   } catch (error) {
     console.error('Error post data:', error);
