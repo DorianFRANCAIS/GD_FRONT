@@ -2,23 +2,26 @@
 import { SubmitHandler, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
-import {  useSession } from "next-auth/react";
-import { IEstablishments } from "@/app/dashboard/page";
+import { useSession } from "next-auth/react";
 import handleEstablishments from "@/pages/api/establishments/establishmentsApi";
 import { PostSession } from "@/pages/api/sessions/sessionsApi";
 import { ISession } from "@/types/ISession";
+import { GetAllStaff } from "@/pages/api/users/getUserInformations";
+import { IUser } from "@/types/IUser";
+import { IActivity } from "@/types/IActivity";
+import { IEstablishments } from "@/types/IEstablishments";
 
 const sessionSchema = yup.object({
   educator: yup.string().required('Veuillez choisir un éducateur'),
   activity: yup.string().required('Veuillez choisir une activité'),
   establishment: yup.string().required('Veuillez choisir un établissement'),
   maximumCapacity: yup.number().required('Veuillez renseigner une capacité maximale'),
-  beginDate: yup.date().required('Veuillez renseigner une date de début'),
+  beginDate: yup.string().required('Veuillez renseigner une date de début'),
 }).required();
 
 type FormData = yup.InferType<typeof sessionSchema>;
 
-export default function NewSessionModal(props:{isModalSessionOpen: boolean}) {
+function NewSessionModal(props: { isModalSessionOpen: boolean, educators: IUser[], activities: IActivity[], establishments: IEstablishments[] }) {
   const { register, handleSubmit, formState: { errors } } = useForm<FormData>({
     resolver: yupResolver(sessionSchema),
     mode: "onSubmit"
@@ -28,7 +31,8 @@ export default function NewSessionModal(props:{isModalSessionOpen: boolean}) {
   const onSubmit: SubmitHandler<FormData> = async (
     data: FormData
   ) => {
-     await PostSession(session, { ...data, status: "Pending" });
+    console.log('yo')
+    await PostSession(session, { ...data, status: "Pending" });
   };
   return (
     <div className="flex justify-center h-full p-6 z-50 w-full absolute">
@@ -38,32 +42,46 @@ export default function NewSessionModal(props:{isModalSessionOpen: boolean}) {
           <div className="">
             <label className="text-white">Educateur</label>
             <select className="input-custom" {...register("educator")}>
-              <option value="test coco educateur">Educateur</option>
+              {props.educators.map((educator, idx) => {
+                return (
+                  <option key={idx} value={educator._id}>{educator.firstname} {educator.lastname}</option>
+                )
+              })}
             </select>
           </div>
           <div className="">
             <label className="text-white">Activité</label>
             <select className="input-custom" {...register("activity")}>
-              <option value="test coco activity">Educateur</option>
+              {props.activities.map((activity, idx) => {
+                return (
+                  <option key={idx} value={activity._id}>{activity.title}</option>
+                )
+              })}
             </select>
           </div>
           <div className="">
             <label className="text-white">Etablissement</label>
             <select className="input-custom" {...register("establishment")}>
-              <option value="test coco etablissement">Educateur</option>
+              {props.establishments.map((establishment, idx) => {
+                return (
+                  <option key={idx} value={establishment._id}>{establishment.name}</option>
+                )
+              })}
             </select>
           </div>
           <div>
             <label className="text-white">Capacité de la session</label>
-            <input className="input-custom" type="number" {...register("maximumCapacity")}/>
+            <input className="input-custom" type="number" {...register("maximumCapacity")} />
           </div>
           <div>
             <label className="text-white">Date de la session</label>
-            <input className="input-custom" type="date" {...register("beginDate")}/>
+            <input className="input-custom" type="datetime-local" {...register("beginDate")} />
           </div>
         </div>
         <button type="submit" className="btn p-4">Créer la session</button>
       </form>
     </div>
   )
-}
+};
+
+export default NewSessionModal;

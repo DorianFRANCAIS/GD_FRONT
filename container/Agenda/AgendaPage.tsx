@@ -10,6 +10,10 @@ import React, { useEffect, useRef, useState } from "react";
 import { useSession } from "next-auth/react";
 import { ISession } from "@/types/ISession";
 import NewSessionModal from "@/components/modal/NewSessionModal";
+import { IUser } from "@/types/IUser";
+import { IActivity } from "@/types/IActivity";
+import { IEstablishments } from "@/types/IEstablishments";
+
 export interface IEvent {
   id?: string, // Identifiant unique de l'événement (optionnel)
   title: string, // Titre ou texte de l'événement
@@ -28,13 +32,14 @@ export interface IEvent {
   overlap?: boolean // Indique si l'événement peut se chevaucher avec d'autres événements (optionnel)
 }
 
-function AgendaPage(props: {sessions: ISession[]}) {
+function AgendaPage(props: { sessions: ISession[], educators: IUser[], activities: IActivity[], establishments: IEstablishments[] }) {
   const { data: session, status } = useSession();
   const calendarRef = useRef<FullCalendar | null>(null);
   const [events, setEvents] = useState<IEvent[]>()
   const [isModalSessionOpen, setIsModalSessionOpen] = useState<boolean>(false);
 
   useEffect(() => {
+    console.log(props.activities)
     const eventTempo: IEvent[] = []
     props.sessions.map((session) => {
       eventTempo.push({
@@ -55,9 +60,9 @@ function AgendaPage(props: {sessions: ISession[]}) {
     setIsModalSessionOpen(true)
   }
   return (
-    <div className='grid grid-cols-2 gap-4'>
-      {isModalSessionOpen && <NewSessionModal isModalSessionOpen={isModalSessionOpen} />}
-      <div className='col-span-3 rounded-3xl p-4 mb-5 wrapper'>
+    <div className='grid grid-cols-2 gap-4 max-h-100'>
+      {isModalSessionOpen && <NewSessionModal isModalSessionOpen={isModalSessionOpen} educators={props.educators} activities={props.activities} establishments={props.establishments} />}
+      <div className='col-span-3 rounded-3xl p-4 mb-5 wrapper h-100'>
         <FullCalendar
           plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
           initialView={"timeGridWeek"}
@@ -84,29 +89,31 @@ function AgendaPage(props: {sessions: ISession[]}) {
           ref={calendarRef}
         />
       </div>
-      <form className='col-span-1 flex-col'>
+      <div className='col-span-1 flex-col h-100'>
         <h2 className="text-white text-2xl">Vous souhaitez créer une nouvelle session ?</h2>
         <button className="btn p-4 mt-2" onClick={openModalSession}>Créer une nouvelle session</button>
         <div className="mt-12">
           <h5 className="text-white text-2xl">Sessions prévues :</h5>
         </div>
-        {props.sessions && props.sessions.map((session,idx) => (
-          <div key={idx} className='mt-2 bg-white flex justify-between items-center rounded-3xl p-4 mb-5'>
-            <div className="flex w-full">
-              <img
-                src={session.activity.imageUrl}
-                alt="Profile"
-                className="avatar rounded-full"
-              />
-              <div className="ml-2 flex w-full items-center flex-col">
-                <p>{session.activity.title}</p>
-                <p className="text-greyBoldColor">{"Le " + format(new Date(session.beginDate),  "dd MMMM yyyy 'à' HH'h'mm", { locale: fr })}</p>
+        <div className={` ${props.sessions.length > 4 ? 'h-100' : ''}`}>
+          {props.sessions && props.sessions.map((session, idx) => (
+            <div key={idx} className='mt-2 bg-white flex justify-between items-center rounded-twenty p-4 mb-5'>
+              <div className="flex w-full">
+                <img
+                  src={session.activity.imageUrl}
+                  alt="Profile"
+                  className="avatar rounded-full"
+                />
+                <div className="ml-2 flex w-full items-center flex-col">
+                  <p>{session.activity.title}</p>
+                  <p className="text-greyBoldColor">{"Le " + format(new Date(session.beginDate), "dd MMMM yyyy 'à' HH'h'mm", { locale: fr })}</p>
+                </div>
               </div>
+              <p className="flex">Voir plus</p>
             </div>
-            <p className="flex">Voir plus</p>
-          </div>
-        ))}
-      </form >
+          ))}
+        </div>
+      </div >
     </div>
   )
 };

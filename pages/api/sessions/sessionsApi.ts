@@ -1,13 +1,15 @@
-import { ISession } from "@/types/ISession";
+import { IPostSession, ISession } from "@/types/ISession";
 
-export async function PostSession(session: any, sessionInfos: ISession) {
+export async function PostSession(session: any, sessionInfos: IPostSession) {
+  console.log("infos", sessionInfos)
+  console.log(session, "iciii")
   try {
     const response = await fetch(process.env.SERVER_API + `/sessions`, {
       method: 'POST',
       headers: {
         Authorization: `Bearer ${session.user.tokens.accessToken}`,
       },
-      body: JSON.stringify({ ...sessionInfos, beginDate: new Date(sessionInfos.beginDate).toISOString() }),
+      body: JSON.stringify(sessionInfos),
     });
     await response.json();
     return true;
@@ -16,9 +18,9 @@ export async function PostSession(session: any, sessionInfos: ISession) {
   }
 }
 
-export async function GetSessions(session: any,params: any) {
+export async function GetSessions(session: any, params: any) {
   try {
-    console.log("url",params)
+    console.log("url", params)
 
     let url = process.env.SERVER_API + `/sessions`;
     if (params.establishmentId) {
@@ -36,7 +38,7 @@ export async function GetSessions(session: any,params: any) {
   }
 }
 
-export async function GetDailySessions(session: any,establishmentId: string, date: string) {
+export async function GetDailySessions(session: any, establishmentId: string, date: string) {
   try {
     const response = await fetch(process.env.SERVER_API + `/sessions/daily?establishmentId=${establishmentId}&date=${date}`, {
       headers: {
@@ -44,7 +46,7 @@ export async function GetDailySessions(session: any,establishmentId: string, dat
       },
     });
     const data = await response.json();
-    console.log("sessions daily",data)
+    console.log("sessions daily", data)
     return data;
   } catch (error) {
     console.error('Error post data:', error);

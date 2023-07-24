@@ -10,6 +10,15 @@ export interface ISession {
   endDate: string;
 }
 
+export interface IPostSession {
+  educator: string;
+  activity: string;
+  establishment: string;
+  status: string;
+  maximumCapacity: number;
+  beginDate: string;
+}
+
 export interface IDailySession {
   today: [{
     educator: string;

@@ -1,20 +1,11 @@
 'use client';
 import { signOut, useSession } from "next-auth/react";
-import React, { ReactElement, useEffect, useState } from "react";
+import React from "react";
 import Link from 'next/link'
 
-export default function Navbar() {
-    const [window, setWindow] = useState(false);
-    const [activeIndex, setActiveIndex] = useState<number | null>(0);
+export default function Header() {
     const { data: session } = useSession();
-
-    let openClose = () => {
-        if (window === false) {
-            setWindow(true);
-        } else {
-            setWindow(false);
-        }
-    };
+    console.log(session);
 
     return (
         session?.user.tokens.accessToken &&
