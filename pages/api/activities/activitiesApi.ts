@@ -1,7 +1,7 @@
 export async function getActivities(session: any, establishmentId?: string) {
 
     try {
-        const response = await fetch(process.env.SERVER_API + `/activities`, {
+        const response = await fetch(process.env.SERVER_API + `/activities?establishmentId=${establishmentId}`, {
             headers: {
                 Authorization: `Bearer ${session.user.tokens.accessToken}`,
             },
