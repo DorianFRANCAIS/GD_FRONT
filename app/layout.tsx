@@ -1,7 +1,7 @@
 "use client";
-import Navbar from '@/app/Navbar'
+import Header from '@/components/Header';
 import './globals.css'
-import { ReactNode, useEffect } from 'react';
+import { ReactNode } from 'react';
 import { SessionProvider } from "next-auth/react";
 
 interface IProps {
@@ -9,12 +9,12 @@ interface IProps {
   session: any;
 }
 
-export default function RootLayout({ children, session }: IProps) {
+function RootLayout({ children, session }: IProps) {
   return (
     <html lang="en">
       <body>
         <SessionProvider session={session}>
-          <Navbar />
+          <Header />
           <div className="w-full">{children}
           </div>
         </SessionProvider>
@@ -22,3 +22,5 @@ export default function RootLayout({ children, session }: IProps) {
     </html>
   )
 }
+
+export default RootLayout;

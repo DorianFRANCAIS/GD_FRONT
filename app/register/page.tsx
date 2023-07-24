@@ -41,7 +41,7 @@ export default function RegisterPage() {
     }
 
     return (
-        <div id="register-page" className="flex flex-col items-start w-full sm:h-fit bg-white p-12 sm:w-[40rem] sm:self-center sm:rounded-3xl sm:p-12 sm:drop-shadow-xl">
+        <div id="register-page" className="mt-5 flex flex-col items-start w-full sm:h-fit bg-white p-12 sm:w-[40rem] sm:self-center sm:rounded-3xl sm:p-12 sm:drop-shadow-xl">
             <h1>Inscrivez-vous</h1>
             <form className="mt-12 flex w-full flex-col items-stretch justify-center" onSubmit={handleSubmit(onSubmit)}>
                 <div className="flex flex-col gap-3">

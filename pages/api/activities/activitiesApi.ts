@@ -1,10 +1,7 @@
-let establishmentIdWithoutQuotes: string;
-export async function handleDogs(session: any, establishmentId: string | null) {
-    if (establishmentId) {
-        establishmentIdWithoutQuotes = establishmentId.replace(/"/g, "");
-    }
+export async function getActivities(session: any, establishmentId?: string) {
+
     try {
-        const response = await fetch(process.env.SERVER_API + `/dogs?establishmentId=${establishmentIdWithoutQuotes}`, {
+        const response = await fetch(process.env.SERVER_API + `/activities`, {
             headers: {
                 Authorization: `Bearer ${session.user.tokens.accessToken}`,
             },
