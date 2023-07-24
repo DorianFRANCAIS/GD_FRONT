@@ -31,9 +31,9 @@ async function Dogs() {
                             <p className="text-xs text-mainColor font-bold">ID national : {dog.nationalId}</p>
                             <p className="text-xs text-mainColor font-bold">Sexe : {dog.gender}</p>
                             <p className="text-xs text-mainColor font-bold">Race : {dog.breed}</p>
-                            <p className="text-gray-600">Poids : {dog.weight} kg</p>
-                            <p className="text-gray-600 mb-4">Taille : {dog.height} cm</p>
-                            <button className="btn text-white px-4 py-2">Voir la fiche client</button>
+                            <p className="text-xs text-mainColor font-bold">Poids : {dog.weight} kg</p>
+                            <p className="text-xs text-mainColor font-bold mb-4">Taille : {dog.height} cm</p>
+                            <button className="btn w-full text-white px-4 py-2">Voir la fiche client</button>
                         </div>
                     ))}
                 </div>

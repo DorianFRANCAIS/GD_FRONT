@@ -9,16 +9,17 @@ import { GetAllStaff } from "@/pages/api/users/getUserInformations";
 import { IUser } from "@/types/IUser";
 import { IActivity } from "@/types/IActivity";
 import { getActivities } from "@/pages/api/activities/activitiesApi";
+import { es } from "date-fns/locale";
 
 async function Agenda(): Promise<JSX.Element> {
   const session = await getServerSession(authOptions);
   const establishments: IEstablishments[] = await handleEstablishments(session);
   const educators: IUser[] = await GetAllStaff(session, null, "Educator");
   let sessions: ISession[] = [];
-  const activities: IActivity[] = await getActivities(session);
+  let activities: IActivity[] = [];
   if (establishments.length > 0) {
     sessions = await GetSessions(session, { establishmentId: establishments[0]._id });
-
+    activities = await getActivities(session, establishments[0]._id);
   }
 
   return (
