@@ -99,7 +99,7 @@ function AgendaPage(props: { sessions: ISession[], educators: IUser[], activitie
       </div>
       <div className='col-span-1 flex-col'>
         <h2 className="text-white text-2xl">Vous souhaitez créer une nouvelle session ?</h2>
-        <button className="btn p-4 mt-2" onClick={openModalSession}>Créer une nouvelle session</button>
+        <button className="btn w-full p-4 mt-2" onClick={openModalSession}>Créer une nouvelle session</button>
         <div className="mt-12">
           <h5 className="text-white text-2xl">Sessions prévues :</h5>
         </div>

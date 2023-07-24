@@ -18,7 +18,7 @@ body {
   background: linear-gradient(180deg, #0289F5 0%, #4466E2 100%);
 }
 .btn {
-  @apply bg-mainColor font-bold text-white rounded-twenty  w-full;
+  @apply bg-mainColor font-bold text-white rounded-twenty;
 }
 
 .btn:hover {

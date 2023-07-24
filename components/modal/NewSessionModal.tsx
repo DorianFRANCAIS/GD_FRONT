@@ -28,6 +28,7 @@ function NewSessionModal(props: { isModalSessionOpen: boolean, closeModalSession
     mode: "onSubmit"
   });
   const { data: session } = useSession();
+  console.log(props.activities)
 
   const onSubmit: SubmitHandler<FormData> = async (
     data: FormData
@@ -85,7 +86,7 @@ function NewSessionModal(props: { isModalSessionOpen: boolean, closeModalSession
             <input className="input-custom" type="datetime-local" {...register("beginDate")} />
           </div>
         </div>
-        <button type="submit" className="btn p-4 mt-5">Créer la session</button>
+        <button type="submit" className="btn w-full p-4 mt-5">Créer la session</button>
       </form>
     </div>
   )
