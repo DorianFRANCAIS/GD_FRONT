@@ -10,6 +10,7 @@ import { GetAllStaff } from "@/pages/api/users/getUserInformations";
 import { IUser } from "@/types/IUser";
 import { IActivity } from "@/types/IActivity";
 import { IEstablishments } from "@/types/IEstablishments";
+import { RxCrossCircled } from 'react-icons/rx';
 
 const sessionSchema = yup.object({
   educator: yup.string().required('Veuillez choisir un éducateur'),
@@ -26,7 +27,7 @@ function NewSessionModal(props: { isModalSessionOpen: boolean, educators: IUser[
     resolver: yupResolver(sessionSchema),
     mode: "onSubmit"
   });
-  const { data: session, status } = useSession();
+  const { data: session } = useSession();
 
   const onSubmit: SubmitHandler<FormData> = async (
     data: FormData
@@ -34,9 +35,15 @@ function NewSessionModal(props: { isModalSessionOpen: boolean, educators: IUser[
     console.log('yo')
     await PostSession(session, { ...data, status: "Pending" });
   };
+
   return (
-    <div className="flex justify-center h-full p-6 z-50 w-full absolute">
+    <div className="flex justify-center p-6 z-50 w-full absolute">
       <form className="bg-blueColor flex flex-col justify-between p-8 w-fit rounded-md" onSubmit={handleSubmit(onSubmit)}>
+        <div
+          className="flex justify-end cursor-pointer"
+        >
+          <RxCrossCircled className="text-mainColor font-bold h-6 w-6" />
+        </div>
         <div className="flex flex-col gap-y-2 mt-4">
           <h2 className="text-3xl text-white">Créer une nouvelle session</h2>
           <div className="">
@@ -78,7 +85,7 @@ function NewSessionModal(props: { isModalSessionOpen: boolean, educators: IUser[
             <input className="input-custom" type="datetime-local" {...register("beginDate")} />
           </div>
         </div>
-        <button type="submit" className="btn p-4">Créer la session</button>
+        <button type="submit" className="btn p-4 mt-5">Créer la session</button>
       </form>
     </div>
   )

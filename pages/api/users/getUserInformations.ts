@@ -18,7 +18,7 @@ export async function handleInfosUser(session: any) {
     }
 }
 
-export async function GetAllStaff(session: any, establishmentId?: string, role?: string) {
+export async function GetAllStaff(session: any, establishmentId: string | null, role?: string) {
     try {
         let url = process.env.SERVER_API + '/users';
         if (establishmentId) {

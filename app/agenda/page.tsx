@@ -13,7 +13,7 @@ import { getActivities } from "@/pages/api/activities/activitiesApi";
 async function Agenda(): Promise<JSX.Element> {
   const session = await getServerSession(authOptions);
   const establishments: IEstablishments[] = await handleEstablishments(session);
-  const educators: IUser[] = await GetAllStaff(session, undefined, "Educator");
+  const educators: IUser[] = await GetAllStaff(session, null, "Educator");
   let sessions: ISession[] = [];
   const activities: IActivity[] = await getActivities(session);
   if (establishments.length > 0) {

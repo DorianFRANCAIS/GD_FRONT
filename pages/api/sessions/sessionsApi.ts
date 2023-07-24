@@ -1,4 +1,4 @@
-import { IPostSession, ISession } from "@/types/ISession";
+import { IPostSession } from "@/types/ISession";
 
 export async function PostSession(session: any, sessionInfos: IPostSession) {
   console.log("infos", sessionInfos)
@@ -20,8 +20,6 @@ export async function PostSession(session: any, sessionInfos: IPostSession) {
 
 export async function GetSessions(session: any, params: any) {
   try {
-    console.log("url", params)
-
     let url = process.env.SERVER_API + `/sessions`;
     if (params.establishmentId) {
       url += `?establishmentId=${params.establishmentId}`;

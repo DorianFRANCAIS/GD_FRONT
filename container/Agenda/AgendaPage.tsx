@@ -60,7 +60,7 @@ function AgendaPage(props: { sessions: ISession[], educators: IUser[], activitie
     setIsModalSessionOpen(true)
   }
   return (
-    <div className='grid grid-cols-2 gap-4 max-h-100'>
+    <div className={`grid grid-cols-2 gap-4 max-h-100`}>
       {isModalSessionOpen && <NewSessionModal isModalSessionOpen={isModalSessionOpen} educators={props.educators} activities={props.activities} establishments={props.establishments} />}
       <div className='col-span-3 rounded-3xl p-4 mb-5 wrapper h-100'>
         <FullCalendar
