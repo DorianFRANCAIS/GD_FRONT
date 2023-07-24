@@ -37,6 +37,9 @@ function AgendaPage(props: { sessions: ISession[], educators: IUser[], activitie
   const calendarRef = useRef<FullCalendar | null>(null);
   const [events, setEvents] = useState<IEvent[]>()
   const [isModalSessionOpen, setIsModalSessionOpen] = useState<boolean>(false);
+  const today = new Date();
+  const isoDateString = today.toISOString();
+
 
   useEffect(() => {
     console.log(props.activities)
@@ -59,10 +62,15 @@ function AgendaPage(props: { sessions: ISession[], educators: IUser[], activitie
     e.preventDefault()
     setIsModalSessionOpen(true)
   }
+
+  const closeModalSession = () => {
+    setIsModalSessionOpen(false);
+  };
+
   return (
-    <div className={`grid grid-cols-2 gap-4 max-h-100`}>
-      {isModalSessionOpen && <NewSessionModal isModalSessionOpen={isModalSessionOpen} educators={props.educators} activities={props.activities} establishments={props.establishments} />}
-      <div className='col-span-3 rounded-3xl p-4 mb-5 wrapper h-100'>
+    <div className={`grid grid-cols-2 gap-4`}>
+      {isModalSessionOpen && <NewSessionModal isModalSessionOpen={isModalSessionOpen} closeModalSession={closeModalSession} educators={props.educators} activities={props.activities} establishments={props.establishments} />}
+      <div className='col-span-3 rounded-3xl p-4 mb-5 wrapper'>
         <FullCalendar
           plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
           initialView={"timeGridWeek"}
@@ -89,30 +97,27 @@ function AgendaPage(props: { sessions: ISession[], educators: IUser[], activitie
           ref={calendarRef}
         />
       </div>
-      <div className='col-span-1 flex-col h-100'>
+      <div className='col-span-1 flex-col'>
         <h2 className="text-white text-2xl">Vous souhaitez créer une nouvelle session ?</h2>
         <button className="btn p-4 mt-2" onClick={openModalSession}>Créer une nouvelle session</button>
         <div className="mt-12">
           <h5 className="text-white text-2xl">Sessions prévues :</h5>
         </div>
-        <div className={` ${props.sessions.length > 4 ? 'h-100' : ''}`}>
-          {props.sessions && props.sessions.map((session, idx) => (
-            <div key={idx} className='mt-2 bg-white flex justify-between items-center rounded-twenty p-4 mb-5'>
-              <div className="flex w-full">
-                <img
-                  src={session.activity.imageUrl}
-                  alt="Profile"
-                  className="avatar rounded-full"
-                />
-                <div className="ml-2 flex w-full items-center flex-col">
-                  <p>{session.activity.title}</p>
-                  <p className="text-greyBoldColor">{"Le " + format(new Date(session.beginDate), "dd MMMM yyyy 'à' HH'h'mm", { locale: fr })}</p>
-                </div>
-              </div>
-              <p className="flex">Voir plus</p>
+        {props.sessions && props.sessions.map((session, idx) => (
+          isoDateString < session.beginDate &&
+          <div key={idx} className='mt-2 bg-white flex justify-between items-center rounded-twenty p-4 mb-5'>
+            <img
+              src={session.activity.imageUrl}
+              alt="Profile"
+              className="avatar rounded-full"
+            />
+            <div className="ml-2 flex items-center flex-col">
+              <p>{session.activity.title}</p>
+              <p className="text-greyBoldColor">{"Le " + format(new Date(session.beginDate), "dd MMMM yyyy 'à' HH'h'mm", { locale: fr })}</p>
             </div>
-          ))}
-        </div>
+            <p className="">Voir plus</p>
+          </div>
+        ))}
       </div >
     </div>
   )

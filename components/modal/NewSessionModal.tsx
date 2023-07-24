@@ -22,7 +22,7 @@ const sessionSchema = yup.object({
 
 type FormData = yup.InferType<typeof sessionSchema>;
 
-function NewSessionModal(props: { isModalSessionOpen: boolean, educators: IUser[], activities: IActivity[], establishments: IEstablishments[] }) {
+function NewSessionModal(props: { isModalSessionOpen: boolean, closeModalSession: () => void, educators: IUser[], activities: IActivity[], establishments: IEstablishments[] }) {
   const { register, handleSubmit, formState: { errors } } = useForm<FormData>({
     resolver: yupResolver(sessionSchema),
     mode: "onSubmit"
@@ -32,7 +32,6 @@ function NewSessionModal(props: { isModalSessionOpen: boolean, educators: IUser[
   const onSubmit: SubmitHandler<FormData> = async (
     data: FormData
   ) => {
-    console.log('yo')
     await PostSession(session, { ...data, status: "Pending" });
   };
 
@@ -41,6 +40,7 @@ function NewSessionModal(props: { isModalSessionOpen: boolean, educators: IUser[
       <form className="bg-blueColor flex flex-col justify-between p-8 w-fit rounded-md" onSubmit={handleSubmit(onSubmit)}>
         <div
           className="flex justify-end cursor-pointer"
+          onClick={props.closeModalSession}
         >
           <RxCrossCircled className="text-mainColor font-bold h-6 w-6" />
         </div>

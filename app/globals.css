@@ -53,3 +53,7 @@ h1 {
 .active-menu {
   @apply bg-white;
 }
+
+.scrollable-div {
+  @apply overflow-auto h-screen;
+}
