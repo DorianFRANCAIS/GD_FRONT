@@ -8,6 +8,8 @@ export async function PostSession(session: any, sessionInfos: IPostSession) {
       method: 'POST',
       headers: {
         Authorization: `Bearer ${session.user.tokens.accessToken}`,
+        'Content-Type': 'application/json',
+        "Access-Control-Allow-Origin": "*", // Required for CORS support to work
       },
       body: JSON.stringify(sessionInfos),
     });

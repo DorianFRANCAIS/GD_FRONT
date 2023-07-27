@@ -54,4 +54,35 @@ export const authOptions: NextAuthOptions = {
     }
 };
 
+/*async function refreshAccessToken(token: string) {
+    try {
+  
+      const response = await fetch(backendURL +'/users/refresh', {
+        headers: {
+            "Content-Type": "application/json",
+        },
+      })
+  
+      const refreshedTokens = await response.json()
+  
+      if (!response.ok) {
+        throw refreshedTokens
+      }
+  
+      return {
+        ...token,
+        accessToken: refreshedTokens.access_token,
+        accessTokenExpires: Date.now() + refreshedTokens.expires_in * 1000,
+        refreshToken: refreshedTokens.refresh_token ?? token.refreshToken // Fall back to old refresh token
+      }
+    } catch (error) {
+      console.log(error)
+  
+      return {
+        ...token,
+        error: 'RefreshAccessTokenError'
+      }
+    }
+  }*/
+
 export default NextAuth(authOptions);

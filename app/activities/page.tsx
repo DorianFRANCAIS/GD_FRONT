@@ -3,7 +3,6 @@ import { authOptions } from "@/pages/api/auth/[...nextauth]";
 import { handleDogs } from "@/pages/api/dogs/dogsApi";
 import { IEstablishments } from "../establishments/page";
 import handleEstablishments from "@/pages/api/establishments/establishmentsApi";
-import { IDogs } from "@/types/IDogs";
 import { getActivities } from "@/pages/api/activities/activitiesApi";
 import { IActivity } from "@/types/IActivity";
 

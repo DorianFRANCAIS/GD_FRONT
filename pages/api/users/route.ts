@@ -1,5 +1,7 @@
 // pages/api/getData.js
 
+import { INewUser, IUser } from "@/types/IUser";
+
 export async function handleInfosUser(session: any) {
     try {
         const response = await fetch(process.env.SERVER_API + `/users/${session?.user.user._id}`, {
@@ -38,6 +40,20 @@ export async function GetAllStaff(session: any, establishmentId: string | null, 
             console.log(data);
         }
         return data;
+    } catch (error) {
+        console.error('Error fetching data:', error);
+    }
+}
+
+export async function handleRegister(newUser: INewUser) {
+    console.log("new", newUser)
+    try {
+        const response = await fetch(process.env.SERVER_API + `/users/register`, {
+            method: 'POST',
+            body: JSON.stringify(newUser),
+        });
+        await response.json();
+        return true;
     } catch (error) {
         console.error('Error fetching data:', error);
     }

@@ -6,7 +6,7 @@ import { IEstablishments } from "@/types/IEstablishments";
 import { IDogs } from "@/types/IDogs";
 import { GetDailySessions } from "@/pages/api/sessions/sessionsApi";
 import { IDailySession } from "@/types/ISession";
-import { GetAllStaff } from "@/pages/api/users/getUserInformations";
+import { GetAllStaff } from "@/pages/api/users/route";
 import { IUser } from "@/types/IUser";
 import { format } from "date-fns";
 import { fr } from "date-fns/locale";

@@ -3,7 +3,7 @@
 import { SubmitHandler, useForm } from "react-hook-form";
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from "yup";
-import { axiosClient } from "@/utils/apiClient";
+import { handleRegister } from "@/pages/api/users/route";
 
 
 const registerSchema = yup.object({
@@ -32,12 +32,9 @@ export default function RegisterPage() {
         data: FormData
         ,
     ) => {
-        try {
-            const response = await axiosClient.post('/users/register', data,)
-            return response
-        } catch (error) {
-            throw error;
-        }
+        const newDate = new Date(data.birthDate)
+        console.log(data)
+        await handleRegister({ ...data, birthDate: newDate.toISOString(), role: "Client" })
     }
 
     return (

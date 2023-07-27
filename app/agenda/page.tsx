@@ -5,7 +5,7 @@ import { ISession } from "@/types/ISession";
 import { GetSessions } from "@/pages/api/sessions/sessionsApi";
 import handleEstablishments from "@/pages/api/establishments/establishmentsApi";
 import { IEstablishments } from "@/types/IEstablishments";
-import { GetAllStaff } from "@/pages/api/users/getUserInformations";
+import { GetAllStaff } from "@/pages/api/users/route";
 import { IUser } from "@/types/IUser";
 import { IActivity } from "@/types/IActivity";
 import { getActivities } from "@/pages/api/activities/activitiesApi";

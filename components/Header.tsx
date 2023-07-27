@@ -2,10 +2,18 @@
 import { signOut, useSession } from "next-auth/react";
 import React from "react";
 import Link from 'next/link'
+import { BiLogOut } from "react-icons/bi";
 
 export default function Header() {
     const { data: session } = useSession();
     console.log(session);
+
+    const handleLogout = async () => {
+        await signOut({
+            redirect: true,
+            callbackUrl: "/login"
+        });
+    };
 
     return (
         session?.user.tokens.accessToken &&
@@ -30,6 +38,9 @@ export default function Header() {
                         <Link href="/team">
                             Mon équipe
                         </Link>
+                        <button onClick={() => handleLogout()} className="text-white flex items-center">
+                            Se déconnecter
+                        </button>
                         <Link href="/account">
                             <img
                                 src={session?.user.user.avatarUrl ? session?.user.user.avatarUrl : "/img/avatar.svg"}
@@ -37,7 +48,6 @@ export default function Header() {
                                 className="avatar rounded-full"
                             />
                         </Link>
-
                     </div>
                 </div>
             </div>
