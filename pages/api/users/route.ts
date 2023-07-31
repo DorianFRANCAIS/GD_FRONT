@@ -1,6 +1,8 @@
 // pages/api/getData.js
 
+import middleware from "@/middleware";
 import { INewUser, IUser } from "@/types/IUser";
+import { NextRequest, NextResponse } from "next/server";
 
 export async function handleInfosUser(session: any) {
     try {
@@ -46,14 +48,20 @@ export async function GetAllStaff(session: any, establishmentId: string | null, 
 }
 
 export async function handleRegister(newUser: INewUser) {
-    console.log("new", newUser)
+    //const newUser: INewUser = await request.json();
+    console.log('laaa', newUser.emailAddress)
     try {
         const response = await fetch(process.env.SERVER_API + `/users/register`, {
             method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
             body: JSON.stringify(newUser),
         });
-        await response.json();
-        return true;
+        console.log(response)
+        const data = await response.json()
+        console.log("new", data)
+        return NextResponse.json(data)
     } catch (error) {
         console.error('Error fetching data:', error);
     }

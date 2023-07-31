@@ -9,3 +9,13 @@ export interface IActivity {
   title: string;
   _id: string;
 }
+
+export interface IPostActivity {
+  establishment: string;
+  title: string;
+  description: string;
+  imageUrl: string;
+  color: string;
+  duration: number;
+  price: number;
+}

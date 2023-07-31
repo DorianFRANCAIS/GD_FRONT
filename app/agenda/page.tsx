@@ -9,7 +9,6 @@ import { GetAllStaff } from "@/pages/api/users/route";
 import { IUser } from "@/types/IUser";
 import { IActivity } from "@/types/IActivity";
 import { getActivities } from "@/pages/api/activities/activitiesApi";
-import { es } from "date-fns/locale";
 
 async function Agenda(): Promise<JSX.Element> {
   const session = await getServerSession(authOptions);

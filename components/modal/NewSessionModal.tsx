@@ -30,7 +30,9 @@ function NewSessionModal(props: { isModalSessionOpen: boolean, closeModalSession
   const onSubmit: SubmitHandler<FormData> = async (
     data: FormData
   ) => {
-    await PostSession(session, { ...data, status: "Pending" });
+    const newBeginDate = new Date(data.beginDate)
+    await PostSession(session, { ...data, beginDate: newBeginDate.toISOString(), status: "Pending" });
+    props.closeModalSession();
   };
 
   return (
@@ -46,7 +48,7 @@ function NewSessionModal(props: { isModalSessionOpen: boolean, closeModalSession
           <h2 className="text-3xl text-white">Créer une nouvelle session</h2>
           <div className="">
             <label className="text-white">Educateur</label>
-            <select className="input-custom" {...register("educator")}>
+            <select className="py-3 px-4 pr-9 block w-full border-mainColor rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400" {...register("educator")}>
               {props.educators.map((educator, idx) => {
                 return (
                   <option key={idx} value={educator._id}>{educator.firstname} {educator.lastname}</option>
@@ -56,7 +58,7 @@ function NewSessionModal(props: { isModalSessionOpen: boolean, closeModalSession
           </div>
           <div className="">
             <label className="text-white">Activité</label>
-            <select className="input-custom" {...register("activity")}>
+            <select className="py-3 px-4 pr-9 block w-full border-mainColor rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400" {...register("activity")}>
               {props.activities.map((activity, idx) => {
                 return (
                   <option key={idx} value={activity._id}>{activity.title}</option>
@@ -66,7 +68,7 @@ function NewSessionModal(props: { isModalSessionOpen: boolean, closeModalSession
           </div>
           <div className="">
             <label className="text-white">Etablissement</label>
-            <select className="input-custom" {...register("establishment")}>
+            <select className="py-3 px-4 pr-9 block w-full border-mainColor rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400" {...register("establishment")}>
               {props.establishments.map((establishment, idx) => {
                 return (
                   <option key={idx} value={establishment._id}>{establishment.name}</option>
@@ -76,14 +78,21 @@ function NewSessionModal(props: { isModalSessionOpen: boolean, closeModalSession
           </div>
           <div>
             <label className="text-white">Capacité de la session</label>
-            <input className="input-custom" type="number" {...register("maximumCapacity")} />
+            <input
+              className="py-3 px-4 block w-full rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-slate-900 border-mainColor dark:text-gray-400"
+              type="number"
+              {...register("maximumCapacity")} />
           </div>
           <div>
             <label className="text-white">Date de la session</label>
-            <input className="input-custom" type="datetime-local" {...register("beginDate")} />
+            <input
+              type="datetime-local"
+              className="py-3 px-4 block w-full border-gray-200 rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400"
+              {...register("beginDate")}
+            />
           </div>
         </div>
-        <button type="submit" className="btn w-full p-4 mt-5">Créer la session</button>
+        <button type="submit" className="btn w-full p-4 mt-5">Enregistrer</button>
       </form>
     </div>
   )

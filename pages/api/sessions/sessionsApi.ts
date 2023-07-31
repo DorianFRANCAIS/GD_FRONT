@@ -1,15 +1,12 @@
 import { IPostSession } from "@/types/ISession";
 
 export async function PostSession(session: any, sessionInfos: IPostSession) {
-  console.log("infos", sessionInfos)
-  console.log(session, "iciii")
   try {
     const response = await fetch(process.env.SERVER_API + `/sessions`, {
       method: 'POST',
       headers: {
         Authorization: `Bearer ${session.user.tokens.accessToken}`,
         'Content-Type': 'application/json',
-        "Access-Control-Allow-Origin": "*", // Required for CORS support to work
       },
       body: JSON.stringify(sessionInfos),
     });
