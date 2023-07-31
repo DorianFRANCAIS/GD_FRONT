@@ -3,6 +3,7 @@ import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 
 export interface IEstablishments {
+    _id: string;
     address: string;
     emailAddress: string;
     employees: [object];
@@ -26,7 +27,6 @@ export default function EtablishmentPage() {
         { id: 8, name: 'Paw Prints', location: 'City H' },
         { id: 9, name: 'Doggie Delight', location: 'City I' },
     ];
-    const [estasblishments, setEstablishments] = useState<IEstablishments[]>([]);
 
     useEffect(() => {
         const fetchEstablishments = async () => {
@@ -40,7 +40,7 @@ export default function EtablishmentPage() {
                     throw new Error('La requête a échoué avec le statut : ' + response.status);
                 }
                 const data = await response.json();
-                setEstablishments(data)
+                //setEstablishments(data)
                 return response
             } catch (error) {
                 throw error;

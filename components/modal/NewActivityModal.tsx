@@ -19,7 +19,7 @@ const activitySchema = yup.object({
 
 type FormData = yup.InferType<typeof activitySchema>;
 
-function NewActivityModal(props: { isModalActivityOpen: boolean, closeModalActivity: () => void, establishments: IEstablishments[] }) {
+function NewActivityModal(props: { isModalAcitivityOpen: boolean, closeModalActivity: () => void, establishments: IEstablishments[] }) {
     const { register, control, handleSubmit, formState: { errors } } = useForm<FormData>({
         resolver: yupResolver(activitySchema),
         mode: "onSubmit"

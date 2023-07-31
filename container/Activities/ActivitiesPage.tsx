@@ -24,7 +24,7 @@ function ActivitiesPage(props: { activities: IActivity[], establishments: IEstab
                     <h3 className="text-mainColor text-3xl font-bold mb-2">Activitées de l'établissement</h3>
                     <button className="btn text-white px-4 py-2" onClick={openModalActivity}>Créer une nouvelle activitée</button>
                 </div>
-                <div className="grid grid-cols-4 gap-x-8 w-full">
+                <div className="grid grid-cols-4 gap-x-2 w-full">
                     {props.activities && props.activities.map((activity, idx) => (
                         <div key={idx} className="bg-white rounded-lg shadow-md p-4 max-w-md">
                             <img
