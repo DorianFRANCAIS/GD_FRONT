@@ -5,6 +5,7 @@ import Link from 'next/link'
 import { BiLogOut } from "react-icons/bi";
 import { AiOutlineTeam, AiOutlineHome, AiOutlineUser } from "react-icons/ai";
 import { FaDog } from "react-icons/fa";
+import { FaBookOpen } from "react-icons/fa";
 
 function Header() {
     const { data: session } = useSession();
@@ -21,7 +22,6 @@ function Header() {
         <div id="hs-overlay-basic" className="hs-overlay hs-overlay-open:translate-x-0 -translate-x-full transition-all duration-300 transform hidden fixed top-0 left-0 bottom-0 z-[60] w-64 bg-white border-r border-gray-200 pt-7 pb-10 overflow-y-auto scrollbar-y lg:block lg:translate-x-0 lg:right-auto lg:bottom-0 dark:scrollbar-y dark:bg-gray-800 dark:border-gray-700">
             <div className="flex justify-between items-center px-6">
                 <a className="flex-none text-xl font-semibold dark:text-white" href="/dashboard" aria-label="Brand">Gestidogs</a>
-
                 <button type="button" className="w-8 h-8 inline-flex justify-center items-center gap-2 rounded-md border border-gray-200 text-gray-600 hover:text-gray-400 transition dark:border-gray-700" data-hs-overlay="#hs-overlay-basic" aria-controls="hs-overlay-basic" aria-label="Toggle navigation">
                     <span className="sr-only">Close Sidebar</span>
                     <svg className="w-3 h-3" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
@@ -41,7 +41,7 @@ function Header() {
                         Profile
                     </a></li>
                     <li><a className="flex items-center gap-x-3 py-2 px-2.5 text-sm text-slate-700 rounded-md hover:bg-gray-100 dark:hover:bg-white/[.05] dark:text-slate-400 dark:hover:text-slate-300" href="/account">
-                        <AiOutlineUser />
+                        <FaBookOpen />
                         Agenda
                     </a></li>
                     <li><a className="flex items-center gap-x-3 py-2 px-2.5 text-sm text-slate-700 rounded-md hover:bg-gray-100 dark:hover:bg-white/[.05] dark:text-slate-400 dark:hover:text-slate-300" href="/activities">

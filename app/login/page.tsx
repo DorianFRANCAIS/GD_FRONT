@@ -32,17 +32,17 @@ export default function LoginPage() {
     window.location.href = "/register";
   }
   return (
-    <div id="login-page" className="flex flex-col items-start w-full sm:h-fit bg-white p-12 sm:w-[40rem] sm:self-center sm:rounded-3xl sm:p-12 sm:drop-shadow-xl">
+    <div className="flex flex-col items-start w-full sm:h-fit bg-white p-12 sm:w-[40rem] sm:self-center sm:rounded-3xl sm:p-12 sm:drop-shadow-xl">
       <h1>Connectez vous</h1>
       <form className="mt-20 flex w-full flex-col items-stretch justify-center" onSubmit={handleSubmit(onSubmit)}>
         <div className="flex flex-col gap-3">
           <div className="mb-4">
             <label className="text-lg	">Email</label>
-            <input className="mt-2" type="email" {...register("emailAddress")} placeholder="E-mail" />
+            <input className="py-3 px-4 block w-full border-mainColor rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400" type="email" {...register("emailAddress")} placeholder="E-mail" />
           </div>
           <div className="flex flex-col">
             <label className="text-lg	">Mot de passe</label>
-            <input className="mt-2" type="password" {...register("password")} placeholder="Mot de passe" />
+            <input className="py-3 px-4 block w-full border-mainColor rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400" type="password" {...register("password")} placeholder="Mot de passe" />
             <span className="flex justify-end text-mainColor mt-2 text-lg">Mot de passe oublié ?</span>
           </div>
         </div>

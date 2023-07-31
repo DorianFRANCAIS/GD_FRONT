@@ -4,6 +4,7 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from "yup";
 import { handleRegister } from "@/pages/api/users/route";
+import { redirect } from "next/navigation";
 
 
 const registerSchema = yup.object({
@@ -33,12 +34,12 @@ export default function RegisterPage() {
         ,
     ) => {
         const newDate = new Date(data.birthDate)
-        console.log(data)
         await handleRegister({ ...data, birthDate: newDate.toISOString(), role: "Client" })
+        redirect("/login")
     }
 
     return (
-        <div id="register-page" className="mt-5 flex flex-col items-start w-full sm:h-fit bg-white p-12 sm:w-[40rem] sm:self-center sm:rounded-3xl sm:p-12 sm:drop-shadow-xl">
+        <div className="flex flex-col items-start w-full sm:h-fit bg-white p-12 sm:w-[40rem] sm:self-center sm:rounded-3xl sm:p-12 sm:drop-shadow-xl">
             <h1>Inscrivez-vous</h1>
             <form className="mt-12 flex w-full flex-col items-stretch justify-center" onSubmit={handleSubmit(onSubmit)}>
                 <div className="flex flex-col gap-3">
