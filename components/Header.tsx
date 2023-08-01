@@ -6,7 +6,7 @@ import { RiTeamLine } from "react-icons/ri";
 import { LiaDogSolid } from "react-icons/lia";
 import { BiLogOut } from "react-icons/bi";
 import { FaCalendarAlt } from "react-icons/fa";
-import { MdWorkOutline } from "react-icons/md";
+import { MdWorkOutline, MdOutlineManageAccounts } from "react-icons/md";
 import { AiFillDashboard } from "react-icons/ai";
 import { useEffect, useState } from "react";
 
@@ -99,6 +99,12 @@ function Sidebar() {
                             <Link href="/team" className="flex items-center p-2 text-mainColor rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
                                 <RiTeamLine className="flex-shrink-0 w-5 h-5 text-mainColor transition duration-75 dark:text-gray-400 group-hover:text-mainColor dark:group-hover:text-white" />
                                 <span className="flex-1 ml-3 whitespace-nowrap">Mon équipe</span>
+                            </Link>
+                        </li>
+                        <li>
+                            <Link href="/account" className="flex items-center p-2 text-mainColor rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+                                <MdOutlineManageAccounts className="flex-shrink-0 w-5 h-5 text-mainColor transition duration-75 dark:text-gray-400 group-hover:text-mainColor dark:group-hover:text-white" />
+                                <span className="flex-1 ml-3 whitespace-nowrap">Mon profile</span>
                             </Link>
                         </li>
                         <li>
