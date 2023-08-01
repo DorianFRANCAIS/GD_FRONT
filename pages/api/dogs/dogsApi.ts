@@ -1,3 +1,5 @@
+import { IDogs, IPostDog } from "@/types/IDogs";
+
 let establishmentIdWithoutQuotes: string;
 export async function handleDogs(session: any, establishmentId: string | null) {
     if (establishmentId) {
@@ -17,5 +19,22 @@ export async function handleDogs(session: any, establishmentId: string | null) {
         return data;
     } catch (error) {
         console.error('Error fetching data:', error);
+    }
+}
+
+export async function PostDog(session: any, newDog: IPostDog) {
+    try {
+        const response = await fetch(process.env.SERVER_API + `/dogs`, {
+            method: 'POST',
+            headers: {
+                Authorization: `Bearer ${session.user.tokens.accessToken}`,
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(newDog),
+        });
+        await response.json();
+        return true;
+    } catch (error) {
+        console.error('Error post data:', error);
     }
 }

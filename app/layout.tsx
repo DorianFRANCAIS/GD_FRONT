@@ -1,8 +1,9 @@
 "use client";
-import Header from '@/components/Header';
 import './globals.css'
 import { ReactNode, useEffect } from 'react';
 import { SessionProvider } from "next-auth/react";
+import Header from '@/components/Header';
+import { initFlowbite } from 'flowbite';
 
 interface IProps {
   children: ReactNode;
@@ -10,6 +11,9 @@ interface IProps {
 }
 
 function RootLayout({ children, session }: IProps) {
+  useEffect(() => {
+    initFlowbite();
+  }, [])
   return (
     <html lang="en">
       <body>
