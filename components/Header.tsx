@@ -19,6 +19,7 @@ function Sidebar() {
     };
 
     return (
+        session?.user.tokens.accessToken &&
         <>
             <nav className="fixed top-0 z-50 w-full bg-blueColor">
                 <div className="px-3 py-3 lg:px-5 lg:pl-3">
@@ -51,7 +52,7 @@ function Sidebar() {
                     </div>
                     <ul className="space-y-2 font-medium">
                         <li>
-                            <a href="#" className="flex items-center p-2 text-mainColor rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+                            <a href="/dashboard" className="flex items-center p-2 text-mainColor rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
                                 <AiFillDashboard className="flex-shrink-0 w-5 h-5 text-mainColor transition duration-75 dark:text-gray-400 group-hover:text-mainColor dark:group-hover:text-white" />
                                 <span className="ml-3">Dashboard</span>
                             </a>
@@ -81,7 +82,7 @@ function Sidebar() {
                             </Link>
                         </li>
                         <li>
-                            <div onClick={handleLogout} className="flex items-center p-2 text-mainColor rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+                            <div onClick={handleLogout} className="flex items-center cursor-pointer p-2 text-mainColor rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
                                 <BiLogOut className="flex-shrink-0 w-5 h-5 text-mainColor transition duration-75 dark:text-gray-400 group-hover:text-mainColor dark:group-hover:text-white" />
                                 <span className="flex-1 ml-3 whitespace-nowrap">Se déconnecter</span>
                             </div>
@@ -89,7 +90,6 @@ function Sidebar() {
                     </ul>
                 </div>
             </aside>
-
         </>
     )
 };

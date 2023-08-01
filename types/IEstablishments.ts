@@ -11,3 +11,8 @@ export interface IEstablishments {
   ],
   schedules: [any]
 }
+
+export interface IEstablishmentsSelect {
+  _id: string;
+  name: string;
+}
