@@ -27,7 +27,7 @@ function NewDogModal(props: { establishments: IEstablishmentsSelect[] }) {
     });
     const { data: session } = useSession();
 
-
+    console.log(props.establishments)
     const onSubmit: SubmitHandler<FormData> = async (
         data: FormData
     ) => {
