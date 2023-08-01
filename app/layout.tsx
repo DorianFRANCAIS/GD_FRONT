@@ -10,14 +10,6 @@ interface IProps {
 }
 
 function RootLayout({ children, session }: IProps) {
-
-  useEffect(() => {
-    const initPreline = async () => {
-      // @ts-ignore
-      await import('preline')
-    }
-    initPreline()
-  }, [])
   return (
     <html lang="en">
       <body>

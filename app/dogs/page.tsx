@@ -14,7 +14,6 @@ async function Dogs() {
     if (establishments.length > 0) {
         dogs = await handleDogs(session, establishments[0]._id);
     }
-    console.log(dogs)
     return (
         <div className="flex justify-center items-start gap-x-12 w-full">
             <div className="bg-greyColor w-full p-6 rounded-md ">

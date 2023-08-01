@@ -1,9 +1,12 @@
+import { IActivity } from "./IActivity";
+import { IEstablishments } from "./IEstablishments";
+
 export interface IUser {
-  activities: [],
+  activities: [string],
+  establishments: IEstablishments[],
   _id: string,
   lastname: string,
   firstname: string,
-
   avatarUrl: string,
   role: string,
   emailAddress: string,
