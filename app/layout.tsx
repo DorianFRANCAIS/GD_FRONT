@@ -1,7 +1,7 @@
 "use client";
 import Header from '@/components/Header';
 import './globals.css'
-import { ReactNode } from 'react';
+import { ReactNode, useEffect } from 'react';
 import { SessionProvider } from "next-auth/react";
 
 interface IProps {

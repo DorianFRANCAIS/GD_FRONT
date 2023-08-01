@@ -37,7 +37,6 @@ export default function Header() {
                                 className="avatar rounded-full"
                             />
                         </Link>
-
                     </div>
                 </div>
             </div>

@@ -2,7 +2,7 @@ import { format } from "date-fns";
 import { fr } from 'date-fns/locale';
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/pages/api/auth/[...nextauth]";
-import { handleInfosUser } from "@/pages/api/users/getUserInformations";
+import { handleInfosUser } from "@/pages/api/users/route";
 export interface IUser {
     _id: string;
     lastname: string;

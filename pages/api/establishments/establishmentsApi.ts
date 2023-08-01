@@ -1,5 +1,8 @@
 export default async function handleEstablishments(session: any) {
-    const ownerId: string = session.user.user._id;
+    let ownerId: string = '';
+    if (session) {
+        ownerId = session.user.user._id;
+    }
     try {
         const response = await fetch(process.env.SERVER_API + `/establishments?ownerId=${ownerId}`, {
             headers: {

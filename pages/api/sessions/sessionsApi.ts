@@ -1,13 +1,12 @@
 import { IPostSession } from "@/types/ISession";
 
 export async function PostSession(session: any, sessionInfos: IPostSession) {
-  console.log("infos", sessionInfos)
-  console.log(session, "iciii")
   try {
     const response = await fetch(process.env.SERVER_API + `/sessions`, {
       method: 'POST',
       headers: {
         Authorization: `Bearer ${session.user.tokens.accessToken}`,
+        'Content-Type': 'application/json',
       },
       body: JSON.stringify(sessionInfos),
     });
