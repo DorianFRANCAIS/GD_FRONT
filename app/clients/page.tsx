@@ -13,6 +13,7 @@ async function Clients(): Promise<JSX.Element> {
     if (establishment) {
         clients = await GetAllStaff(session, establishment._id, "Client");
     }
+
     console.log(clients)
     return (
         <div className="h-screen">
