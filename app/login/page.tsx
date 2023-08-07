@@ -38,11 +38,13 @@ export default function LoginPage() {
         <div className="flex flex-col gap-3">
           <div className="mb-4">
             <label className="text-lg	">Email</label>
-            <input className="py-3 px-4 block w-full border-mainColor rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400" type="email" {...register("emailAddress")} placeholder="E-mail" />
+            <input className="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
+              type="email" {...register("emailAddress")} placeholder="E-mail" />
           </div>
           <div className="flex flex-col">
             <label className="text-lg	">Mot de passe</label>
-            <input className="py-3 px-4 block w-full border-mainColor rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400" type="password" {...register("password")} placeholder="Mot de passe" />
+            <input className="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
+              type="password" {...register("password")} placeholder="Mot de passe" />
             <span className="flex justify-end text-mainColor mt-2 text-lg">Mot de passe oublié ?</span>
           </div>
         </div>
