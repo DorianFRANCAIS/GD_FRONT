@@ -2,11 +2,12 @@ import { IDogs, IPostDog } from "@/types/IDogs";
 
 let establishmentIdWithoutQuotes: string;
 export async function handleDogs(session: any, establishmentId?: string | null, ownerId?: string) {
-    let url = process.env.SERVER_API + `/sessions`;
+    let url = process.env.SERVER_API + `/dogs`;
     if (establishmentId) {
         establishmentIdWithoutQuotes = establishmentId.replace(/"/g, "");
         url += `?establishmentId=${establishmentIdWithoutQuotes}`;
-    } else if (ownerId) {
+    }
+    if (ownerId) {
         url += `?ownerId=${ownerId}`;
     }
     try {
@@ -16,7 +17,7 @@ export async function handleDogs(session: any, establishmentId?: string | null, 
             },
         });
         const data = await response.json();
-
+        console.log("data", data)
         if (response.status === 200) {
             console.log(data);
         }
