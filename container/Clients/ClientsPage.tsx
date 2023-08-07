@@ -19,11 +19,11 @@ function ClientsPage(props: { clients: IUser[] }) {
                         <tbody className="divide-y">
                             {props.clients && props.clients.map((client, idx) => (
                                 <tr key={idx} className="hover:bg-gray-50">
-                                    
+
                                     <td className="px-6 py-4">{client.firstname} {client.lastname}</td>
                                     <td className="px-6 py-4">{client.emailAddress}</td>
                                     <td className="px-6 py-4">{client.phoneNumber}</td>
-                                    <td><Link href={`/users/${client._id}`}>Voir la fiche</Link></td>
+                                    <td><Link href={`/clients/${client._id}`}>Voir la fiche</Link></td>
                                 </tr>
                             ))}
                         </tbody>

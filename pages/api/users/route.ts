@@ -47,7 +47,7 @@ export async function GetAllStaff(session: any, establishmentId: string | null, 
     }
 }
 
-export async function GetClientById(session: any, userId:string) {
+export async function GetClientById(session: any, userId: string) {
     try {
         const response = await fetch(`users/${userId}`, {
             headers: {

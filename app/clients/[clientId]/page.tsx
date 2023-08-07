@@ -1,21 +1,25 @@
+import ClientByIdPage from "@/container/Clients/client/ClientByIdPage";
 import { authOptions } from "@/pages/api/auth/[...nextauth]";
 import { GetClientById } from "@/pages/api/users/route";
 import { IUser } from "@/types/IUser";
 import { getServerSession } from "next-auth";
 
 type Params = {
-    params:  {
+    params: {
         clientId: string;
     }
 }
-async function ClientPage({params:{clientId}}:Params) {
+async function Client({ params: { clientId } }: Params) {
     const session = await getServerSession(authOptions);
-    const client: IUser = await GetClientById(session,clientId);
+    const clientData: Promise<IUser> = GetClientById(session, clientId);
+
+    const client = await clientData;
+    console.log(client)
     return (
         <div>
-            {client.firstname}
+            <ClientByIdPage client={client} />
         </div>
     )
 };
 
-export default ClientPage;
+export default Client;
