@@ -1,9 +1,14 @@
-function ProfilePage() {
+import { IUser } from "@/types/IUser";
+
+function ProfilePage(props: { client: IUser }) {
     return (
-        <div className="p-4">
-            <div className="relative">
-                <img src="/img/avatar.svg" alt="Photo de Profil"
+        props.client &&
+        <div className="grid grid-cols-2 p-4">
+            <div className="col-span-2 flex flex-col items-center">
+                <img src={props.client.avatarUrl ? props.client.avatarUrl : "/img/avatar.svg"} alt="Photo de Profil"
                     className="w-32 h-32 mx-auto rounded-full border-4 border-white shadow-lg" />
+                <h1 className="mt-5">{props.client.firstname} {props.client.lastname}</h1>
+                <p>Client depuis le {props.client.registeredAt}</p>
             </div>
             <div className="mt-4">
                 <div className="mt-2">
@@ -11,6 +16,7 @@ function ProfilePage() {
                     <input
                         type="text"
                         className="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
+                        defaultValue={props.client.lastname}
                     />
                 </div>
                 <div className="mt-2">
@@ -18,6 +24,7 @@ function ProfilePage() {
                     <input
                         type="text"
                         className="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
+                        defaultValue={props.client.firstname}
                     />
                 </div>
                 <div className="mt-4">
@@ -25,6 +32,7 @@ function ProfilePage() {
                     <input
                         type="text"
                         className="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
+                        defaultValue={props.client.emailAddress}
                     />
                 </div>
                 <div className="mt-4">
@@ -32,6 +40,7 @@ function ProfilePage() {
                     <input
                         type="text"
                         className="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
+                        defaultValue={props.client.phoneNumber}
                     />
                 </div>
                 <button type="submit" className="btn w-full p-4 mt-5">Enregistrer</button>

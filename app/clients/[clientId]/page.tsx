@@ -14,7 +14,7 @@ async function Client({ params: { clientId } }: Params) {
     const clientData: Promise<IUser> = GetClientById(session, clientId);
 
     const client = await clientData;
-    console.log(client)
+    console.log("client", client)
     return (
         <div>
             <ClientByIdPage client={client} />
