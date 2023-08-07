@@ -1,4 +1,6 @@
 import { IUser } from "@/types/IUser";
+import { format } from "date-fns";
+import fr from "date-fns/locale/fr";
 
 function ProfilePage(props: { client: IUser }) {
     return (
@@ -8,7 +10,7 @@ function ProfilePage(props: { client: IUser }) {
                 <img src={props.client.avatarUrl ? props.client.avatarUrl : "/img/avatar.svg"} alt="Photo de Profil"
                     className="w-32 h-32 mx-auto rounded-full border-4 border-white shadow-lg" />
                 <h1 className="mt-5">{props.client.firstname} {props.client.lastname}</h1>
-                <p>Client depuis le {props.client.registeredAt}</p>
+                <p>Client depuis le {format(new Date(props.client.registeredAt), 'dd MMMM yyyy', { locale: fr })}</p>
             </div>
             <div className="mt-4">
                 <div className="mt-2">

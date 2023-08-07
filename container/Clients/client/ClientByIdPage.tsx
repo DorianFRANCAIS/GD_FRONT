@@ -4,8 +4,9 @@ import ProfilePage from "./ProfilePage";
 import ClientDogPage from "./ClientDogsPage";
 import { Tabs } from "flowbite-react";
 import { IEstablishments } from "@/types/IEstablishments";
+import { IDogs } from "@/types/IDogs";
 
-function ClientByIdPage(props: { client: IUser, establishments: IEstablishments[] }) {
+function ClientByIdPage(props: { client: IUser, dogs: IDogs[], establishments: IEstablishments[] }) {
     return (
         <div className="flex justify-center items-start gap-x-12 w-full">
             <div className="bg-greyColor w-full p-6 rounded-md ">
@@ -22,7 +23,7 @@ function ClientByIdPage(props: { client: IUser, establishments: IEstablishments[
                     <Tabs.Item
                         title="Chien(s)"
                     >
-                        <ClientDogPage establishments={props.establishments} />
+                        <ClientDogPage establishments={props.establishments} dogs={props.dogs} />
                     </Tabs.Item>
                     <Tabs.Item
                         title="Sessions"
