@@ -3,12 +3,14 @@
 import NewDogModal from "@/components/modal/NewDogModal";
 import { IDogs } from "@/types/IDogs";
 import { IEstablishments } from "@/types/IEstablishments";
+import { useState } from "react";
 
 function ClientDogPage(props: { dogs: IDogs[], establishments: IEstablishments[] }) {
+    const [openModal, setOpenModal] = useState<boolean>(false);
     return (
         <div>
             <div className="flex justify-end">
-                <button data-modal-target="new-dog-modal" data-modal-toggle="new-dog-modal" className="btn text-white px-4 py-2" type="button">
+                <button onClick={() => setOpenModal(true)} className="btn text-white px-4 py-2" type="button">
                     Ajouter un chien
                 </button>
             </div>
@@ -30,7 +32,7 @@ function ClientDogPage(props: { dogs: IDogs[], establishments: IEstablishments[]
                     </div>
                 ))}
             </div>
-            <NewDogModal establishments={props.establishments} />
+            <NewDogModal establishments={props.establishments} openModal={openModal} setOpenModal={setOpenModal} />
         </div>
     )
 };

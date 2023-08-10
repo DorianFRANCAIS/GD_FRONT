@@ -42,7 +42,6 @@ function AgendaPage(props: { sessions: ISession[], educators: IUser[], activitie
 
 
   useEffect(() => {
-    console.log(props.activities)
     const eventTempo: IEvent[] = []
     props.sessions.map((session) => {
       eventTempo.push({
@@ -68,9 +67,9 @@ function AgendaPage(props: { sessions: ISession[], educators: IUser[], activitie
   };
 
   return (
-    <div className={`grid grid-cols-2 gap-4`}>
+    <div className="grid grid-cols-6 gap-4">
       {isModalSessionOpen && <NewSessionModal isModalSessionOpen={isModalSessionOpen} closeModalSession={closeModalSession} educators={props.educators} activities={props.activities} establishments={props.establishments} />}
-      <div className='col-span-3 rounded-3xl p-4 mb-5 wrapper'>
+      <div className='col-span-4 rounded-3xl p-4 mb-5 wrapper'>
         <FullCalendar
           plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
           initialView={"timeGridWeek"}
@@ -97,7 +96,7 @@ function AgendaPage(props: { sessions: ISession[], educators: IUser[], activitie
           ref={calendarRef}
         />
       </div>
-      <div className='col-span-1 flex-col'>
+      <div className='col-span-2 flex-col'>
         <h2 className="text-white text-2xl">Vous souhaitez créer une nouvelle session ?</h2>
         <button className="btn w-full p-4 mt-2" onClick={openModalSession}>Créer une nouvelle session</button>
         <div className="mt-12">

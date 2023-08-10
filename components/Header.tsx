@@ -61,7 +61,7 @@ function Sidebar() {
                             alt="Profile"
                             className="avatar rounded-full"
                         />
-                        <h3 className="text-mainColor font-bold">Hello Mathieu !</h3>
+                        <h3 className="text-mainColor font-bold">Hello {session.user.user.firstname} !</h3>
                         <p>{formattedTime}</p>
                     </div>
                     <ul className="space-y-2 font-medium">
