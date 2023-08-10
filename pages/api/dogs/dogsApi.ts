@@ -1,18 +1,23 @@
 import { IDogs, IPostDog } from "@/types/IDogs";
 
 let establishmentIdWithoutQuotes: string;
-export async function handleDogs(session: any, establishmentId: string | null) {
+export async function handleDogs(session: any, establishmentId?: string | null, ownerId?: string) {
+    let url = process.env.SERVER_API + `/dogs`;
     if (establishmentId) {
         establishmentIdWithoutQuotes = establishmentId.replace(/"/g, "");
+        url += `?establishmentId=${establishmentIdWithoutQuotes}`;
+    }
+    if (ownerId) {
+        url += `?ownerId=${ownerId}`;
     }
     try {
-        const response = await fetch(process.env.SERVER_API + `/dogs?establishmentId=${establishmentIdWithoutQuotes}`, {
+        const response = await fetch(url, {
             headers: {
                 Authorization: `Bearer ${session.user.tokens.accessToken}`,
             },
         });
         const data = await response.json();
-
+        console.log("data", data)
         if (response.status === 200) {
             console.log(data);
         }

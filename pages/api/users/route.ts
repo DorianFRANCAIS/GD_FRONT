@@ -47,6 +47,24 @@ export async function GetAllStaff(session: any, establishmentId: string | null, 
     }
 }
 
+export async function GetClientById(session: any, userId: string) {
+    console.log("session", session.user.tokens.accessToken)
+    try {
+        const response = await fetch(process.env.SERVER_API + `/users/${userId}`, {
+            headers: {
+                Authorization: `Bearer ${session.user.tokens.accessToken}`,
+            },
+        });
+        const data = await response.json();
+        console.log("client par id", data)
+        if (response.status === 200) {
+            console.log(data);
+        }
+        return data;
+    } catch (error) {
+        console.error('Error fetching data:', error);
+    }
+}
 export async function handleRegister(newUser: INewUser) {
     //const newUser: INewUser = await request.json();
     console.log('laaa', newUser.emailAddress)

@@ -6,6 +6,7 @@ import { RxCrossCircled } from "react-icons/rx";
 import { IEstablishments } from "@/types/IEstablishments";
 import { PostActivity } from "@/pages/api/activities/activitiesApi";
 import { useSession } from "next-auth/react";
+import { Modal } from "flowbite-react";
 
 const activitySchema = yup.object({
     establishment: yup.string().required('Veuillez choisir un établissement'),
@@ -34,87 +35,91 @@ function NewActivityModal(props: { isModalAcitivityOpen: boolean, closeModalActi
         //props.closeModalSession();
     };
     return (
-        <div className="flex justify-center p-6 z-50 w-full absolute">
-            <form className="bg-blueColor flex flex-col justify-between p-8 w-fit rounded-md" onSubmit={handleSubmit(onSubmit)}>
-                <div
-                    className="flex justify-end cursor-pointer"
-                >
-                    <RxCrossCircled className="text-mainColor font-bold h-6 w-6" />
-                </div>
-                <div className="flex flex-col gap-y-2 mt-4">
-                    <h2 className="text-3xl text-white">Créer une nouvelle activitée</h2>
-                    <div className="grid grid-cols-2 gap-x-2">
-                        <div>
-                            <label className="text-white">Nom de l'activité</label>
-                            <input
-                                className="py-3 px-4 block w-full rounded-md text-sm  dark:text-gray-400"
-                                type="text"
-                                {...register("title")} />
-                        </div>
-                        <div className="">
-                            <label className="text-white">Etablissement</label>
-                            <select className="py-3 px-4 pr-9 block w-full border-mainColor rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400" {...register("establishment")}>
-                                {props.establishments.map((establishment, idx) => {
-                                    return (
-                                        <option key={idx} value={establishment._id}>{establishment.name}</option>
-                                    )
-                                })}
-                            </select>
-                        </div>
-                    </div>
-
-                    <div>
-                        <label className="text-white">Description</label>
-                        <Controller
-                            name="description"
-                            control={control}
-                            defaultValue=""
-                            render={({ field }) => (
-                                <textarea className="py-3 px-4 block w-full rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-slate-900 border-mainColor dark:text-gray-400" {...field} />
-                            )}
-                        />
-                    </div>
-                    <div className="grid grid-cols-2 gap-x-2">
-                        <div>
-                            <label className="text-white">Choisir une image</label>
-                            <input
-                                className="py-3 px-4 block w-full rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-slate-900 border-mainColor dark:text-gray-400"
-                                type="file"
-                                {...register("imageUrl")} />
-                        </div>
-                        <div>
-                            <label className="text-white">Choisir une couleur</label>
-                            <input
-                                className="py-1 px-2 block w-1/4 h-12 rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-slate-900 border-mainColor dark:text-gray-400"
-                                type="color"
-                                {...register("color")} />
-                        </div>
-                    </div>
-
-                    <div className="grid grid-cols-2 gap-x-2">
-                        <div>
-                            <label className="text-white">Durée de l'activitée</label>
-                            <input
-                                className="py-3 px-4 block w-full rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-slate-900 border-mainColor dark:text-gray-400"
-                                type="number"
-                                {...register("duration")} />
-                        </div>
-                        <div>
-                            <label className="text-white">Prix</label>
-                            <div className="relative rounded-md border border-gray-300 flex">
-                                <input
-                                    className="input-without-arrow flex-1 py-3 px-4 block w-full rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-slate-900 border-mainColor dark:text-gray-400"
-                                    type="number"
-                                    {...register("duration")} />
-                                <span className="absolute inset-y-0 right-0 pr-3 flex items-center">€</span>
+        <>
+            <Modal show={props.isModalAcitivityOpen === true} size="2xl" popup onClose={props.closeModalActivity}>
+                <Modal.Header className="flex items-center border-b p-4">
+                    <h3 className="text-xl font-semibold text-mainColor">
+                        Ajout d'un nouveau chien
+                    </h3>
+                </Modal.Header>
+                <Modal.Body>
+                    <div className="px-6 py-6 lg:px-8">
+                        <form className="space-y-6" onSubmit={handleSubmit(onSubmit)}>
+                            <div className="grid grid-cols-2 gap-x-2">
+                                <div>
+                                    <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Nom de l'activité</label>
+                                    <input
+                                        type="text"
+                                        className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                        {...register("title")}
+                                    />
+                                </div>
+                                <div className="">
+                                    <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Etablissement</label>
+                                    <select className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" {...register("establishment")}>
+                                        {props.establishments.map((establishment, idx) => {
+                                            return (
+                                                <option key={idx} value={establishment._id}>{establishment.name}</option>
+                                            )
+                                        })}
+                                    </select>
+                                </div>
                             </div>
-                        </div>
+                            <div className="mb-6">
+                                <div>
+                                    <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Description</label>
+                                    <Controller
+                                        name="description"
+                                        control={control}
+                                        defaultValue=""
+                                        render={({ field }) => (
+                                            <textarea className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" {...field} />
+                                        )}
+                                    />
+                                </div>
+                            </div>
+                            <div className="grid grid-cols-6 gap-x-2">
+                                <div className="col-span-4">
+                                    <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Photo</label>
+                                    <input
+                                        type="file"
+                                        className="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
+                                        {...register("imageUrl")}
+                                    />
+                                </div>
+                                <div className="col-span-2">
+                                    <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Choisir une couleur</label>
+                                    <input
+                                        className="py-1 px-2 block w-full h-12 rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-slate-900 border-mainColor dark:text-gray-400"
+                                        type="color"
+                                        {...register("color")} />
+                                </div>
+                            </div>
+                            <div className="grid grid-cols-2 gap-x-2">
+                                <div>
+                                    <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Durée de l'activitée</label>
+                                    <input
+                                        className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                        type="number"
+                                        {...register("duration")} />
+                                </div>
+                                <div>
+                                    <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Prix</label>
+                                    <div className="relative rounded-md flex">
+                                        <input
+                                            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                            type="number"
+                                            {...register("price")} />
+                                        <span className="absolute inset-y-0 right-0 pr-3 flex items-center">€</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <button type="submit" className="btn w-full p-4 mt-5">Enregistrer</button>
+                        </form>
                     </div>
-
-                </div>
-                <button type="submit" className="btn w-full p-4 mt-5">Enregistrer</button>
-            </form>
-        </div>
+                </Modal.Body>
+            </Modal>
+        </>
     )
 }
 

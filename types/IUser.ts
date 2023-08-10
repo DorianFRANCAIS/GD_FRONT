@@ -8,6 +8,7 @@ export interface IUser {
   lastname: string,
   firstname: string,
   avatarUrl: string,
+  phoneNumber: string,
   role: string,
   emailAddress: string,
   password: string,

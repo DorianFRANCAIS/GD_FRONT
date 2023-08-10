@@ -1,11 +1,11 @@
 'use client';
 import NewActivityModal from "@/components/modal/NewActivityModal";
 import { IActivity } from "@/types/IActivity";
-import { IEstablishments } from "@/types/IEstablishments";
+import { IEstablishments, IEstablishmentsSelect } from "@/types/IEstablishments";
 import { useState } from "react";
 
 
-function ActivitiesPage(props: { activities: IActivity[], establishments: IEstablishments[] }) {
+function ActivitiesPage(props: { activities: IActivity[], establishments: IEstablishmentsSelect[] }) {
     const [isModalAcitivityOpen, setIsModalActivityOpen] = useState<boolean>(false);
 
     const openModalActivity = (e: any) => {

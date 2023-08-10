@@ -12,7 +12,7 @@ async function Team() {
     if (establishments.length > 0) {
         staffList = await GetAllStaff(session, establishments[0]._id);
     }
-    console.log(staffList)
+
     return (
         <div className="flex justify-center items-start gap-x-12 w-full">
             <div className="bg-greyColor w-full p-6 rounded-md ">

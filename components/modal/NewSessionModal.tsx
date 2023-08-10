@@ -8,6 +8,7 @@ import { IUser } from "@/types/IUser";
 import { IActivity } from "@/types/IActivity";
 import { IEstablishments } from "@/types/IEstablishments";
 import { RxCrossCircled } from 'react-icons/rx';
+import { Modal } from "flowbite-react";
 
 const sessionSchema = yup.object({
   educator: yup.string().required('Veuillez choisir un éducateur'),
@@ -36,65 +37,67 @@ function NewSessionModal(props: { isModalSessionOpen: boolean, closeModalSession
   };
 
   return (
-    <div className="flex justify-center p-6 z-50 w-full absolute">
-      <form className="bg-blueColor flex flex-col justify-between p-8 w-fit rounded-md" onSubmit={handleSubmit(onSubmit)}>
-        <div
-          className="flex justify-end cursor-pointer"
-          onClick={props.closeModalSession}
-        >
-          <RxCrossCircled className="text-mainColor font-bold h-6 w-6" />
-        </div>
-        <div className="flex flex-col gap-y-2 mt-4">
-          <h2 className="text-3xl text-white">Créer une nouvelle session</h2>
-          <div className="">
-            <label className="text-white">Educateur</label>
-            <select className="py-3 px-4 pr-9 block w-full border-mainColor rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400" {...register("educator")}>
-              {props.educators.map((educator, idx) => {
-                return (
-                  <option key={idx} value={educator._id}>{educator.firstname} {educator.lastname}</option>
-                )
-              })}
-            </select>
+    <>
+      <Modal show={props.isModalSessionOpen === true} size="2xl" popup onClose={props.closeModalSession}>
+        <Modal.Header className="flex items-center border-b p-4">
+          <h3 className="text-xl font-semibold text-mainColor">
+            Ajout d'une nouvelle session
+          </h3>
+        </Modal.Header>
+        <Modal.Body>
+          <div className="px-6 py-6 lg:px-8">
+            <form className="space-y-6" onSubmit={handleSubmit(onSubmit)}>
+              <div className="">
+                <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Educateur</label>
+                <select className="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" {...register("educator")}>
+                  {props.educators.map((educator, idx) => {
+                    return (
+                      <option key={idx} value={educator._id}>{educator.firstname} {educator.lastname}</option>
+                    )
+                  })}
+                </select>
+              </div>
+              <div className="">
+                <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Activité</label>
+                <select className="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" {...register("activity")}>
+                  {props.activities.map((activity, idx) => {
+                    return (
+                      <option key={idx} value={activity._id}>{activity.title}</option>
+                    )
+                  })}
+                </select>
+              </div>
+              <div className="">
+                <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Etablissement</label>
+                <select className="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" {...register("establishment")}>
+                  {props.establishments.map((establishment, idx) => {
+                    return (
+                      <option key={idx} value={establishment._id}>{establishment.name}</option>
+                    )
+                  })}
+                </select>
+              </div>
+              <div>
+                <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Capacité de la session</label>
+                <input
+                  className="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
+                  type="number"
+                  {...register("maximumCapacity")} />
+              </div>
+              <div>
+                <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Date de la session</label>
+                <input
+                  type="datetime-local"
+                  className="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
+                  {...register("beginDate")}
+                />
+              </div>
+              <button type="submit" className="btn w-full p-4 mt-5">Enregistrer</button>
+            </form>
           </div>
-          <div className="">
-            <label className="text-white">Activité</label>
-            <select className="py-3 px-4 pr-9 block w-full border-mainColor rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400" {...register("activity")}>
-              {props.activities.map((activity, idx) => {
-                return (
-                  <option key={idx} value={activity._id}>{activity.title}</option>
-                )
-              })}
-            </select>
-          </div>
-          <div className="">
-            <label className="text-white">Etablissement</label>
-            <select className="py-3 px-4 pr-9 block w-full border-mainColor rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400" {...register("establishment")}>
-              {props.establishments.map((establishment, idx) => {
-                return (
-                  <option key={idx} value={establishment._id}>{establishment.name}</option>
-                )
-              })}
-            </select>
-          </div>
-          <div>
-            <label className="text-white">Capacité de la session</label>
-            <input
-              className="py-3 px-4 block w-full rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-slate-900 border-mainColor dark:text-gray-400"
-              type="number"
-              {...register("maximumCapacity")} />
-          </div>
-          <div>
-            <label className="text-white">Date de la session</label>
-            <input
-              type="datetime-local"
-              className="py-3 px-4 block w-full border-gray-200 rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400"
-              {...register("beginDate")}
-            />
-          </div>
-        </div>
-        <button type="submit" className="btn w-full p-4 mt-5">Enregistrer</button>
-      </form>
-    </div>
+        </Modal.Body>
+      </Modal>
+    </>
   )
 };
 
