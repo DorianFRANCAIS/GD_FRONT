@@ -6,7 +6,7 @@ function ProfilePage(props: { client: IUser }) {
     return (
         props.client &&
         <div className="grid grid-cols-2 p-4">
-            <div className="col-span-2 flex flex-col items-center">
+            <div className="flex flex-col items-center">
                 <img src={props.client.avatarUrl ? props.client.avatarUrl : "/img/avatar.svg"} alt="Photo de Profil"
                     className="w-32 h-32 mx-auto rounded-full border-4 border-white shadow-lg" />
                 <h1 className="mt-5">{props.client.firstname} {props.client.lastname}</h1>

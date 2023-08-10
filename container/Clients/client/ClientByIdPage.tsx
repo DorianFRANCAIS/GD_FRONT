@@ -5,6 +5,7 @@ import ClientDogPage from "./ClientDogsPage";
 import { Tabs } from "flowbite-react";
 import { IEstablishments } from "@/types/IEstablishments";
 import { IDogs } from "@/types/IDogs";
+import ClientSessionsPage from "./ClientSessionsPage";
 
 function ClientByIdPage(props: { client: IUser, dogs: IDogs[], establishments: IEstablishments[] }) {
     return (
@@ -28,15 +29,7 @@ function ClientByIdPage(props: { client: IUser, dogs: IDogs[], establishments: I
                     <Tabs.Item
                         title="Sessions"
                     >
-                        <p>
-                            This is
-                            <span className="font-medium text-gray-800 dark:text-white">
-                                Settings tab's associated content
-                            </span>
-                            .
-                            Clicking another tab will toggle the visibility of this one for the next. The tab JavaScript swaps classes to
-                            control the content visibility and styling.
-                        </p>
+                        <ClientSessionsPage />
                     </Tabs.Item>
 
                 </Tabs.Group>
