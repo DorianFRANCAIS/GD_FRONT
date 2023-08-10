@@ -24,7 +24,5 @@ export function middleware(request: NextRequest) {
         response.headers.set('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS')
     }
 
-    console.log("on passe ici dans le middleware")
-
     return response
 }

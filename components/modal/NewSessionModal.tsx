@@ -26,7 +26,6 @@ function NewSessionModal(props: { isModalSessionOpen: boolean, closeModalSession
     mode: "onSubmit"
   });
   const { data: session } = useSession();
-  console.log(props.activities)
 
   const onSubmit: SubmitHandler<FormData> = async (
     data: FormData

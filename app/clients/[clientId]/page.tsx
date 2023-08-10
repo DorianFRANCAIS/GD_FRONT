@@ -16,11 +16,10 @@ type Params = {
 async function Client({ params: { clientId } }: Params) {
     const session = await getServerSession(authOptions);
     const clientData: Promise<IUser> = GetClientById(session, clientId);
-    const dogsData: Promise<IDogs[]> = await handleDogs(session, clientId);
+    const dogsData: Promise<IDogs[]> = await handleDogs(session, null, clientId);
     const establishments: IEstablishments[] = await handleEstablishments(session);
     const [client, dogs] = await Promise.all([clientData, dogsData]);
 
-    console.log("client", client)
     return (
         <div>
             <ClientByIdPage client={client} dogs={dogs} establishments={establishments} />

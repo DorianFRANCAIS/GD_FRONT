@@ -30,7 +30,7 @@ function ActivitiesPage(props: { activities: IActivity[], establishments: IEstab
                             <img
                                 src={activity.imageUrl}
                                 alt="activity"
-                                className="h-40 w-full"
+                                className="h-32 w-full"
                             />
                             <p className="text-xl text-mainColor font-bold mb-2">{activity.title}</p>
                             <p className="text-xs text-mainColor font-bold">Description : {activity.description}</p>

@@ -15,7 +15,6 @@ export interface IEstablishments {
 
 export default function EtablishmentPage() {
     const { data: session } = useSession();
-    console.log(session?.user.tokens.accessToken)
     const establishmentsTest = [
         { id: 1, name: 'Dog Paradise', location: 'City A' },
         { id: 2, name: 'Paws Inn', location: 'City B' },

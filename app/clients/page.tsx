@@ -14,7 +14,6 @@ async function Clients(): Promise<JSX.Element> {
         clients = await GetAllStaff(session, establishment._id, "Client");
     }
 
-    console.log(clients)
     return (
         <div className="h-screen">
             <ClientsPage clients={clients} />

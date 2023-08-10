@@ -1,4 +1,7 @@
+import { IUser } from "./IUser";
+
 export interface IDogs {
+  owner: IUser
   nationalId: string,
   name: string,
   imageUrl: string,
