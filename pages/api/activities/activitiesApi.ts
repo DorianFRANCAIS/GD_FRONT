@@ -17,7 +17,7 @@ export async function getActivities(session: any, establishmentId: string) {
     }
 }
 
-export async function getActivitiesById(session: any, activityId: [string]) {
+export async function getActivitiesById(session: any, activityId: string) {
     try {
         const response = await fetch(process.env.SERVER_API + `/activities?activityId=${activityId}`, {
             headers: {
