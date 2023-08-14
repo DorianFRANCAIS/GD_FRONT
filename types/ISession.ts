@@ -1,6 +1,8 @@
 import { IActivity } from "@/types/IActivity";
 
 export interface ISession {
+  _id: string
+  title: string;
   educator: string;
   activity: IActivity;
   establishment: string;

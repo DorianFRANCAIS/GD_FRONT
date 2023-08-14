@@ -13,9 +13,10 @@ import NewSessionModal from "@/components/modal/NewSessionModal";
 import { IUser } from "@/types/IUser";
 import { IActivity } from "@/types/IActivity";
 import { IEstablishments } from "@/types/IEstablishments";
+import SessionInfosModal from "@/components/modal/SessionInfosModal";
 
 export interface IEvent {
-  id?: string, // Identifiant unique de l'événement (optionnel)
+  _id?: string, // Identifiant unique de l'événement (optionnel)
   title: string, // Titre ou texte de l'événement
   start: string, // Date et heure de début de l'événement
   end: string, // Date et heure de fin de l'événement
@@ -37,6 +38,8 @@ function AgendaPage(props: { sessions: ISession[], educators: IUser[], activitie
   const calendarRef = useRef<FullCalendar | null>(null);
   const [events, setEvents] = useState<IEvent[]>()
   const [isModalSessionOpen, setIsModalSessionOpen] = useState<boolean>(false);
+  const [isModalInfosSessionOpen, setIsModalInfosSessionOpen] = useState<boolean>(false);
+  const [selectedSession, setSelectedSession] = useState<ISession | null>(null);
   const today = new Date();
   const isoDateString = today.toISOString();
 
@@ -45,6 +48,7 @@ function AgendaPage(props: { sessions: ISession[], educators: IUser[], activitie
     const eventTempo: IEvent[] = []
     props.sessions.map((session) => {
       eventTempo.push({
+        _id: `${session._id}`,
         title: `${session.activity.title}`,
         start: `${session.beginDate}`,
         end: `${session.endDate}`,
@@ -66,9 +70,21 @@ function AgendaPage(props: { sessions: ISession[], educators: IUser[], activitie
     setIsModalSessionOpen(false);
   };
 
+
+  const closeModalInfosSession = () => {
+    setIsModalInfosSessionOpen(false);
+  };
+
+  const displaySessions = (infos: any) => {
+    console.log(infos.event._def)
+    setSelectedSession(infos.event._def.extendedProps)
+    setIsModalInfosSessionOpen(true)
+  }
+
   return (
     <div className="grid grid-cols-6 gap-4">
       {isModalSessionOpen && <NewSessionModal isModalSessionOpen={isModalSessionOpen} closeModalSession={closeModalSession} educators={props.educators} activities={props.activities} establishments={props.establishments} />}
+      <SessionInfosModal isModalInfosSessionOpen={isModalInfosSessionOpen} closeModalInfosSession={closeModalInfosSession} selectedSession={selectedSession} />
       <div className='col-span-4 rounded-3xl p-4 mb-5 wrapper'>
         <FullCalendar
           plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
@@ -84,6 +100,7 @@ function AgendaPage(props: { sessions: ISession[], educators: IUser[], activitie
             week: "Semaine",
             day: "Jour"
           }}
+          eventClick={displaySessions}
           events={events}
           locale="fr"
           editable={true}
@@ -117,7 +134,8 @@ function AgendaPage(props: { sessions: ISession[], educators: IUser[], activitie
             <p className="">Voir plus</p>
           </div>
         ))}
-      </div >
+      </div>
+
     </div>
   )
 };
