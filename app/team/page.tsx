@@ -1,6 +1,8 @@
+import { getActivitiesById } from "@/pages/api/activities/activitiesApi";
 import { authOptions } from "@/pages/api/auth/[...nextauth]";
 import handleEstablishments from "@/pages/api/establishments/establishmentsApi";
 import { GetAllStaff } from "@/pages/api/users/route";
+import { IActivity } from "@/types/IActivity";
 import { IEstablishments } from "@/types/IEstablishments";
 import { IUser } from "@/types/IUser";
 import { getServerSession } from "next-auth";
@@ -8,9 +10,16 @@ import { getServerSession } from "next-auth";
 async function Team() {
     const session = await getServerSession(authOptions);
     let staffList: IUser[] = [];
+    let activitiesStaff:IActivity[] = [];
     const establishments: IEstablishments[] = await handleEstablishments(session);
     if (establishments.length > 0) {
         staffList = await GetAllStaff(session, establishments[0]._id);
+        if(staffList.length > 0) {
+            for(let i=0;i > staffList.length;i++) {
+                activitiesStaff = await getActivitiesById(session,staffList[i].activities)
+            }
+            console.log("activitiesStaff",activitiesStaff)
+        }
     }
 
     return (
