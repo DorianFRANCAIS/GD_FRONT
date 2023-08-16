@@ -10,6 +10,8 @@ import { IEstablishments } from "@/types/IEstablishments";
 import { RxCrossCircled } from 'react-icons/rx';
 import { Modal } from "flowbite-react";
 import { ISession } from "@/types/ISession";
+import { IEventSession } from "@/types/ICalendar";
+import { format } from "date-fns";
 
 const sessionSchema = yup.object({
     educator: yup.string().required('Veuillez choisir un éducateur'),
@@ -21,7 +23,7 @@ const sessionSchema = yup.object({
 
 type FormData = yup.InferType<typeof sessionSchema>;
 
-function SessionInfosModal(props: { isModalInfosSessionOpen: boolean, closeModalInfosSession: () => void, selectedSession: ISession | null }) {
+function SessionInfosModal(props: { isModalInfosSessionOpen: boolean, closeModalInfosSession: () => void, selectedSession: IEventSession | null }) {
     const { register, handleSubmit, formState: { errors } } = useForm<FormData>({
         resolver: yupResolver(sessionSchema),
         mode: "onSubmit"
@@ -40,21 +42,24 @@ function SessionInfosModal(props: { isModalInfosSessionOpen: boolean, closeModal
 
     return (
         <>
-            <Modal show={props.isModalInfosSessionOpen === true} size="2xl" popup onClose={props.closeModalInfosSession}>
-                <Modal.Header className="flex items-center border-b p-4">
-                    <p className="text-xl font-semibold text-mainColor">
-                        Ajout d'une nouvelle session
-                    </p>
-                </Modal.Header>
-                <Modal.Body>
-                    <div className="px-6 py-6 lg:px-8">
-                        <form className="space-y-6" onSubmit={handleSubmit(onSubmit)}>
-                            <p>{props.selectedSession?._id}</p>
-                            <button type="submit" className="btn w-full p-4 mt-5">Enregistrer</button>
-                        </form>
-                    </div>
-                </Modal.Body>
-            </Modal>
+            {props.selectedSession &&
+                <Modal show={props.isModalInfosSessionOpen === true} size="2xl" popup onClose={props.closeModalInfosSession}>
+                    <Modal.Header className="flex items-center border-b p-4">
+                        <p className="text-xl font-semibold text-mainColor">
+                            {props.selectedSession?.activity.title} {format(new Date(props.selectedSession?.beginDate), "'Le' dd/MM/yyyy 'à' HH'h'mm'")} avec {props.selectedSession?.educator.firstname} {props.selectedSession?.educator.lastname}
+                        </p>
+                    </Modal.Header>
+                    <Modal.Body>
+                        <div className="px-6 py-6 lg:px-8">
+                            <form className="space-y-6" onSubmit={handleSubmit(onSubmit)}>
+                                {props.selectedSession?.maximumCapacity}
+
+                                <button type="submit" className="btn w-full p-4 mt-5">Enregistrer</button>
+                            </form>
+                        </div>
+                    </Modal.Body>
+                </Modal>
+            }
         </>
     )
 };

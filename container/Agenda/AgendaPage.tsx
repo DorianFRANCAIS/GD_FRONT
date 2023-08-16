@@ -14,51 +14,45 @@ import { IUser } from "@/types/IUser";
 import { IActivity } from "@/types/IActivity";
 import { IEstablishments } from "@/types/IEstablishments";
 import SessionInfosModal from "@/components/modal/SessionInfosModal";
+import { EventClickArg } from "@fullcalendar/core";
+import { IEventSession } from "@/types/ICalendar";
 
-export interface IEvent {
-  _id?: string, // Identifiant unique de l'événement (optionnel)
-  title: string, // Titre ou texte de l'événement
-  start: string, // Date et heure de début de l'événement
-  end: string, // Date et heure de fin de l'événement
-  allDay?: boolean, // Indique si l'événement dure toute la journée (optionnel)
-  color?: string, // Couleur de fond et de border (optionnel)
-  backgroundColor?: string, // Couleur de fond de l'événement (optionnel)
-  borderColor?: string, // Couleur de la bordure de l'événement (optionnel)
-  textColor?: string, // Couleur du texte de l'événement (optionnel)
-  className?: string | string[], // Classe(s) CSS supplémentaire(s) à appliquer à l'événement (optionnel)
-  editable?: boolean, // Indique si l'événement est éditable (optionnel)
-  startEditable?: boolean, // Indique si la date et l'heure de début de l'événement sont éditables (optionnel)
-  durationEditable?: boolean, // Indique si la durée de l'événement est éditable (optionnel)
-  constraint?: any, // Contraintes qui limitent le positionnement de l'événement (optionnel)
-  overlap?: boolean // Indique si l'événement peut se chevaucher avec d'autres événements (optionnel)
-}
+
 
 function AgendaPage(props: { sessions: ISession[], educators: IUser[], activities: IActivity[], establishments: IEstablishments[] }) {
   const { data: session, status } = useSession();
   const calendarRef = useRef<FullCalendar | null>(null);
-  const [events, setEvents] = useState<IEvent[]>()
+  const [events, setEvents] = useState<IEventSession[]>()
   const [isModalSessionOpen, setIsModalSessionOpen] = useState<boolean>(false);
   const [isModalInfosSessionOpen, setIsModalInfosSessionOpen] = useState<boolean>(false);
-  const [selectedSession, setSelectedSession] = useState<ISession | null>(null);
+  const [selectedSession, setSelectedSession] = useState<IEventSession | null>(null);
   const today = new Date();
   const isoDateString = today.toISOString();
 
 
   useEffect(() => {
-    const eventTempo: IEvent[] = []
+    const eventTempo: IEventSession[] = []
     props.sessions.map((session) => {
       eventTempo.push({
-        _id: `${session._id}`,
         title: `${session.activity.title}`,
         start: `${session.beginDate}`,
         end: `${session.endDate}`,
+        _id: `${session._id}`,
+        educator: session.educator,
+        status: session.status,
+        activity: session.activity,
+        establishment: session.establishment,
+        maximumCapacity: session.maximumCapacity,
+        report: session.report,
+        beginDate: session.beginDate,
+        endDate: session.endDate,
         editable: false,
-        color: "#37347A",
+        color: session.status === "Pending" ? "red" : "#37347A",
         textColor: `white`
       })
     })
     setEvents(eventTempo)
-
+    console.log(events)
   }, [])
 
   const openModalSession = (e: any) => {
@@ -76,7 +70,7 @@ function AgendaPage(props: { sessions: ISession[], educators: IUser[], activitie
   };
 
   const displaySessions = (infos: any) => {
-    console.log(infos.event._def)
+    console.log(infos.event._def.extendedProps)
     setSelectedSession(infos.event._def.extendedProps)
     setIsModalInfosSessionOpen(true)
   }

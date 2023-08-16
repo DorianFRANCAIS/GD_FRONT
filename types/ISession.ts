@@ -1,15 +1,18 @@
 import { IActivity } from "@/types/IActivity";
+import { IEstablishments } from "./IEstablishments";
+import { IUser } from "./IUser";
 
 export interface ISession {
   _id: string
   title: string;
-  educator: string;
+  educator: IUser;
   activity: IActivity;
-  establishment: string;
+  establishment: IEstablishments;
   status: "Pending" | "Confirmed" | "Cancelled";
   maximumCapacity: number;
   beginDate: string;
   endDate: string;
+  report: string;
 }
 
 export interface IPostSession {
