@@ -4,14 +4,10 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { useSession } from "next-auth/react";
 import { PostSession } from "@/pages/api/sessions/sessionsApi";
-import { IUser } from "@/types/IUser";
-import { IActivity } from "@/types/IActivity";
-import { IEstablishments } from "@/types/IEstablishments";
-import { RxCrossCircled } from 'react-icons/rx';
 import { Modal } from "flowbite-react";
-import { ISession } from "@/types/ISession";
 import { IEventSession } from "@/types/ICalendar";
 import { format } from "date-fns";
+import {AiFillPlusCircle} from "react-icons/ai";
 
 const sessionSchema = yup.object({
     educator: yup.string().required('Veuillez choisir un éducateur'),
@@ -48,12 +44,17 @@ function SessionInfosModal(props: { isModalInfosSessionOpen: boolean, closeModal
                         <p className="text-xl font-semibold text-mainColor">
                             {props.selectedSession?.activity.title} {format(new Date(props.selectedSession?.beginDate), "'Le' dd/MM/yyyy 'à' HH'h'mm'")} avec {props.selectedSession?.educator.firstname} {props.selectedSession?.educator.lastname}
                         </p>
+                        <p className="text-xl font-semibold text-mainColor">{props.selectedSession?.activity.duration} minutes</p>
                     </Modal.Header>
                     <Modal.Body>
                         <div className="px-6 py-6 lg:px-8">
                             <form className="space-y-6" onSubmit={handleSubmit(onSubmit)}>
-                                {props.selectedSession?.maximumCapacity}
-
+                                <div className="flex justify-between items-center">
+                                    <p>Place restante pour la session : 0/{props.selectedSession?.maximumCapacity}</p>
+                                    <button><AiFillPlusCircle className="text-mainColor h-8 w-8"/></button>
+                                </div>
+                                
+                               
                                 <button type="submit" className="btn w-full p-4 mt-5">Enregistrer</button>
                             </form>
                         </div>

@@ -39,7 +39,7 @@ function Sidebar() {
                 <div className="flex flex-col justify-between h-full px-3 pb-4 overflow-y-auto bg-white dark:bg-gray-800">
                     <div className="w-full flex flex-col justify-center items-center">
                         <img
-                            src="/logo.svg"
+                            src="/logo_gestidogs.png"
                             alt="logo"
                             className="avatar rounded-full"
                         />
@@ -48,10 +48,10 @@ function Sidebar() {
                     </div>
                     <ul className="space-y-2 font-medium">
                         <li>
-                            <a href="/dashboard" className="flex items-center p-2 text-mainColor rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+                            <Link href="/dashboard" className="flex items-center p-2 text-mainColor rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
                                 <AiFillDashboard className="flex-shrink-0 w-5 h-5 text-mainColor transition duration-75 dark:text-gray-400 group-hover:text-mainColor dark:group-hover:text-white" />
                                 <span className="ml-3">Dashboard</span>
-                            </a>
+                            </Link>
                         </li>
                         <li>
                             <Link href="/agenda" className="flex items-center p-2 text-mainColor rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">

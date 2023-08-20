@@ -33,7 +33,14 @@ export default function LoginPage() {
   }
   return (
     <div className="flex flex-col items-start w-full sm:h-fit bg-white p-12 sm:w-[40rem] sm:self-center sm:rounded-3xl sm:p-12 sm:drop-shadow-xl">
-      <h1>Connectez vous</h1>
+      <div className="flex flex-col items-center justify-center w-full">
+        <img
+          src="/logo_gestidogs.png"
+          alt="logo"
+          className="avatar-login rounded-full"
+      />
+      <h1>Connectez vous</h1></div>
+      
       <form className="mt-20 flex w-full flex-col items-stretch justify-center" onSubmit={handleSubmit(onSubmit)}>
         <div className="flex flex-col gap-3">
           <div className="mb-4">
