@@ -17,6 +17,9 @@ body {
 .bg-blueColor {
   background: linear-gradient(180deg, #0289F5 0%, #4466E2 100%);
 }
+.bg-orangeColor {
+  background: orange;
+}
 .btn {
   @apply bg-mainColor font-bold text-white rounded-lg;
 }
