@@ -7,7 +7,7 @@ export default async function Home() {
   const session = await getServerSession(authOptions);
 
   return (
-    <div>
+    <div className="flex justify-center h-screen">
       {session ?
         <Dashboard />
         :

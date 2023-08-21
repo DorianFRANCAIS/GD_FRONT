@@ -13,48 +13,46 @@ import NewSessionModal from "@/components/modal/NewSessionModal";
 import { IUser } from "@/types/IUser";
 import { IActivity } from "@/types/IActivity";
 import { IEstablishments } from "@/types/IEstablishments";
+import SessionInfosModal from "@/components/modal/SessionInfosModal";
+import { EventClickArg } from "@fullcalendar/core";
+import { IEventSession } from "@/types/ICalendar";
 
-export interface IEvent {
-  id?: string, // Identifiant unique de l'événement (optionnel)
-  title: string, // Titre ou texte de l'événement
-  start: string, // Date et heure de début de l'événement
-  end: string, // Date et heure de fin de l'événement
-  allDay?: boolean, // Indique si l'événement dure toute la journée (optionnel)
-  color?: string, // Couleur de fond et de border (optionnel)
-  backgroundColor?: string, // Couleur de fond de l'événement (optionnel)
-  borderColor?: string, // Couleur de la bordure de l'événement (optionnel)
-  textColor?: string, // Couleur du texte de l'événement (optionnel)
-  className?: string | string[], // Classe(s) CSS supplémentaire(s) à appliquer à l'événement (optionnel)
-  editable?: boolean, // Indique si l'événement est éditable (optionnel)
-  startEditable?: boolean, // Indique si la date et l'heure de début de l'événement sont éditables (optionnel)
-  durationEditable?: boolean, // Indique si la durée de l'événement est éditable (optionnel)
-  constraint?: any, // Contraintes qui limitent le positionnement de l'événement (optionnel)
-  overlap?: boolean // Indique si l'événement peut se chevaucher avec d'autres événements (optionnel)
-}
+
 
 function AgendaPage(props: { sessions: ISession[], educators: IUser[], activities: IActivity[], establishments: IEstablishments[] }) {
   const { data: session, status } = useSession();
   const calendarRef = useRef<FullCalendar | null>(null);
-  const [events, setEvents] = useState<IEvent[]>()
+  const [events, setEvents] = useState<IEventSession[]>()
   const [isModalSessionOpen, setIsModalSessionOpen] = useState<boolean>(false);
+  const [isModalInfosSessionOpen, setIsModalInfosSessionOpen] = useState<boolean>(false);
+  const [selectedSession, setSelectedSession] = useState<IEventSession | null>(null);
   const today = new Date();
   const isoDateString = today.toISOString();
 
 
   useEffect(() => {
-    const eventTempo: IEvent[] = []
+    const eventTempo: IEventSession[] = []
     props.sessions.map((session) => {
       eventTempo.push({
         title: `${session.activity.title}`,
         start: `${session.beginDate}`,
         end: `${session.endDate}`,
+        _id: `${session._id}`,
+        educator: session.educator,
+        status: session.status,
+        activity: session.activity,
+        establishment: session.establishment,
+        maximumCapacity: session.maximumCapacity,
+        report: session.report,
+        beginDate: session.beginDate,
+        endDate: session.endDate,
         editable: false,
-        color: "#37347A",
+        color: session.status === "Pending" ? "red" : "#37347A",
         textColor: `white`
       })
     })
     setEvents(eventTempo)
-
+    console.log(events)
   }, [])
 
   const openModalSession = (e: any) => {
@@ -66,9 +64,21 @@ function AgendaPage(props: { sessions: ISession[], educators: IUser[], activitie
     setIsModalSessionOpen(false);
   };
 
+
+  const closeModalInfosSession = () => {
+    setIsModalInfosSessionOpen(false);
+  };
+
+  const displaySessions = (infos: any) => {
+    console.log(infos.event._def.extendedProps)
+    setSelectedSession(infos.event._def.extendedProps)
+    setIsModalInfosSessionOpen(true)
+  }
+
   return (
     <div className="grid grid-cols-6 gap-4">
       {isModalSessionOpen && <NewSessionModal isModalSessionOpen={isModalSessionOpen} closeModalSession={closeModalSession} educators={props.educators} activities={props.activities} establishments={props.establishments} />}
+      <SessionInfosModal isModalInfosSessionOpen={isModalInfosSessionOpen} closeModalInfosSession={closeModalInfosSession} selectedSession={selectedSession} />
       <div className='col-span-4 rounded-3xl p-4 mb-5 wrapper'>
         <FullCalendar
           plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
@@ -84,6 +94,7 @@ function AgendaPage(props: { sessions: ISession[], educators: IUser[], activitie
             week: "Semaine",
             day: "Jour"
           }}
+          eventClick={displaySessions}
           events={events}
           locale="fr"
           editable={true}
@@ -117,7 +128,8 @@ function AgendaPage(props: { sessions: ISession[], educators: IUser[], activitie
             <p className="">Voir plus</p>
           </div>
         ))}
-      </div >
+      </div>
+
     </div>
   )
 };
