@@ -9,6 +9,7 @@ export interface IEstablishments {
   employees: [
     string
   ],
+  clients: string[];
   schedules: [any]
 }
 
