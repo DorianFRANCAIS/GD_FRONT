@@ -8,11 +8,13 @@ import { IHolidays } from "@/types/IHolidays";
 import { IEventHolidays } from "@/types/ICalendar";
 import { format } from "date-fns";
 import { fr } from "date-fns/locale";
+import NewHolidaysModal from "@/components/modal/NewHolidaysModal";
 
 
 function HolidaysPage(props: { session: any, holidays: IHolidays[] }) {
     const calendarRef = useRef<FullCalendar | null>(null);
     const [events, setEvents] = useState<IEventHolidays[]>()
+    const [isModalHolidaysOpen, setIsModalHolidaysOpen] = useState<boolean>(false);
     const today = new Date();
     const isoDateString = today.toISOString();
 
@@ -38,8 +40,14 @@ function HolidaysPage(props: { session: any, holidays: IHolidays[] }) {
         setEvents(eventTempo)
         console.log(events)
     }, [])
+
+
+    const closeModalHolidays = () => {
+        setIsModalHolidaysOpen(false);
+    };
     return (
         <div className="grid grid-cols-6 gap-4">
+            {isModalHolidaysOpen && <NewHolidaysModal isModalHolidaysOpen={isModalHolidaysOpen} closeModalHolidays={closeModalHolidays} session={props.session} />}
             <div className='col-span-4 rounded-3xl p-4 mb-5 wrapper'>
                 <FullCalendar
                     plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
@@ -68,7 +76,7 @@ function HolidaysPage(props: { session: any, holidays: IHolidays[] }) {
                 />
             </div>
             <div className='col-span-2 flex-col'>
-                <button className="btn w-full p-4 mt-2">Faire une demande de congés</button>
+                <button className="btn w-full p-4 mt-2" onClick={() => setIsModalHolidaysOpen(true)}>Faire une demande de congés</button>
                 <div className="mt-12">
                     <h5 className="text-white text-2xl">Congés prévus :</h5>
                     <div className='mt-2 bg-white flex justify-between items-center rounded-twenty p-4 mb-5'>
@@ -78,7 +86,7 @@ function HolidaysPage(props: { session: any, holidays: IHolidays[] }) {
                             <p className="text-mainColor">Du 01/12/2023 au 10/12/2023</p>
                         </div>
                         {props.session && props.session.user.user.role === "Administrator" &&
-                            <button className="btn p-2">Approuver </button>
+                            <button className="btn p-2">Approuver</button>
                         }
                     </div>
                 </div>
