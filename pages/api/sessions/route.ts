@@ -23,6 +23,10 @@ export async function GetSessions(session: any, params: any) {
     if (params.establishmentId) {
       url += `?establishmentId=${params.establishmentId}`;
     }
+    if (params.clientId) {
+      url += `?educatorId=${params.clientId}`;
+    }
+    console.log('url', url)
     const response = await fetch(url, {
       headers: {
         Authorization: `Bearer ${session.user.tokens.accessToken}`,

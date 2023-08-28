@@ -19,6 +19,8 @@ async function Page() {
     const session = await getServerSession(authOptions);
     const userInformations: IUser = await GetUserInformations(session);
 
+    console.log(userInformations)
+
     const calculateAge = (dateOfBirth: any) => {
         const birthDate = new Date(dateOfBirth);
         const currentDate = new Date();
