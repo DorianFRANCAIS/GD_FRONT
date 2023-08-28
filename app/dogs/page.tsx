@@ -1,8 +1,8 @@
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/pages/api/auth/[...nextauth]";
-import { handleDogs } from "@/pages/api/dogs/dogsApi";
+import { handleDogs } from "@/pages/api/dogs/route";
 import { IEstablishments } from "../establishments/page";
-import handleEstablishments from "@/pages/api/establishments/establishmentsApi";
+import handleEstablishments from "@/pages/api/establishments/route";
 import { IDogs } from "@/types/IDogs";
 import DogsPage from "@/container/Dogs/DogsPage";
 

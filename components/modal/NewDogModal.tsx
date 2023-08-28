@@ -3,7 +3,7 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { IEstablishmentsSelect } from "@/types/IEstablishments";
-import { PostDog } from "@/pages/api/dogs/dogsApi";
+import { PostDog } from "@/pages/api/dogs/route";
 import { useSession } from "next-auth/react";
 import { Button, Checkbox, Label, Modal, TextInput } from "flowbite-react";
 import { Dispatch, SetStateAction, useState } from "react";

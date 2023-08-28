@@ -73,9 +73,7 @@ export async function handleRegister(newUser: INewUser) {
             },
             body: JSON.stringify(newUser),
         });
-        console.log(response)
         const data = await response.json()
-        console.log("new", data)
         return NextResponse.json(data)
     } catch (error) {
         console.error('Error fetching data:', error);

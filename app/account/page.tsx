@@ -2,28 +2,22 @@ import { format } from "date-fns";
 import { fr } from 'date-fns/locale';
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/pages/api/auth/[...nextauth]";
-import { handleInfosUser } from "@/pages/api/users/route";
-export interface IUser {
-    _id: string;
-    lastname: string;
-    firstname: string;
-    avatarUrl: string;
-    role: string;
-    emailAddress: string;
-    phoneNumber: string;
-    birthDate: string;
-    activities: [];
-    stripeId: string;
-    registeredAt: string;
-    lastConnectionAt: string;
-    __v: 0
+import { IUser } from "@/types/IUser";
+
+async function GetUserInformations(session: any) {
+    const res = await fetch(process.env.SERVER_API + `/users/${session?.user.user._id}`, {
+        headers: {
+            Authorization: `Bearer ${session.user.tokens.accessToken}`,
+        },
+    });
+    return res.json();
 }
 
 
 
 async function Page() {
     const session = await getServerSession(authOptions);
-    const userInformations: IUser = await handleInfosUser(session);
+    const userInformations: IUser = await GetUserInformations(session);
 
     const calculateAge = (dateOfBirth: any) => {
         const birthDate = new Date(dateOfBirth);

@@ -4,7 +4,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { RxCrossCircled } from "react-icons/rx";
 import { IEstablishments } from "@/types/IEstablishments";
-import { PostActivity } from "@/pages/api/activities/activitiesApi";
+import { PostActivity } from "@/pages/api/activities/route";
 import { useSession } from "next-auth/react";
 import { Modal } from "flowbite-react";
 

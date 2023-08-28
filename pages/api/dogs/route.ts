@@ -10,7 +10,6 @@ export async function handleDogs(session: any, establishmentId?: string | null, 
     if (ownerId) {
         url += `?ownerId=${ownerId}`;
     }
-    console.log("url", url)
     try {
         const response = await fetch(url, {
             headers: {
