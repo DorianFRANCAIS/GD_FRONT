@@ -6,7 +6,6 @@ export async function GET(session: any, sessionId: string) {
             },
         });
         const data = await response.json();
-        console.log("sessions daily", data)
         return data;
     } catch (error) {
         console.error('Error post data:', error);

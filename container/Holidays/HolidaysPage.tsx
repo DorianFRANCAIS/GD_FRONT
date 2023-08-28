@@ -21,8 +21,6 @@ function HolidaysPage(props: { session: any, holidays: IHolidays[] }) {
     const isoDateString = today.toISOString();
     const { data: session } = useSession();
 
-    console.log("holidays", props.holidays)
-    console.log(session)
     useEffect(() => {
         const eventTempo: IEventHolidays[] = []
         props.holidays.map((holiday) => {

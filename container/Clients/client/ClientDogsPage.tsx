@@ -7,7 +7,6 @@ import { useState } from "react";
 
 function ClientDogPage(props: { dogs: IDogs[], establishments: IEstablishments[] }) {
     const [openModal, setOpenModal] = useState<boolean>(false);
-    console.log("chien par client", props.dogs)
     return (
         <div>
             <div className="flex justify-end">

@@ -36,7 +36,6 @@ function SessionInfosModal(props: { isModalInfosSessionOpen: boolean, closeModal
         props.closeModalInfosSession();
     };
 
-    console.log(props.selectedSession)
 
     return (
         <>

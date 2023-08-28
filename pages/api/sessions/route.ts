@@ -26,7 +26,6 @@ export async function GetSessions(session: any, params: any) {
     if (params.clientId) {
       url += `?educatorId=${params.clientId}`;
     }
-    console.log('url', url)
     const response = await fetch(url, {
       headers: {
         Authorization: `Bearer ${session.user.tokens.accessToken}`,
@@ -47,7 +46,6 @@ export async function GetDailySessions(session: any, establishmentId: string, da
       },
     });
     const data = await response.json();
-    console.log("sessions daily", data)
     return data;
   } catch (error) {
     console.error('Error post data:', error);

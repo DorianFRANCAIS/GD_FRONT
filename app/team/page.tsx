@@ -26,7 +26,6 @@ async function Team() {
         employees.forEach(async employee => {
 
             activityTab = await getActivitiesById(session, employee._id);
-            console.log(activityTab);
         });
     }
 

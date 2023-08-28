@@ -3,7 +3,6 @@
 import { ISession } from "@/types/ISession";
 
 function ClientSessionsPage(props: { clientSessions: ISession[] }) {
-    console.log(props.clientSessions)
     return (
         <div className="space-y-6">
             {props.clientSessions.length > 0 ?

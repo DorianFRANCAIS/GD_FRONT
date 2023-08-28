@@ -69,7 +69,6 @@ function AgendaPage(props: { sessions: ISession[], educators: IUser[], activitie
   };
 
   const displaySessions = (infos: any) => {
-    console.log(infos.event._def.extendedProps)
     setSelectedSession(infos.event._def.extendedProps)
     setIsModalInfosSessionOpen(true)
   }

@@ -3,8 +3,19 @@
 import { SubmitHandler, useForm } from "react-hook-form";
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from "yup";
-import { handleRegister } from "@/pages/api/users/route";
 import { redirect } from "next/navigation";
+
+async function Register(data: FormData) {
+    const newUser = { ...data, birthDate: new Date(data.birthDate).toISOString(), role: "Client" }
+    const response = await fetch(process.env.SERVER_API + `/api/users/register`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(newUser),
+    });
+    return response.json();
+}
 
 
 const registerSchema = yup.object({
@@ -33,8 +44,7 @@ export default function RegisterPage() {
         data: FormData
         ,
     ) => {
-        const newDate = new Date(data.birthDate)
-        await handleRegister({ ...data, birthDate: newDate.toISOString(), role: "Client" })
+        await Register(data)
         redirect("/login")
     }
 
