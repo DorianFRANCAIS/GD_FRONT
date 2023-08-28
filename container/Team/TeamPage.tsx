@@ -2,17 +2,28 @@
 
 import { IActivity } from "@/types/IActivity";
 import { IUser } from "@/types/IUser";
-import { useEffect } from "react";
+import { useSession } from "next-auth/react";
+import { useEffect, useState } from "react";
 
 
 function TeamPage(props: { employees: IUser[], activityTab: IActivity[] }) {
+    const [openModal, setOpenModal] = useState<boolean>(false);
+    const { data: session } = useSession();
     useEffect(() => {
         console.log(props.activityTab)
     }, []);
+
     return (
         <div className="flex justify-center items-start gap-x-12 w-full">
             <div className="bg-greyColor w-full p-6 rounded-md ">
-                <h1 className="text-3xl text-mainColor font-bold mb-6">Mon équipe</h1>
+                <div className="flex justify-between mb-2">
+                    <h1 className="text-3xl text-mainColor font-bold mb-6">Mon équipe</h1>
+                    {session && session.user.user.role === "Administrator" &&
+                        <button onClick={() => setOpenModal(true)} className="btn text-white px-4 py-2" type="button">
+                            Ajouter un employé
+                        </button>
+                    }
+                </div>
                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
                     {props.employees && props.employees.map((employee, idx) => (
                         <div key={idx} className="bg-white rounded-lg shadow-lg p-4">

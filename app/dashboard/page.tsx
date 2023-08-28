@@ -1,10 +1,10 @@
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/pages/api/auth/[...nextauth]";
-import { handleDogs } from "@/pages/api/dogs/dogsApi";
-import handleEstablishments from "@/pages/api/establishments/establishmentsApi";
+import { handleDogs } from "@/pages/api/dogs/route";
+import handleEstablishments from "@/pages/api/establishments/route";
 import { IEstablishments } from "@/types/IEstablishments";
 import { IDogs } from "@/types/IDogs";
-import { GetDailySessions } from "@/pages/api/sessions/sessionsApi";
+import { GetDailySessions } from "@/pages/api/sessions/route";
 import { IDailySession } from "@/types/ISession";
 import { GetAllStaff } from "@/pages/api/users/route";
 import { IUser } from "@/types/IUser";
@@ -12,7 +12,7 @@ import { format } from "date-fns";
 import { fr } from "date-fns/locale";
 import Link from "next/link";
 import { IActivity } from "@/types/IActivity";
-import { getActivities } from "@/pages/api/activities/activitiesApi";
+import { getActivities } from "@/pages/api/activities/route";
 
 
 

@@ -4,7 +4,7 @@ import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import timeGridPlugin from "@fullcalendar/timegrid";
 import interactionPlugin from "@fullcalendar/interaction";
-import { addHours, format } from "date-fns";
+import { format } from "date-fns";
 import { fr } from "date-fns/locale";
 import React, { useEffect, useRef, useState } from "react";
 import { useSession } from "next-auth/react";
@@ -52,7 +52,6 @@ function AgendaPage(props: { sessions: ISession[], educators: IUser[], activitie
       })
     })
     setEvents(eventTempo)
-    console.log(events)
   }, [])
 
   const openModalSession = (e: any) => {
@@ -129,7 +128,6 @@ function AgendaPage(props: { sessions: ISession[], educators: IUser[], activitie
           </div>
         ))}
       </div>
-
     </div>
   )
 };

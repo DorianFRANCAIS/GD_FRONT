@@ -9,20 +9,12 @@ const allowedOrigins = process.env.NODE_ENV === 'production'
     : ['http://localhost:3000']
 
 export function middleware(request: NextRequest) {
+    const origin = request.headers.get('origin');
+    const response = NextResponse.next();
 
-    const requestHeaders = new Headers(request.headers);
-    const response = NextResponse.next({
-        request: {
-            headers: requestHeaders,
-        },
-    });
-
-    const origin = requestHeaders.get('origin');
-    if (origin && allowedOrigins.includes(origin)) {
-        response.headers.set('Access-Control-Allow-Origin', origin)
-        response.headers.set('Access-Control-Allow-Credentials', "true")
-        response.headers.set('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS')
-    }
+    response.headers.set('Access-Control-Allow-Origin', "*")
+    response.headers.set('Access-Control-Allow-Credentials', "true")
+    response.headers.set('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS')
 
     return response
 }

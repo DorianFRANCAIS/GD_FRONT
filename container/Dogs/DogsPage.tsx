@@ -24,7 +24,7 @@ function DogsPage(props: { dogs: IDogs[], establishments: IEstablishmentsSelect[
                             <p className="text-xs text-mainColor font-bold">Race : {dog.breed}</p>
                             <p className="text-xs text-mainColor font-bold">Poids : {dog.weight} kg</p>
                             <p className="text-xs text-mainColor font-bold mb-4">Taille : {dog.height} cm</p>
-                            <Link href={"clients/" + dog.owner._id} className="btn w-full text-white px-4 py-2">Voir la fiche client</Link>
+                            <Link href={"clients/" + dog.owner._id} className="btn w-full text-white px-4 flex justify-center py-2">Voir la fiche client</Link>
                         </div>
                     ))}
                 </div>
