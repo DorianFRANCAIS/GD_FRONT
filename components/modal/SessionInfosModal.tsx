@@ -3,11 +3,12 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { useSession } from "next-auth/react";
-import { PostSession } from "@/pages/api/sessions/sessionsApi";
+import { PostSession } from "@/pages/api/sessions/route";
 import { Modal } from "flowbite-react";
 import { IEventSession } from "@/types/ICalendar";
 import { format } from "date-fns";
 import { AiFillPlusCircle, AiOutlineDelete } from "react-icons/ai";
+import { useEffect } from "react";
 
 const sessionSchema = yup.object({
     educator: yup.string().required('Veuillez choisir un éducateur'),
@@ -25,6 +26,7 @@ function SessionInfosModal(props: { isModalInfosSessionOpen: boolean, closeModal
         mode: "onSubmit"
     });
     const { data: session } = useSession();
+
 
     const onSubmit: SubmitHandler<FormData> = async (
         data: FormData

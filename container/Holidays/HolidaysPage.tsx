@@ -4,11 +4,13 @@ import dayGridPlugin from "@fullcalendar/daygrid";
 import timeGridPlugin from "@fullcalendar/timegrid";
 import interactionPlugin from "@fullcalendar/interaction";
 import React, { useEffect, useRef, useState } from "react";
-import { IHolidays } from "@/types/IHolidays";
+import { IHolidays, IPutHolidays } from "@/types/IHolidays";
 import { IEventHolidays } from "@/types/ICalendar";
-import { format } from "date-fns";
-import { fr } from "date-fns/locale";
 import NewHolidaysModal from "@/components/modal/NewHolidaysModal";
+import { useSession } from "next-auth/react";
+import { UpdateHolidayStatus } from "@/pages/api/holidays/route";
+
+
 
 
 function HolidaysPage(props: { session: any, holidays: IHolidays[] }) {
@@ -17,30 +19,39 @@ function HolidaysPage(props: { session: any, holidays: IHolidays[] }) {
     const [isModalHolidaysOpen, setIsModalHolidaysOpen] = useState<boolean>(false);
     const today = new Date();
     const isoDateString = today.toISOString();
+    const { data: session } = useSession();
 
+    console.log("holidays", props.holidays)
+    console.log(session)
     useEffect(() => {
         const eventTempo: IEventHolidays[] = []
-        props.holidays.map((session) => {
+        props.holidays.map((holiday) => {
             eventTempo.push({
-                title: `${session.employee.firstname}`,
-                start: `${session.beginDate}`,
-                end: `${session.endDate}`,
-                _id: `${session._id}`,
-                status: session.status,
-                establishment: session.establishment,
-                employee: session.employee,
-                isApproved: session.isApproved,
-                beginDate: session.beginDate,
-                endDate: session.endDate,
+                title: `${holiday.employee.firstname}`,
+                start: `${holiday.beginDate}`,
+                end: `${holiday.endDate}`,
+                _id: `${holiday._id}`,
+                status: holiday.status,
+                establishment: holiday.establishment,
+                employee: holiday.employee,
+                isApproved: holiday.isApproved,
+                beginDate: holiday.beginDate,
+                endDate: holiday.endDate,
                 editable: false,
-                color: session.status === "Pending" ? "red" : "#37347A",
+                color: holiday.status === "Pending" ? "red" : "#37347A",
                 textColor: `white`
             })
         })
         setEvents(eventTempo)
-        console.log(events)
     }, [])
 
+    const ApproveHoliday = async (holidayId: string) => {
+        const holiday: IPutHolidays = {
+            status: "Approved",
+            isApproved: true,
+        }
+        await UpdateHolidayStatus(session, holidayId, holiday)
+    }
 
     const closeModalHolidays = () => {
         setIsModalHolidaysOpen(false);
@@ -78,17 +89,23 @@ function HolidaysPage(props: { session: any, holidays: IHolidays[] }) {
             <div className='col-span-2 flex-col'>
                 <button className="btn w-full p-4 mt-2" onClick={() => setIsModalHolidaysOpen(true)}>Faire une demande de congés</button>
                 <div className="mt-12">
-                    <h5 className="text-white text-2xl">Congés prévus :</h5>
-                    <div className='mt-2 bg-white flex justify-between items-center rounded-twenty p-4 mb-5'>
-                        <div className="ml-2 flex flex-col">
-                            <span className="bg-orangeColor text-white p-1 text-center rounded-xl" >En attente d'acceptation</span>
-                            <p>Demande de congés de Martin Petit</p>
-                            <p className="text-mainColor">Du 01/12/2023 au 10/12/2023</p>
-                        </div>
-                        {props.session && props.session.user.user.role === "Administrator" &&
-                            <button className="btn p-2">Approuver</button>
-                        }
-                    </div>
+                    <h5 className="text-white text-2xl font-bold">Congés prévus :</h5>
+                    {props.holidays.length > 0 ?
+                        props.holidays.map((holiday, idx) => (
+                            <div key={idx} className='mt-2 bg-white flex justify-between items-center rounded-twenty p-4 mb-5'>
+                                <div className="ml-2 flex flex-col">
+                                    <span className="bg-orangeColor text-white p-1 text-center rounded-xl" >{holiday.status}</span>
+                                    <p>{holiday.employee.firstname} {holiday.employee.lastname}</p>
+                                    <p className="text-mainColor">Du {holiday.beginDate} au {holiday.endDate}</p>
+                                </div>
+                                {props.session && props.session.user.user.role === "Administrator" &&
+                                    <button className="btn p-2" onClick={() => ApproveHoliday(holiday._id)}>Approuver</button>
+                                }
+                            </div>
+                        ))
+                        :
+                        <p className="text-white">Aucune demande de congés.</p>
+                    }
                 </div>
             </div>
         </div >

@@ -1,7 +1,7 @@
 import ClientByIdPage from "@/container/Clients/client/ClientByIdPage";
 import { authOptions } from "@/pages/api/auth/[...nextauth]";
-import { handleDogs } from "@/pages/api/dogs/dogsApi";
-import handleEstablishments from "@/pages/api/establishments/establishmentsApi";
+import { handleDogs } from "@/pages/api/dogs/route";
+import handleEstablishments from "@/pages/api/establishments/route";
 import { GetClientById } from "@/pages/api/users/route";
 import { IDogs } from "@/types/IDogs";
 import { IEstablishments } from "@/types/IEstablishments";

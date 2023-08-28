@@ -1,6 +1,6 @@
 import HolidaysPage from "@/container/Holidays/HolidaysPage";
 import { authOptions } from "@/pages/api/auth/[...nextauth]";
-import handleEstablishments from "@/pages/api/establishments/establishmentsApi";
+import handleEstablishments from "@/pages/api/establishments/route";
 import { GetHolidays } from "@/pages/api/holidays/route";
 import { IEstablishments } from "@/types/IEstablishments";
 import { IHolidays } from "@/types/IHolidays";

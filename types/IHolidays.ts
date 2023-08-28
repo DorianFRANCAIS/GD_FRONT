@@ -10,3 +10,12 @@ export interface IHolidays {
     status: string;
     isApproved: boolean;
 }
+
+export interface IPutHolidays {
+    employee?: string;
+    establishment?: string;
+    beginDate?: string;
+    endDate?: string;
+    status?: string;
+    isApproved?: boolean;
+}
