@@ -1,25 +1,47 @@
 import ClientsPage from "@/container/Clients/ClientsPage";
-import { authOptions } from "@/pages/api/auth/[...nextauth]";
-import handleEstablishments from "@/pages/api/establishments/route";
 import { getServerSession } from "next-auth";
 import { IEstablishments } from "../establishments/page";
-import { GetAllStaff } from "@/pages/api/users/route";
 import { IUser } from "@/types/IUser";
+import { options } from "../api/auth/[...nextauth]/options";
 
-async function GetClients(session: any, establishmentId: string) {
-    const res = await fetch(process.env.SERVER_API + `/users/${session?.user.user._id}`, {
+async function GetEstablishments(session: any) {
+    let ownerId: string = '';
+    if (session) {
+        ownerId = session.user.user._id;
+    }
+        const response = await fetch(process.env.SERVER_API + `/establishments?ownerId=${ownerId}`, {
+            headers: {
+                Authorization: `Bearer ${session.user.tokens.accessToken}`,
+            },
+        });
+        return await response.json();
+}
+
+async function GetClients(session: any, establishmentId: string | null, role?: string) {
+    let url = process.env.SERVER_API + '/users';
+    if (establishmentId) {
+        url += `?establishmentId=${establishmentId}`;
+    }
+
+    if (role) {
+        url += `${establishmentId ? '&' : '?'}role=${role}`;
+    }
+    const response = await fetch(url, {
         headers: {
             Authorization: `Bearer ${session.user.tokens.accessToken}`,
         },
     });
+     return await response.json();
 }
 
+
+
 async function Clients(): Promise<JSX.Element> {
-    const session = await getServerSession(authOptions);
-    const establishment: IEstablishments = await handleEstablishments(session);
+    const session = await getServerSession(options);
+    const establishment: IEstablishments = await GetEstablishments(session);
     let clients: IUser[] = [];
     if (establishment) {
-        clients = await GetAllStaff(session, establishment._id, "Client");
+        clients = await GetClients(session, establishment._id, "Client");
     }
 
     return (

@@ -1,9 +1,9 @@
-import { authOptions } from "@/pages/api/auth/[...nextauth]";
 import { getServerSession } from "next-auth";
 import { NextResponse } from "next/server";
+import { options } from "../../auth/[...nextauth]/options";
 
 export async function GET(request: Request) {
-    const session = await getServerSession(authOptions);
+    const session = await getServerSession(options);
 
     const res = await fetch(process.env.SERVER_API + `/users/${session?.user.user._id}`, {
         headers: {

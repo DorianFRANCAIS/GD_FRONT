@@ -1,27 +1,28 @@
 "use client";
 import './globals.css'
-import { ReactNode, useEffect } from 'react';
-import { SessionProvider } from "next-auth/react";
+import {  useEffect } from 'react';
 import Header from '@/components/Header';
 import { initFlowbite } from 'flowbite';
+import AuthProvider from './context/AuthProvider';
 
-interface IProps {
-  children: ReactNode;
-  session: any;
-}
+function RootLayout({
+  children,
+}: {
+  children: React.ReactNode
+}) {
 
-function RootLayout({ children, session }: IProps) {
   useEffect(() => {
     initFlowbite();
   }, [])
   return (
     <html lang="en">
       <body>
-        <SessionProvider session={session}>
+        <AuthProvider>
           <Header />
-          <div className="w-full">{children}
-          </div>
-        </SessionProvider>
+          <main className="w-full">
+            {children}
+          </main>
+        </AuthProvider>
       </body>
     </html>
   )

@@ -1,41 +1,93 @@
 import { getServerSession } from "next-auth";
-import { authOptions } from "@/pages/api/auth/[...nextauth]";
-import { handleDogs } from "@/pages/api/dogs/route";
-import handleEstablishments from "@/pages/api/establishments/route";
 import { IEstablishments } from "@/types/IEstablishments";
 import { IDogs } from "@/types/IDogs";
-import { GetDailySessions } from "@/pages/api/sessions/route";
 import { IDailySession } from "@/types/ISession";
-import { GetAllStaff } from "@/pages/api/users/route";
 import { IUser } from "@/types/IUser";
 import { format } from "date-fns";
 import { fr } from "date-fns/locale";
 import Link from "next/link";
 import { IActivity } from "@/types/IActivity";
-import { getActivities } from "@/pages/api/activities/route";
+import { options } from "../api/auth/[...nextauth]/options";
 
-async function GetDogs(session: any, establishmentId: string) {
-    console.log(process.env.SERVER_API + `/api/dogs?establishmentId=${establishmentId}`)
-    const response = await fetch(process.env.SERVER_API + `/api/dogs?establishmentId=${establishmentId}`, {
+let establishmentIdWithoutQuotes: string;
+
+async function GetDogs(session: any, establishmentId: string,ownerId?: string) {
+    let url = process.env.SERVER_API + `/dogs`;
+    if (establishmentId) {
+        establishmentIdWithoutQuotes = establishmentId.replace(/"/g, "");
+        url += `?establishmentId=${establishmentIdWithoutQuotes}`;
+    }
+    if (ownerId) {
+        url += `?ownerId=${ownerId}`;
+    }
+    const response = await fetch(url, {
         headers: {
             Authorization: `Bearer ${session?.user.tokens.accessToken}`,
         },
     });
-    return response.json();
+    return await response.json();
+};
+
+async function DailySessions(session: any, establishmentId:string, date: string) {
+    const response = await fetch(process.env.SERVER_API + `/sessions/daily?establishmentId=${establishmentId}&date=${date}`, {
+        headers: {
+            Authorization: `Bearer ${session?.user.tokens.accessToken}`,
+        }
+    });
+    return await response.json();
+};
+
+async function GetEstablishments(session: any) {
+    let ownerId: string = '';
+    if (session) {
+        ownerId = session.user.user._id;
+    }
+        const response = await fetch(process.env.SERVER_API + `/establishments?ownerId=${ownerId}`, {
+            headers: {
+                Authorization: `Bearer ${session.user.tokens.accessToken}`,
+            },
+        });
+        return await response.json();
+}
+
+async function GetStaff(session: any, establishmentId: string | null, role?: string) {
+        let url = process.env.SERVER_API + '/users';
+        if (establishmentId) {
+            url += `?establishmentId=${establishmentId}`;
+        }
+
+        if (role) {
+            url += `${establishmentId ? '&' : '?'}role=${role}`;
+        }
+        const response = await fetch(url, {
+            headers: {
+                Authorization: `Bearer ${session.user.tokens.accessToken}`,
+            },
+        });
+         return await response.json();
+}
+
+async function GetActivities(session: any, establishmentId: string) {
+        const response = await fetch(process.env.SERVER_API + `/activities?establishmentId=${establishmentId}`, {
+            headers: {
+                Authorization: `Bearer ${session.user.tokens.accessToken}`,
+            },
+        });
+        return await response.json();
 }
 
 async function Dashboard() {
-    const session = await getServerSession(authOptions);
-    const establishments: IEstablishments[] = await handleEstablishments(session);
+    const session = await getServerSession(options);
+    const establishments: IEstablishments[] = await GetEstablishments(session);
     let dogs: IDogs[] = [];
     let sessions: IDailySession | null = null;
     let usersStaff: IUser[] = [];
     let activities: IActivity[] = [];
     if (establishments.length > 0) {
         dogs = await GetDogs(session, establishments[0]._id);
-        sessions = await GetDailySessions(session, establishments[0]._id, format(new Date(), 'yyyy-MM-dd'));
-        usersStaff = await GetAllStaff(session, establishments[0]._id);
-        activities = await getActivities(session, establishments[0]._id);
+        sessions = await DailySessions(session, establishments[0]._id, format(new Date(), 'yyyy-MM-dd'));
+        usersStaff = await GetStaff(session, establishments[0]._id);
+        activities = await GetActivities(session, establishments[0]._id);
     }
 
     return (

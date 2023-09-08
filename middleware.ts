@@ -4,9 +4,6 @@ export { default } from "next-auth/middleware";
 
 export const config = { matcher: ["/dashboard", "/agenda", "/establishments"] }
 
-const allowedOrigins = process.env.NODE_ENV === 'production'
-    ? ['https://www.test.com']
-    : ['http://localhost:3000']
 
 export function middleware(request: NextRequest) {
     const origin = request.headers.get('origin');

@@ -9,9 +9,6 @@ import { useEffect, useState } from "react";
 function TeamPage(props: { employees: IUser[], activityTab: IActivity[] }) {
     const [openModal, setOpenModal] = useState<boolean>(false);
     const { data: session } = useSession();
-    useEffect(() => {
-        console.log(props.activityTab)
-    }, []);
 
     return (
         <div className="flex justify-center items-start gap-x-12 w-full">

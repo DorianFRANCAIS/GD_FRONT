@@ -3,7 +3,6 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { useSession } from "next-auth/react";
-import { PostSession } from "@/pages/api/sessions/route";
 import { Modal } from "flowbite-react";
 import { IEventSession } from "@/types/ICalendar";
 import { format } from "date-fns";
@@ -32,7 +31,7 @@ function SessionInfosModal(props: { isModalInfosSessionOpen: boolean, closeModal
         data: FormData
     ) => {
         const newBeginDate = new Date(data.beginDate)
-        await PostSession(session, { ...data, beginDate: newBeginDate.toISOString(), status: "Pending" });
+        //await PostSession(session, { ...data, beginDate: newBeginDate.toISOString(), status: "Pending" });
         props.closeModalInfosSession();
     };
 

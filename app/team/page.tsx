@@ -1,12 +1,9 @@
-import { getActivitiesById } from "@/pages/api/activities/route";
-import { authOptions } from "@/pages/api/auth/[...nextauth]";
-import handleEstablishments from "@/pages/api/establishments/route";
-import { GetAllStaff } from "@/pages/api/users/route";
 import { IActivity } from "@/types/IActivity";
 import { IEstablishments } from "@/types/IEstablishments";
 import { IUser } from "@/types/IUser";
 import { getServerSession } from "next-auth";
 import TeamPage from "@/container/Team/TeamPage";
+import { options } from "../api/auth/[...nextauth]/options";
 
 async function GetStaff(session: any, establishmentId: string) {
     const res = await fetch(process.env.SERVER_API + `/users?establishmentId=${establishmentId}`, {
@@ -16,16 +13,38 @@ async function GetStaff(session: any, establishmentId: string) {
     });
     return res.json();
 }
+
+async function GetEstablishments(session: any) {
+    let ownerId: string = '';
+    if (session) {
+        ownerId = session.user.user._id;
+    }
+        const response = await fetch(process.env.SERVER_API + `/establishments?ownerId=${ownerId}`, {
+            headers: {
+                Authorization: `Bearer ${session.user.tokens.accessToken}`,
+            },
+        });
+        return await response.json();
+}
+
+async function GetActivity(session: any, activityId: string) {
+        const response = await fetch(process.env.SERVER_API + `/activities?activityId=${activityId}`, {
+            headers: {
+                Authorization: `Bearer ${session.user.tokens.accessToken}`,
+            },
+        });
+        return await response.json();
+}
 async function Team() {
-    const session = await getServerSession(authOptions);
+    const session = await getServerSession(options);
     let employees: IUser[] = [];
     let activityTab: IActivity[] = [];
-    const establishments: IEstablishments[] = await handleEstablishments(session);
+    const establishments: IEstablishments[] = await GetEstablishments(session);
     if (establishments.length > 0) {
         employees = await GetStaff(session, establishments[0]._id);
         employees.forEach(async employee => {
 
-            activityTab = await getActivitiesById(session, employee._id);
+            activityTab = await GetActivity(session, employee._id);
         });
     }
 

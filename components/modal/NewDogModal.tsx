@@ -3,10 +3,22 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { IEstablishmentsSelect } from "@/types/IEstablishments";
-import { PostDog } from "@/pages/api/dogs/route";
 import { useSession } from "next-auth/react";
 import { Button, Checkbox, Label, Modal, TextInput } from "flowbite-react";
 import { Dispatch, SetStateAction, useState } from "react";
+import { IDogs } from "@/types/IDogs";
+
+async function PostDog(session:any,newDog: IDogs) {
+    const response = await fetch(process.env.SERVER_API + `/dogs`, {
+        method: 'POST',
+        headers: {
+            Authorization: `Bearer ${session?.user.tokens.accessToken}`,
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(newDog),
+    });
+    return await response.json();
+}
 
 const dogSchema = yup.object({
     name: yup.string().required('Veuillez choisir un nom'),

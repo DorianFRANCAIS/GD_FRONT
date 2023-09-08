@@ -3,12 +3,24 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { useSession } from "next-auth/react";
-import { PostSession } from "@/pages/api/sessions/route";
 import { IUser } from "@/types/IUser";
 import { IActivity } from "@/types/IActivity";
 import { IEstablishments } from "@/types/IEstablishments";
 import { RxCrossCircled } from 'react-icons/rx';
 import { Modal } from "flowbite-react";
+import { IPostSession } from "@/types/ISession";
+
+async function PostSession(session:any,sessionInfos: IPostSession) {
+    const res = await fetch(process.env.SERVER_API + `/sessions`, {
+        method: 'POST',
+        headers: {
+            Authorization: `Bearer ${session?.user.tokens.accessToken}`,
+        },
+        body: JSON.stringify(sessionInfos),
+    });
+
+    const status = await res.json()
+}
 
 const sessionSchema = yup.object({
   educator: yup.string().required('Veuillez choisir un éducateur'),

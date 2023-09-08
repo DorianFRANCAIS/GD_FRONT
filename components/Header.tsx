@@ -6,7 +6,7 @@ import { RiTeamLine } from "react-icons/ri";
 import { LiaDogSolid } from "react-icons/lia";
 import { BiLogOut } from "react-icons/bi";
 import { FaCalendarAlt, FaUmbrellaBeach } from "react-icons/fa";
-import { MdWorkOutline, MdOutlineManageAccounts } from "react-icons/md";
+import { MdWorkOutline } from "react-icons/md";
 import { AiFillDashboard } from "react-icons/ai";
 import { PiUsersFourFill } from "react-icons/pi";
 import { useEffect, useState } from "react";

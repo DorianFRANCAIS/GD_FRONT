@@ -1,14 +1,17 @@
 import { getServerSession } from "next-auth";
 import { NextResponse } from "next/server";
-import { authOptions } from "../../../pages/api/auth/[...nextauth]";
+import { options } from "../auth/[...nextauth]/options";
+import { IPostDog } from "@/types/IDogs";
 
 let establishmentIdWithoutQuotes: string;
+
 export async function GET(request: Request) {
-    const session = await getServerSession(authOptions);
+    const session = await getServerSession(options);
+    console.log("session",session)
     const { searchParams } = new URL(request.url);
     const establishmentId = searchParams.get('establishmentId');
     const ownerId = searchParams.get('ownerId');
-    console.log("establishmentId", establishmentId);
+
     let url = process.env.SERVER_API + `/dogs`;
     if (establishmentId) {
         establishmentIdWithoutQuotes = establishmentId.replace(/"/g, "");
@@ -23,5 +26,21 @@ export async function GET(request: Request) {
         },
     });
     const dogs = await response.json();
+
     return NextResponse.json({ dogs })
+}
+
+export async function POST( newDog: IPostDog) {
+    const session = await getServerSession(options);
+    const response = await fetch(process.env.SERVER_API + `/dogs`, {
+        method: 'POST',
+        headers: {
+            Authorization: `Bearer ${session?.user.tokens.accessToken}`,
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(newDog),
+    });
+    const data = await response.json();
+    
+    return NextResponse.json({ data })
 }

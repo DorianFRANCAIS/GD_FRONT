@@ -3,12 +3,13 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { useSession } from "next-auth/react";
-import { PostSession } from "@/pages/api/sessions/route";
 import { IUser } from "@/types/IUser";
 import { IActivity } from "@/types/IActivity";
 import { IEstablishments } from "@/types/IEstablishments";
 import { RxCrossCircled } from 'react-icons/rx';
 import { Modal } from "flowbite-react";
+
+async function PostSession() {}
 
 const sessionSchema = yup.object({
     educator: yup.string().required('Veuillez choisir un éducateur'),
@@ -31,7 +32,7 @@ function NewEmployeeModal(props: { isModalEmployeeOpen: boolean, closeModalEmplo
         data: FormData
     ) => {
         const newBeginDate = new Date(data.beginDate)
-        await PostSession(session, { ...data, beginDate: newBeginDate.toISOString(), status: "Pending" });
+        //await PostSession(session, { ...data, beginDate: newBeginDate.toISOString(), status: "Pending" });
         props.closeModalEmployee();
     };
 

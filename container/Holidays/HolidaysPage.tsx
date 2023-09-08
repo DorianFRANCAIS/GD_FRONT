@@ -8,9 +8,17 @@ import { IHolidays, IPutHolidays } from "@/types/IHolidays";
 import { IEventHolidays } from "@/types/ICalendar";
 import NewHolidaysModal from "@/components/modal/NewHolidaysModal";
 import { useSession } from "next-auth/react";
-import { UpdateHolidayStatus } from "@/pages/api/holidays/route";
 
-
+async function UpdateHolidayStatus(session:any, holidayId: string, newHolidayValue:IPutHolidays) {
+    const response = await fetch(`http://localhost:3000/holidays/${holidayId}`, {
+        method: 'PUT',
+        headers: {
+            Authorization: `Bearer ${session?.user.tokens.accessToken}`,
+        },
+        body: JSON.stringify(newHolidayValue),
+    });
+    return await response.json();
+}
 
 
 function HolidaysPage(props: { session: any, holidays: IHolidays[] }) {
