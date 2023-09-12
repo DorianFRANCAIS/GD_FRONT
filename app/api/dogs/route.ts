@@ -7,7 +7,6 @@ let establishmentIdWithoutQuotes: string;
 
 export async function GET(request: Request) {
     const session = await getServerSession(options);
-    console.log("session",session)
     const { searchParams } = new URL(request.url);
     const establishmentId = searchParams.get('establishmentId');
     const ownerId = searchParams.get('ownerId');
@@ -30,7 +29,7 @@ export async function GET(request: Request) {
     return NextResponse.json({ dogs })
 }
 
-export async function POST( newDog: IPostDog) {
+export async function POST(newDog: IPostDog) {
     const session = await getServerSession(options);
     const response = await fetch(process.env.SERVER_API + `/dogs`, {
         method: 'POST',
@@ -41,6 +40,6 @@ export async function POST( newDog: IPostDog) {
         body: JSON.stringify(newDog),
     });
     const data = await response.json();
-    
+
     return NextResponse.json({ data })
 }

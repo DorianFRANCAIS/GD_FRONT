@@ -7,7 +7,16 @@ import { Modal } from "flowbite-react";
 import { IEventSession } from "@/types/ICalendar";
 import { format } from "date-fns";
 import { AiFillPlusCircle, AiOutlineDelete } from "react-icons/ai";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+
+export async function RemainingPlaces(session: any, sessionId: string) {
+    const response = await fetch(`/api/sessions/${sessionId}/remaining-places`, {
+        headers: {
+            Authorization: `Bearer ${session?.user.tokens.accessToken}`,
+        },
+    });
+    return response.json();
+}
 
 const sessionSchema = yup.object({
     educator: yup.string().required('Veuillez choisir un éducateur'),
@@ -19,13 +28,26 @@ const sessionSchema = yup.object({
 
 type FormData = yup.InferType<typeof sessionSchema>;
 
-function SessionInfosModal(props: { isModalInfosSessionOpen: boolean, closeModalInfosSession: () => void, selectedSession: IEventSession | null }) {
+function SessionInfosModal(props: { isModalInfosSessionOpen: boolean, closeModalInfosSession: () => void, selectedSession: IEventSession }) {
     const { register, handleSubmit, formState: { errors } } = useForm<FormData>({
         resolver: yupResolver(sessionSchema),
         mode: "onSubmit"
     });
+    const [remainingPlaces, setRemainingPlaces] = useState<number>(0)
     const { data: session } = useSession();
 
+
+
+
+    useEffect(() => {
+        if (props.selectedSession) {
+            const getRemainingPlaces = async () => {
+                const res = await RemainingPlaces(session, props.selectedSession._id)
+                setRemainingPlaces(res.remainingPlaces)
+            }
+            getRemainingPlaces()
+        }
+    }, [props.selectedSession])
 
     const onSubmit: SubmitHandler<FormData> = async (
         data: FormData
@@ -34,7 +56,6 @@ function SessionInfosModal(props: { isModalInfosSessionOpen: boolean, closeModal
         //await PostSession(session, { ...data, beginDate: newBeginDate.toISOString(), status: "Pending" });
         props.closeModalInfosSession();
     };
-
 
     return (
         <>
@@ -50,7 +71,7 @@ function SessionInfosModal(props: { isModalInfosSessionOpen: boolean, closeModal
                         <div className="px-6 py-6 lg:px-8">
                             <form className="space-y-6" onSubmit={handleSubmit(onSubmit)}>
                                 <div className="flex justify-between items-center">
-                                    <p>Places restante pour la session : 0/{props.selectedSession?.maximumCapacity}</p>
+                                    <p>Places restante pour la session : {remainingPlaces}/{props.selectedSession?.maximumCapacity}</p>
                                     <button><AiFillPlusCircle className="text-mainColor h-8 w-8" /></button>
                                 </div>
                                 <div className="bg-gray-100 p-4 rounded-md">
