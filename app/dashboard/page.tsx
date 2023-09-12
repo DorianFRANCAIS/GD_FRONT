@@ -11,7 +11,7 @@ import { options } from "../api/auth/[...nextauth]/options";
 
 let establishmentIdWithoutQuotes: string;
 
-async function GetDogs(session: any, establishmentId: string,ownerId?: string) {
+async function GetDogs(session: any, establishmentId: string, ownerId?: string) {
     let url = process.env.SERVER_API + `/dogs`;
     if (establishmentId) {
         establishmentIdWithoutQuotes = establishmentId.replace(/"/g, "");
@@ -28,7 +28,7 @@ async function GetDogs(session: any, establishmentId: string,ownerId?: string) {
     return await response.json();
 };
 
-async function DailySessions(session: any, establishmentId:string, date: string) {
+async function DailySessions(session: any, establishmentId: string, date: string) {
     const response = await fetch(process.env.SERVER_API + `/sessions/daily?establishmentId=${establishmentId}&date=${date}`, {
         headers: {
             Authorization: `Bearer ${session?.user.tokens.accessToken}`,
@@ -42,38 +42,38 @@ async function GetEstablishments(session: any) {
     if (session) {
         ownerId = session.user.user._id;
     }
-        const response = await fetch(process.env.SERVER_API + `/establishments?ownerId=${ownerId}`, {
-            headers: {
-                Authorization: `Bearer ${session.user.tokens.accessToken}`,
-            },
-        });
-        return await response.json();
+    const response = await fetch(process.env.SERVER_API + `/establishments?ownerId=${ownerId}`, {
+        headers: {
+            Authorization: `Bearer ${session.user.tokens.accessToken}`,
+        },
+    });
+    return await response.json();
 }
 
 async function GetStaff(session: any, establishmentId: string | null, role?: string) {
-        let url = process.env.SERVER_API + '/users';
-        if (establishmentId) {
-            url += `?establishmentId=${establishmentId}`;
-        }
+    let url = process.env.SERVER_API + '/users';
+    if (establishmentId) {
+        url += `?establishmentId=${establishmentId}`;
+    }
 
-        if (role) {
-            url += `${establishmentId ? '&' : '?'}role=${role}`;
-        }
-        const response = await fetch(url, {
-            headers: {
-                Authorization: `Bearer ${session.user.tokens.accessToken}`,
-            },
-        });
-         return await response.json();
+    if (role) {
+        url += `${establishmentId ? '&' : '?'}role=${role}`;
+    }
+    const response = await fetch(url, {
+        headers: {
+            Authorization: `Bearer ${session.user.tokens.accessToken}`,
+        },
+    });
+    return await response.json();
 }
 
 async function GetActivities(session: any, establishmentId: string) {
-        const response = await fetch(process.env.SERVER_API + `/activities?establishmentId=${establishmentId}`, {
-            headers: {
-                Authorization: `Bearer ${session.user.tokens.accessToken}`,
-            },
-        });
-        return await response.json();
+    const response = await fetch(process.env.SERVER_API + `/activities?establishmentId=${establishmentId}`, {
+        headers: {
+            Authorization: `Bearer ${session.user.tokens.accessToken}`,
+        },
+    });
+    return await response.json();
 }
 
 async function Dashboard() {

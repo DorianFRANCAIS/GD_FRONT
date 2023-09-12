@@ -28,7 +28,7 @@ function AgendaPage(props: { sessions: ISession[], educators: IUser[], activitie
   const [selectedSession, setSelectedSession] = useState<IEventSession | null>(null);
   const today = new Date();
   const isoDateString = today.toISOString();
-
+  console.log(session)
 
   useEffect(() => {
     const eventTempo: IEventSession[] = []

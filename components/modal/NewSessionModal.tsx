@@ -10,16 +10,16 @@ import { RxCrossCircled } from 'react-icons/rx';
 import { Modal } from "flowbite-react";
 import { IPostSession } from "@/types/ISession";
 
-async function PostSession(session:any,sessionInfos: IPostSession) {
-    const res = await fetch(process.env.SERVER_API + `/sessions`, {
-        method: 'POST',
-        headers: {
-            Authorization: `Bearer ${session?.user.tokens.accessToken}`,
-        },
-        body: JSON.stringify(sessionInfos),
-    });
+async function PostSession(session: any, sessionInfos: IPostSession) {
+  const res = await fetch(process.env.LOCAL_API + `/api/sessions`, {
+    method: 'POST',
+    headers: {
+      Authorization: `Bearer ${session?.user.tokens.accessToken}`,
+    },
+    body: JSON.stringify(sessionInfos),
+  });
 
-    const status = await res.json()
+  const status = await res.json()
 }
 
 const sessionSchema = yup.object({

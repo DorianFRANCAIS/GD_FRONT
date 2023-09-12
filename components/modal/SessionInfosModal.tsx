@@ -71,7 +71,7 @@ function SessionInfosModal(props: { isModalInfosSessionOpen: boolean, closeModal
                         <div className="px-6 py-6 lg:px-8">
                             <form className="space-y-6" onSubmit={handleSubmit(onSubmit)}>
                                 <div className="flex justify-between items-center">
-                                    <p>Places restante pour la session : {remainingPlaces}/{props.selectedSession?.maximumCapacity}</p>
+                                    <p>{remainingPlaces === 0 ? "Aucune places restantes" : `Places restante pour la session : ${remainingPlaces}/${props.selectedSession?.maximumCapacity} `}</p>
                                     <button><AiFillPlusCircle className="text-mainColor h-8 w-8" /></button>
                                 </div>
                                 <div className="bg-gray-100 p-4 rounded-md">
