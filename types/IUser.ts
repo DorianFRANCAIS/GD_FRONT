@@ -2,7 +2,7 @@ import { IActivity } from "./IActivity";
 import { IEstablishments } from "./IEstablishments";
 
 export interface IUser {
-  activities: [string],
+  activities: IActivity[],
   establishments: IEstablishments[],
   _id: string,
   lastname: string,

@@ -19,7 +19,7 @@ async function PostSession(session: any, sessionInfos: IPostSession) {
     body: JSON.stringify(sessionInfos),
   });
 
-  const status = await res.json()
+  return await res.json()
 }
 
 const sessionSchema = yup.object({

@@ -6,7 +6,6 @@ import { IPostSession } from "@/types/ISession";
 export async function POST(request: Request) {
     const session = await getServerSession(options);
     const newSession: IPostSession = await request.json()
-    console.log("body", JSON.stringify(newSession))
     const res = await fetch(process.env.SERVER_API + `/sessions`, {
         method: 'POST',
         headers: {
@@ -15,11 +14,9 @@ export async function POST(request: Request) {
         },
         body: JSON.stringify(newSession),
     });
-    console.log(res)
     const data: IPostSession = await res.json()
-    console.log("data", data)
 
-    return NextResponse.json({ status: 200 })
+    return NextResponse.json(data, { status: 200 })
 }
 
 export async function GET(request: Request) {

@@ -8,8 +8,9 @@ import { IHolidays, IPutHolidays } from "@/types/IHolidays";
 import { IEventHolidays } from "@/types/ICalendar";
 import NewHolidaysModal from "@/components/modal/NewHolidaysModal";
 import { useSession } from "next-auth/react";
+import { IEstablishments } from "@/types/IEstablishments";
 
-async function UpdateHolidayStatus(session:any, holidayId: string, newHolidayValue:IPutHolidays) {
+async function UpdateHolidayStatus(session: any, holidayId: string, newHolidayValue: IPutHolidays) {
     const response = await fetch(`http://localhost:3000/holidays/${holidayId}`, {
         method: 'PUT',
         headers: {
@@ -21,7 +22,7 @@ async function UpdateHolidayStatus(session:any, holidayId: string, newHolidayVal
 }
 
 
-function HolidaysPage(props: { session: any, holidays: IHolidays[] }) {
+function HolidaysPage(props: { session: any, holidays: IHolidays[], establishments: IEstablishments[] }) {
     const calendarRef = useRef<FullCalendar | null>(null);
     const [events, setEvents] = useState<IEventHolidays[]>()
     const [isModalHolidaysOpen, setIsModalHolidaysOpen] = useState<boolean>(false);
@@ -64,7 +65,7 @@ function HolidaysPage(props: { session: any, holidays: IHolidays[] }) {
     };
     return (
         <div className="grid grid-cols-6 gap-4">
-            {isModalHolidaysOpen && <NewHolidaysModal isModalHolidaysOpen={isModalHolidaysOpen} closeModalHolidays={closeModalHolidays} session={props.session} />}
+            {isModalHolidaysOpen && <NewHolidaysModal isModalHolidaysOpen={isModalHolidaysOpen} closeModalHolidays={closeModalHolidays} session={props.session} establishments={props.establishment} />}
             <div className='col-span-4 rounded-3xl p-4 mb-5 wrapper'>
                 <FullCalendar
                     plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}

@@ -5,25 +5,46 @@ import * as yup from "yup";
 import { Modal } from "flowbite-react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { useSession } from "next-auth/react";
+import { IPostHolidays } from "@/types/IHolidays";
+import { IEstablishments } from "@/types/IEstablishments";
+
+async function PostHolidays(session: any, newHolidays: IPostHolidays) {
+    const res = await fetch(process.env.LOCAL_API + `/api/holidays`, {
+        method: 'POST',
+        headers: {
+            Authorization: `Bearer ${session?.user.tokens.accessToken}`,
+        },
+        body: JSON.stringify(newHolidays),
+    });
+
+    return await res.json()
+}
 
 const holidaysSchema = yup.object({
     employee: yup.string(),
-    establishment: yup.string().required('Veuillez choisir une activité'),
-    beginDate: yup.string().required('Veuillez choisir un établissement'),
-    endDate: yup.number().required('Veuillez renseigner une capacité maximale'),
-    status: yup.string().required('Veuillez renseigner une date de début'),
+    establishment: yup.string(),
+    beginDate: yup.string().required('Veuillez renseigner une date de début'),
+    endDate: yup.string().required('Veuillez choisir une date de fin'),
+    status: yup.string()
 }).required();
 
-function NewHolidaysModal(props: { session: any, isModalHolidaysOpen: boolean, closeModalHolidays: any }) {
+type FormData = yup.InferType<typeof holidaysSchema>;
+
+function NewHolidaysModal(props: { session: any, isModalHolidaysOpen: boolean, closeModalHolidays: any, establishments: IEstablishments[] }) {
     const { register, handleSubmit, formState: { errors } } = useForm<FormData>({
         resolver: yupResolver(holidaysSchema),
         mode: "onSubmit"
     });
     const { data: session } = useSession();
+    console.log(session)
+
     const onSubmit: SubmitHandler<FormData> = async (
         data: FormData
     ) => {
-        //await PostSession(session, { ...data, beginDate: newBeginDate.toISOString(), status: "Pending" });
+        data.employee = session?.user.user._id;
+        data.establishment = props.establishments[0]._id;
+        data.status = "Pending";
+        await PostHolidays(session, data);
         props.closeModalHolidays();
     };
     return (
@@ -48,7 +69,7 @@ function NewHolidaysModal(props: { session: any, isModalHolidaysOpen: boolean, c
                                 <div className="flex items-center">
                                     <label className="block mb-2 mr-2 text-sm font-medium text-gray-900 dark:text-white">Au</label>
                                     <input
-                                        type="datetime-local"
+                                        type="date"
                                         className="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
                                         {...register("endDate")}
                                     />
