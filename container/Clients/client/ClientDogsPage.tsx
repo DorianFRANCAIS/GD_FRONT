@@ -3,10 +3,14 @@
 import NewDogModal from "@/components/modal/NewDogModal";
 import { IDogs } from "@/types/IDogs";
 import { IEstablishments } from "@/types/IEstablishments";
+import { IUser } from "@/types/IUser";
 import { useState } from "react";
 
-function ClientDogPage(props: { dogs: IDogs[], establishments: IEstablishments[] }) {
+function ClientDogPage(props: { dogs: IDogs[], establishments: IEstablishments[], client: IUser }) {
     const [openModal, setOpenModal] = useState<boolean>(false);
+    const closeModalNewDog = () => {
+        setOpenModal(false);
+      };
     return (
         <div>
             <div className="flex justify-end">
@@ -37,7 +41,7 @@ function ClientDogPage(props: { dogs: IDogs[], establishments: IEstablishments[]
                     <p className="font-bold text-mainColor">Aucun chien n'a été associé à ce client.</p>
                 )}
             </div>
-            <NewDogModal establishments={props.establishments} openModal={openModal} setOpenModal={setOpenModal} />
+            <NewDogModal establishments={props.establishments} openModal={openModal} setOpenModal={setOpenModal} closeModalNewDog={closeModalNewDog} client={props.client} />
         </div>
     )
 };

@@ -3,10 +3,21 @@ import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { RxCrossCircled } from "react-icons/rx";
-import { IEstablishments } from "@/types/IEstablishments";
-import { PostActivity } from "@/pages/api/activities/route";
+import { IEstablishments, IEstablishmentsSelect } from "@/types/IEstablishments";
 import { useSession } from "next-auth/react";
 import { Modal } from "flowbite-react";
+import { IPostActivity } from "@/types/IActivity";
+
+async function PostActivity(session:any,newDog: IPostActivity) {
+    const response = await fetch(process.env.LOCAL_API + `/api/activities`, {
+        method: 'POST',
+        headers: {
+            Authorization: `Bearer ${session?.user.tokens.accessToken}`,
+        },
+        body: JSON.stringify(newDog),
+    });
+    return response.json();
+}
 
 const activitySchema = yup.object({
     establishment: yup.string().required('Veuillez choisir un établissement'),
@@ -20,7 +31,7 @@ const activitySchema = yup.object({
 
 type FormData = yup.InferType<typeof activitySchema>;
 
-function NewActivityModal(props: { isModalAcitivityOpen: boolean, closeModalActivity: () => void, establishments: IEstablishments[] }) {
+function NewActivityModal(props: { isModalAcitivityOpen: boolean, closeModalActivity: () => void, establishments: IEstablishmentsSelect[] }) {
     const { register, control, handleSubmit, formState: { errors } } = useForm<FormData>({
         resolver: yupResolver(activitySchema),
         mode: "onSubmit"
@@ -39,7 +50,7 @@ function NewActivityModal(props: { isModalAcitivityOpen: boolean, closeModalActi
             <Modal show={props.isModalAcitivityOpen === true} size="2xl" popup onClose={props.closeModalActivity}>
                 <Modal.Header className="flex items-center border-b p-4">
                     <h3 className="text-xl font-semibold text-mainColor">
-                        Ajout d'un nouveau chien
+                        Ajout d&apos;un nouveau chien
                     </h3>
                 </Modal.Header>
                 <Modal.Body>
@@ -47,7 +58,7 @@ function NewActivityModal(props: { isModalAcitivityOpen: boolean, closeModalActi
                         <form className="space-y-6" onSubmit={handleSubmit(onSubmit)}>
                             <div className="grid grid-cols-2 gap-x-2">
                                 <div>
-                                    <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Nom de l'activité</label>
+                                    <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Nom de l&apos;activité</label>
                                     <input
                                         type="text"
                                         className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
@@ -97,7 +108,7 @@ function NewActivityModal(props: { isModalAcitivityOpen: boolean, closeModalActi
                             </div>
                             <div className="grid grid-cols-2 gap-x-2">
                                 <div>
-                                    <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Durée de l'activitée</label>
+                                    <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Durée de l&apos;activitée</label>
                                     <input
                                         className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                         type="number"

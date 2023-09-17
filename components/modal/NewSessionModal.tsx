@@ -6,7 +6,6 @@ import { useSession } from "next-auth/react";
 import { IUser } from "@/types/IUser";
 import { IActivity } from "@/types/IActivity";
 import { IEstablishments } from "@/types/IEstablishments";
-import { RxCrossCircled } from 'react-icons/rx';
 import { Modal } from "flowbite-react";
 import { IPostSession } from "@/types/ISession";
 
@@ -52,7 +51,7 @@ function NewSessionModal(props: { isModalSessionOpen: boolean, closeModalSession
       <Modal show={props.isModalSessionOpen === true} size="2xl" popup onClose={props.closeModalSession}>
         <Modal.Header className="flex items-center border-b p-4">
           <h3 className="text-xl font-semibold text-mainColor">
-            Ajout d'une nouvelle session
+            Ajout d&apos;une nouvelle session
           </h3>
         </Modal.Header>
         <Modal.Body>

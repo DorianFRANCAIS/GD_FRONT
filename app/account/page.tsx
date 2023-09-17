@@ -1,8 +1,8 @@
 import { format } from "date-fns";
 import { fr } from 'date-fns/locale';
 import { getServerSession } from "next-auth";
-import { authOptions } from "@/pages/api/auth/[...nextauth]";
 import { IUser } from "@/types/IUser";
+import { options } from "../api/auth/[...nextauth]/options";
 
 async function GetUserInformations(session: any) {
     const res = await fetch(process.env.SERVER_API + `/users/${session?.user.user._id}`, {
@@ -16,7 +16,7 @@ async function GetUserInformations(session: any) {
 
 
 async function Page() {
-    const session = await getServerSession(authOptions);
+    const session = await getServerSession(options);
     const userInformations: IUser = await GetUserInformations(session);
 
     const calculateAge = (dateOfBirth: any) => {

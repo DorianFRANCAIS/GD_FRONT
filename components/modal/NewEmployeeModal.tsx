@@ -41,7 +41,7 @@ function NewEmployeeModal(props: { isModalEmployeeOpen: boolean, closeModalEmplo
             <Modal show={props.isModalEmployeeOpen === true} size="2xl" popup onClose={props.closeModalEmployee}>
                 <Modal.Header className="flex items-center border-b p-4">
                     <h3 className="text-xl font-semibold text-mainColor">
-                        Ajout d'un nouvel employé
+                        Ajout d&apos;un nouvel employé
                     </h3>
                 </Modal.Header>
                 <Modal.Body>

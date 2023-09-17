@@ -25,7 +25,7 @@ function AgendaPage(props: { sessions: ISession[], educators: IUser[], activitie
   const [events, setEvents] = useState<IEventSession[]>()
   const [isModalSessionOpen, setIsModalSessionOpen] = useState<boolean>(false);
   const [isModalInfosSessionOpen, setIsModalInfosSessionOpen] = useState<boolean>(false);
-  const [selectedSession, setSelectedSession] = useState<IEventSession | null>(null);
+  const [selectedSession, setSelectedSession] = useState<IEventSession | undefined>();
   const today = new Date();
   const isoDateString = today.toISOString();
   console.log(session)

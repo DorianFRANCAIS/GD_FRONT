@@ -7,11 +7,13 @@ import { IActivity } from "@/types/IActivity";
 import { options } from "../api/auth/[...nextauth]/options";
 
 async function GetEstablishments(session: any) {
-  let ownerId: string = '';
-  if (session) {
-      ownerId = session.user.user._id;
-  }
-      const response = await fetch(process.env.SERVER_API + `/establishments?ownerId=${ownerId}`, {
+  let url:string = '';
+    if (session.user.user.role === "Administrator") {
+        url = process.env.SERVER_API + `/establishments?ownerId=${session.user.user._id}`
+    }else {
+        url = process.env.SERVER_API + `/establishments?clientId=${session.user.user._id}`
+    }
+      const response = await fetch(url, {
           headers: {
               Authorization: `Bearer ${session.user.tokens.accessToken}`,
           },
@@ -71,7 +73,6 @@ async function Agenda(): Promise<JSX.Element> {
     sessions = await GetSessions(session, { establishmentId: establishments[0]._id });
     activities = await GetActivities(session, establishments[0]._id);
   }
-  
 
   return (
     <div className="h-screen">

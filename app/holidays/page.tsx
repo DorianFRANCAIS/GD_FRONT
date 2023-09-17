@@ -5,11 +5,13 @@ import { getServerSession } from "next-auth";
 import { options } from "../api/auth/[...nextauth]/options";
 
 async function GetEstablishments(session: any) {
-    let userId: string = '';
-    if (session) {
-        userId = session.user.user._id;
+    let url:string = '';
+    if (session.user.user.role === "Administrator") {
+        url = process.env.SERVER_API + `/establishments?ownerId=${session.user.user._id}`
+    }else {
+        url = process.env.SERVER_API + `/establishments?clientId=${session.user.user._id}`
     }
-    const response = await fetch(process.env.SERVER_API + `/establishments?clientId=${userId}`, {
+    const response = await fetch(url, {
         headers: {
             Authorization: `Bearer ${session.user.tokens.accessToken}`,
         },
@@ -32,7 +34,7 @@ async function Holidays() {
     const session = await getServerSession(options);
     const establishments: IEstablishments[] = await GetEstablishments(session);
     let holidays: IHolidays[] = [];
-    console.log(establishments)
+    console.log("establishments",establishments)
     if (establishments.length > 0) {
         holidays = await GetHolidays(session, establishments[0]._id);
     }

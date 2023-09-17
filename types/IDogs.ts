@@ -15,7 +15,7 @@ export interface IDogs {
 export interface IPostDog {
   nationalId: string;
   name: string;
-  imageUrl: string;
+  imageUrl?: string;
   gender: string;
   breed: string;
   weight: number;

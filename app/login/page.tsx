@@ -4,6 +4,7 @@ import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { signIn } from "next-auth/react";
 
+
 const loginSchema = yup.object({
   emailAddress: yup.string().required('Veuillez renseigner un E-mail').email(),
   password: yup.string().required('Mot de passe invalide'),
@@ -57,7 +58,7 @@ export default function LoginPage() {
         </div>
         <div className="flex flex-col">
           <button type="submit" className="btn p-8 mt-5">Connexion</button>
-          <p className="flex justify-center text-mainColor my-2">Vous n'avez pas de compte ?  <span className="font-bold cursor-pointer" onClick={toLogin}> Inscrivez-vous</span></p>
+          <p className="flex justify-center text-mainColor my-2">Vous n&apos;avez pas de compte ?  <span className="font-bold cursor-pointer" onClick={toLogin}> Inscrivez-vous</span></p>
         </div>
       </form>
     </div>

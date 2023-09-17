@@ -16,7 +16,7 @@ function DogsPage(props: { dogs: IDogs[], establishments: IEstablishmentsSelect[
                             <img
                                 src={dog?.imageUrl ? dog?.imageUrl : "/img/avatar.svg"}
                                 alt="Profile"
-                                className="h-32 w-80 "
+                                className="h-28 w-full"
                             />
                             <p className="text-xl text-mainColor font-bold mb-2">Nom : {dog.name}</p>
                             <p className="text-xs text-mainColor font-bold">ID national : {dog.nationalId}</p>

@@ -25,7 +25,7 @@ function ClientByIdPage(props: { client: IUser, dogs: IDogs[], establishments: I
                     <Tabs.Item
                         title="Chien(s)"
                     >
-                        <ClientDogPage establishments={props.establishments} dogs={props.dogs} />
+                        <ClientDogPage establishments={props.establishments} dogs={props.dogs} client={props.client} />
                     </Tabs.Item>
                     <Tabs.Item
                         title="Sessions"

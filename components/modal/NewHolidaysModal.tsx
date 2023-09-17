@@ -36,6 +36,7 @@ function NewHolidaysModal(props: { session: any, isModalHolidaysOpen: boolean, c
         mode: "onSubmit"
     });
     const { data: session } = useSession();
+    console.log(props.establishments)
     console.log(session)
 
     const onSubmit: SubmitHandler<FormData> = async (

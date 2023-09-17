@@ -8,6 +8,7 @@ import { fr } from "date-fns/locale";
 import Link from "next/link";
 import { IActivity } from "@/types/IActivity";
 import { options } from "../api/auth/[...nextauth]/options";
+import { cookies } from 'next/headers'
 
 let establishmentIdWithoutQuotes: string;
 
@@ -38,16 +39,18 @@ async function DailySessions(session: any, establishmentId: string, date: string
 };
 
 async function GetEstablishments(session: any) {
-    let ownerId: string = '';
-    if (session) {
-        ownerId = session.user.user._id;
+    let url:string = '';
+    if (session.user.user.role === "Administrator") {
+        url = process.env.SERVER_API + `/establishments?ownerId=${session.user.user._id}`
+    }else {
+        url = process.env.SERVER_API + `/establishments?clientId=${session.user.user._id}`
     }
-    const response = await fetch(process.env.SERVER_API + `/establishments?ownerId=${ownerId}`, {
+    const response = await fetch(url, {
         headers: {
             Authorization: `Bearer ${session.user.tokens.accessToken}`,
         },
     });
-    return await response.json();
+    return response.json();
 }
 
 async function GetStaff(session: any, establishmentId: string | null, role?: string) {
@@ -86,7 +89,7 @@ async function Dashboard() {
     if (establishments.length > 0) {
         dogs = await GetDogs(session, establishments[0]._id);
         sessions = await DailySessions(session, establishments[0]._id, format(new Date(), 'yyyy-MM-dd'));
-        usersStaff = await GetStaff(session, establishments[0]._id);
+        usersStaff = await GetStaff(session, establishments[0]._id,"Educator");
         activities = await GetActivities(session, establishments[0]._id);
     }
 

@@ -2,18 +2,19 @@ import { IActivity } from "./IActivity";
 import { IEstablishments } from "./IEstablishments";
 
 export interface IUser {
-  activities: IActivity[],
-  establishments: IEstablishments[],
-  _id: string,
-  lastname: string,
-  firstname: string,
-  avatarUrl: string,
-  phoneNumber: string,
-  role: string,
-  emailAddress: string,
-  password: string,
-  registeredAt: string,
-  lastConnectionAt: string,
+  activities: IActivity[];
+  establishments: IEstablishments[];
+  _id: string;
+  lastname: string;
+  firstname: string;
+  avatarUrl: string;
+  phoneNumber: string;
+  role: string;
+  emailAddress: string;
+  password: string;
+  registeredAt: string;
+  lastConnectionAt: string;
+  birthDate: string;
 }
 
 export interface INewUser {

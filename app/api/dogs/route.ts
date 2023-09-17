@@ -29,8 +29,9 @@ export async function GET(request: Request) {
     return NextResponse.json({ dogs })
 }
 
-export async function POST(newDog: IPostDog) {
+export async function POST(request: Request) {
     const session = await getServerSession(options);
+    const newDog: IPostDog = await request.json()
     const response = await fetch(process.env.SERVER_API + `/dogs`, {
         method: 'POST',
         headers: {
@@ -40,6 +41,6 @@ export async function POST(newDog: IPostDog) {
         body: JSON.stringify(newDog),
     });
     const data = await response.json();
-
-    return NextResponse.json({ data })
+    console.log("DOGS",data)
+    return NextResponse.json(data,{status:200})
 }

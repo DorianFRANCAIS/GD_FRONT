@@ -28,7 +28,7 @@ const sessionSchema = yup.object({
 
 type FormData = yup.InferType<typeof sessionSchema>;
 
-function SessionInfosModal(props: { isModalInfosSessionOpen: boolean, closeModalInfosSession: () => void, selectedSession: IEventSession }) {
+function SessionInfosModal(props: { isModalInfosSessionOpen: boolean, closeModalInfosSession: () => void, selectedSession?: IEventSession }) {
     const { register, handleSubmit, formState: { errors } } = useForm<FormData>({
         resolver: yupResolver(sessionSchema),
         mode: "onSubmit"
@@ -42,7 +42,7 @@ function SessionInfosModal(props: { isModalInfosSessionOpen: boolean, closeModal
     useEffect(() => {
         if (props.selectedSession) {
             const getRemainingPlaces = async () => {
-                const res = await RemainingPlaces(session, props.selectedSession._id)
+                const res = await RemainingPlaces(session, props.selectedSession!._id)
                 setRemainingPlaces(res.remainingPlaces)
             }
             getRemainingPlaces()
