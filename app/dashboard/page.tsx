@@ -30,16 +30,21 @@ async function GetDogs(session: any, establishmentId: string, ownerId?: string) 
 };
 
 async function DailySessions(session: any, establishmentId: string, date: string) {
+    console.log("esta",establishmentId)
     const response = await fetch(process.env.SERVER_API + `/sessions/daily?establishmentId=${establishmentId}&date=${date}`, {
         headers: {
             Authorization: `Bearer ${session?.user.tokens.accessToken}`,
         }
     });
-    return await response.json();
+    
+    const data = response.json();
+    console.log("data",data)
+    return data;
 };
 
 async function GetEstablishments(session: any) {
     let url:string = '';
+
     if (session.user.user.role === "Administrator") {
         url = process.env.SERVER_API + `/establishments?ownerId=${session.user.user._id}`
     }else {
@@ -98,7 +103,7 @@ async function Dashboard() {
             <div className="wrapper">
                 <h3 className="text-mainColor text-2xl font-bold">Session du jour</h3>
                 <div className="flex flex-col gap-y-12 mt-9">
-                    {sessions && sessions?.today.length > 0 ? (
+                    {sessions?.today && sessions?.today.length > 0 ? (
                         sessions.today.map((session, idx) => (
                             <div key={idx} className="flex justify-between bg-greyColor rounded-twenty px-5 py-2" >
                                 <img
