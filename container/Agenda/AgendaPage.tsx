@@ -8,19 +8,31 @@ import { format } from "date-fns";
 import { fr } from "date-fns/locale";
 import React, { useEffect, useRef, useState } from "react";
 import { useSession } from "next-auth/react";
-import { ISession } from "@/types/ISession";
+import { IPutSession, ISession } from "@/types/ISession";
 import NewSessionModal from "@/components/modal/NewSessionModal";
 import { IUser } from "@/types/IUser";
 import { IActivity } from "@/types/IActivity";
 import { IEstablishments } from "@/types/IEstablishments";
 import SessionInfosModal from "@/components/modal/SessionInfosModal";
-import { EventClickArg } from "@fullcalendar/core";
 import { IEventSession } from "@/types/ICalendar";
+import { useRouter } from 'next/navigation'
+
+async function UpdateSessionStatus(userSession: any, sessionId: string, status: string) {
+  const response = await fetch(`/api/sessions/${sessionId}`, {
+    method: 'PUT',
+    headers: {
+      Authorization: `Bearer ${userSession?.user.tokens.accessToken}`,
+    },
+    body: JSON.stringify(status),
+  });
+  return await response.json();
+}
 
 
 
 function AgendaPage(props: { sessions: ISession[], educators: IUser[], activities: IActivity[], establishments: IEstablishments[] }) {
-  const { data: session, status } = useSession();
+  const { data: userSession } = useSession();
+  const router = useRouter();
   const calendarRef = useRef<FullCalendar | null>(null);
   const [events, setEvents] = useState<IEventSession[]>()
   const [isModalSessionOpen, setIsModalSessionOpen] = useState<boolean>(false);
@@ -28,7 +40,7 @@ function AgendaPage(props: { sessions: ISession[], educators: IUser[], activitie
   const [selectedSession, setSelectedSession] = useState<IEventSession | undefined>();
   const today = new Date();
   const isoDateString = today.toISOString();
-  console.log(session)
+  console.log(userSession)
 
   useEffect(() => {
     const eventTempo: IEventSession[] = []
@@ -47,7 +59,7 @@ function AgendaPage(props: { sessions: ISession[], educators: IUser[], activitie
         beginDate: session.beginDate,
         endDate: session.endDate,
         editable: false,
-        color: session.status === "Pending" ? "red" : "#37347A",
+        color: session.status === "Pending" ? "#37347A" : (session.status === "Confirmed" ? "green" : "red"),
         textColor: `white`
       })
     })
@@ -71,6 +83,13 @@ function AgendaPage(props: { sessions: ISession[], educators: IUser[], activitie
   const displaySessions = (infos: any) => {
     setSelectedSession(infos.event._def.extendedProps)
     setIsModalInfosSessionOpen(true)
+  }
+
+  const ApproveSession = async (sessionId: string) => {
+    const status: string = "Confirmed";
+
+    await UpdateSessionStatus(userSession, sessionId, status)
+    router.refresh()
   }
 
 
@@ -124,7 +143,11 @@ function AgendaPage(props: { sessions: ISession[], educators: IUser[], activitie
               <p>{session.activity.title}</p>
               <p className="text-greyBoldColor">{"Le " + format(new Date(session.beginDate), "dd MMMM yyyy 'à' HH'h'mm", { locale: fr })}</p>
             </div>
-            <p className="">Voir plus</p>
+            {userSession && userSession.user.user.role === "Administrator" && session.status === "Pending" ?
+              <button className="btn p-2" onClick={() => ApproveSession(session._id)}>Approuver</button>
+              :
+              <p className="text-green-500">Session approuvée</p>
+            }
           </div>
         ))}
       </div>

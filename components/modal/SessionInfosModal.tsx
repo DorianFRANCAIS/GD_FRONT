@@ -6,8 +6,9 @@ import { useSession } from "next-auth/react";
 import { Modal } from "flowbite-react";
 import { IEventSession } from "@/types/ICalendar";
 import { format } from "date-fns";
-import { AiFillPlusCircle, AiOutlineDelete } from "react-icons/ai";
 import { useEffect, useState } from "react";
+import { useRouter } from 'next/navigation';
+
 
 export async function RemainingPlaces(session: any, sessionId: string) {
     const response = await fetch(`/api/sessions/${sessionId}/remaining-places`, {
@@ -18,23 +19,30 @@ export async function RemainingPlaces(session: any, sessionId: string) {
     return response.json();
 }
 
-const sessionSchema = yup.object({
-    educator: yup.string().required('Veuillez choisir un éducateur'),
-    activity: yup.string().required('Veuillez choisir une activité'),
-    establishment: yup.string().required('Veuillez choisir un établissement'),
-    maximumCapacity: yup.number().required('Veuillez renseigner une capacité maximale'),
-    beginDate: yup.string().required('Veuillez renseigner une date de début'),
+export async function CreateReport(session: any, sessionId: string, report: string) {
+    const response = await fetch(`/api/sessions/${sessionId}/report`, {
+        headers: {
+            Authorization: `Bearer ${session?.user.tokens.accessToken}`,
+        },
+        body: JSON.stringify(report),
+    });
+    return response.json();
+}
+
+const sessionInfosSchema = yup.object({
+    report: yup.string().required("Veuillez remplir le rapport de la session"),
 }).required();
 
-type FormData = yup.InferType<typeof sessionSchema>;
+type FormData = yup.InferType<typeof sessionInfosSchema>;
 
 function SessionInfosModal(props: { isModalInfosSessionOpen: boolean, closeModalInfosSession: () => void, selectedSession?: IEventSession }) {
     const { register, handleSubmit, formState: { errors } } = useForm<FormData>({
-        resolver: yupResolver(sessionSchema),
+        resolver: yupResolver(sessionInfosSchema),
         mode: "onSubmit"
     });
     const [remainingPlaces, setRemainingPlaces] = useState<number>(0)
     const { data: session } = useSession();
+    const router = useRouter();
 
 
 
@@ -52,9 +60,9 @@ function SessionInfosModal(props: { isModalInfosSessionOpen: boolean, closeModal
     const onSubmit: SubmitHandler<FormData> = async (
         data: FormData
     ) => {
-        const newBeginDate = new Date(data.beginDate)
-        //await PostSession(session, { ...data, beginDate: newBeginDate.toISOString(), status: "Pending" });
+        await CreateReport(session, props.selectedSession!._id, data.report);
         props.closeModalInfosSession();
+        router.refresh()
     };
 
     return (
@@ -71,44 +79,17 @@ function SessionInfosModal(props: { isModalInfosSessionOpen: boolean, closeModal
                         <div className="px-6 py-6 lg:px-8">
                             <form className="space-y-6" onSubmit={handleSubmit(onSubmit)}>
                                 <div className="flex justify-between items-center">
-                                    <p>{remainingPlaces === 0 ? "Aucune places restantes" : `Places restante pour la session : ${remainingPlaces}/${props.selectedSession?.maximumCapacity} `}</p>
-                                    <button><AiFillPlusCircle className="text-mainColor h-8 w-8" /></button>
+                                    <p>{remainingPlaces === 0 ? "Aucune places restantes" : `Places restante pour la session : ${remainingPlaces} `}</p>
                                 </div>
                                 <div className="bg-gray-100 p-4 rounded-md">
-                                    <h2 className="text-lg font-semibold mb-2">Chiens présents :</h2>
-                                    <ul className="grid grid-cols-3 gap-4">
-                                        <li className="flex items-center space-x-4">
-                                            <img src="/logo_gestidogs.png" className="h-10 w-10 rounded-full" />
-                                            <span>YAJKI</span>
-                                            <button className="text-red-500 hover:text-red-700">
-                                                <AiOutlineDelete className="h-5 w-5" />
-                                            </button>
-                                        </li>
-                                        <li className="flex items-center space-x-4">
-                                            <img src="/logo_gestidogs.png" className="h-10 w-10 rounded-full" />
-                                            <span>YAJKI</span>
-                                            <button className="text-red-500 hover:text-red-700">
-                                                <AiOutlineDelete className="h-5 w-5" />
-                                            </button>
-                                        </li>
-                                        <li className="flex items-center space-x-4">
-                                            <img src="/logo_gestidogs.png" className="h-10 w-10 rounded-full" />
-                                            <span>YAJKI</span>
-                                            <button className="text-red-500 hover:text-red-700">
-                                                <AiOutlineDelete className="h-5 w-5" />
-                                            </button>
-                                        </li>
-                                        <li className="flex items-center space-x-4">
-                                            <img src="/logo_gestidogs.png" className="h-10 w-10 rounded-full" />
-                                            <span>YAJKI</span>
-                                            <button className="text-red-500 hover:text-red-700">
-                                                <AiOutlineDelete className="h-5 w-5" />
-                                            </button>
-                                        </li>
-                                    </ul>
+                                    <h2 className="text-lg font-semibold mb-2">Rapport de la session :</h2>
+                                    <textarea className="w-full h-40 border-none focus:outline-none bg-gray-100" disabled={props.selectedSession?.status === "Pending" ? true : false}  {...register("report")} defaultValue={props.selectedSession?.report}></textarea>
                                 </div>
-
-                                <button type="submit" className="btn w-full p-4 mt-5">Enregistrer</button>
+                                {props.selectedSession?.status === "Confirmed" ?
+                                    <button type="submit" className="btn w-full p-4 mt-5">Enregistrer</button>
+                                    :
+                                    <></>
+                                }
                             </form>
                         </div>
                     </Modal.Body>

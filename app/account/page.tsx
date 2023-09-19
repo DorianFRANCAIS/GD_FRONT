@@ -45,7 +45,7 @@ async function Page() {
 
     return (
         <div className="flex justify-center items-start gap-x-12 w-full">
-            <div className="bg-greyColor w-full p-6 rounded-md ">
+            <div className="grid grid-cols-2 bg-greyColor w-full p-6 rounded-md h-full">
                 <div className="flex gap-x-8 w-full">
                     <img
                         src={userInformations?.avatarUrl ? userInformations?.avatarUrl : "/img/avatar.svg"}
@@ -89,26 +89,6 @@ async function Page() {
                                     defaultValue={userInformations?.emailAddress}
                                     disabled
                                 />
-                            </div>
-                        </div>
-                        <div className="mb-6">
-                            <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Propriétaire de :</label>
-                            <div className="flex bg-gray-50 rounded-twenty p-4 mt-5 w-full">
-                                <div className="flex flex-col items-center">
-                                    <img
-                                        src={userInformations?.avatarUrl ? userInformations?.avatarUrl : "/img/avatar.svg"}
-                                        alt="Profile"
-                                        className="avatar rounded-full"
-                                    />
-                                    <span className="text-xs font-bold">Yuki</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div className="flex flex-col w-full mb-6">
-                        <div className="flex flex-col flex-1">
-                            <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Activités</label>
-                            <div className="flex flex-grow bg-gray-50 rounded-twenty p-4 w-full">
                             </div>
                         </div>
                     </div>

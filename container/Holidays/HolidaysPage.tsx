@@ -11,7 +11,7 @@ import { useSession } from "next-auth/react";
 import { IEstablishments } from "@/types/IEstablishments";
 
 async function UpdateHolidayStatus(session: any, holidayId: string, newHolidayValue: IPutHolidays) {
-    const response = await fetch(`http://localhost:3000/holidays/${holidayId}`, {
+    const response = await fetch(`/api/${holidayId}`, {
         method: 'PUT',
         headers: {
             Authorization: `Bearer ${session?.user.tokens.accessToken}`,

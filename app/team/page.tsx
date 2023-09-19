@@ -6,7 +6,7 @@ import TeamPage from "@/container/Team/TeamPage";
 import { options } from "../api/auth/[...nextauth]/options";
 
 async function GetStaff(session: any, establishmentId: string) {
-    const res = await fetch(process.env.SERVER_API + `/users?establishmentId=${establishmentId}`, {
+    const res = await fetch(process.env.SERVER_API + `/users?establishmentId=${establishmentId}&role=Educator`, {
         headers: {
             Authorization: `Bearer ${session.user.tokens.accessToken}`,
         },
@@ -19,21 +19,21 @@ async function GetEstablishments(session: any) {
     if (session) {
         ownerId = session.user.user._id;
     }
-        const response = await fetch(process.env.SERVER_API + `/establishments?ownerId=${ownerId}`, {
-            headers: {
-                Authorization: `Bearer ${session.user.tokens.accessToken}`,
-            },
-        });
-        return await response.json();
+    const response = await fetch(process.env.SERVER_API + `/establishments?ownerId=${ownerId}`, {
+        headers: {
+            Authorization: `Bearer ${session.user.tokens.accessToken}`,
+        },
+    });
+    return await response.json();
 }
 
 async function GetActivity(session: any, activityId: string) {
-        const response = await fetch(process.env.SERVER_API + `/activities?activityId=${activityId}`, {
-            headers: {
-                Authorization: `Bearer ${session.user.tokens.accessToken}`,
-            },
-        });
-        return await response.json();
+    const response = await fetch(process.env.SERVER_API + `/activities?activityId=${activityId}`, {
+        headers: {
+            Authorization: `Bearer ${session.user.tokens.accessToken}`,
+        },
+    });
+    return await response.json();
 }
 async function Team() {
     const session = await getServerSession(options);
@@ -49,7 +49,7 @@ async function Team() {
     }
 
     return (
-        <TeamPage employees={employees} activityTab={activityTab} />
+        <TeamPage employees={employees} activityTab={activityTab} establishments={establishments} />
     )
 };
 
