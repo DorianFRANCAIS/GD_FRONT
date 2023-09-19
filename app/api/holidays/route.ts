@@ -34,21 +34,3 @@ export async function POST(request: Request) {
 
     return NextResponse.json(data, { status: 200 })
 }
-
-export async function PUT(request: Request) {
-    const { searchParams } = new URL(request.url);
-    const newHolidayValue: IPutHolidays = await request.json();
-    const holidayId = searchParams.get('_id');
-    const session = await getServerSession(options);
-
-    const response = await fetch(process.env.SERVER_API + `/holidays/${holidayId}`, {
-        method: 'PUT',
-        headers: {
-            Authorization: `Bearer ${session?.user.tokens.accessToken}`,
-        },
-        body: JSON.stringify(newHolidayValue),
-    });
-    const data = await response.json();
-
-    return NextResponse.json({ data })
-}

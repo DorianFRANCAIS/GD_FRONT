@@ -7,8 +7,9 @@ import { IEstablishments, IEstablishmentsSelect } from "@/types/IEstablishments"
 import { useSession } from "next-auth/react";
 import { Modal } from "flowbite-react";
 import { IPostActivity } from "@/types/IActivity";
+import { useRouter } from "next/navigation";
 
-async function PostActivity(session:any,newDog: IPostActivity) {
+async function PostActivity(session: any, newDog: IPostActivity) {
     const response = await fetch(process.env.LOCAL_API + `/api/activities`, {
         method: 'POST',
         headers: {
@@ -38,12 +39,14 @@ function NewActivityModal(props: { isModalAcitivityOpen: boolean, closeModalActi
     });
 
     const { data: session } = useSession();
+    const router = useRouter();
 
     const onSubmit: SubmitHandler<FormData> = async (
         data: FormData
     ) => {
         await PostActivity(session, data);
-        //props.closeModalSession();
+        props.closeModalActivity();
+        router.refresh()
     };
     return (
         <>

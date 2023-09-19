@@ -7,6 +7,7 @@ import { IEstablishments, IEstablishmentsNewEmployee } from "@/types/IEstablishm
 import { Modal } from "flowbite-react";
 
 async function PostEmployee(session: any, newEmployee: IEstablishmentsNewEmployee, establishmentId: string) {
+    console.log("establishmentId", establishmentId)
     const response = await fetch(process.env.LOCAL_API + `/api/establishments/${establishmentId}/newEmployee`, {
         method: 'POST',
         headers: {
@@ -14,7 +15,7 @@ async function PostEmployee(session: any, newEmployee: IEstablishmentsNewEmploye
         },
         body: JSON.stringify(newEmployee),
     });
-    return response.json();
+    //return response.json();
 }
 
 
@@ -42,7 +43,7 @@ function NewEmployeeModal(props: { isModalEmployeeOpen: boolean, closeModalEmplo
         data: FormData
     ) => {
         data.role = "Educator";
-        console.log(data.avatarUrl)
+        console.log(data)
         await PostEmployee(session, data, props.establishments[0]._id);
         props.closeModalEmployee();
     };

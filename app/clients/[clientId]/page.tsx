@@ -11,17 +11,17 @@ type Params = {
         clientId: string;
     }
 }
-async function GetClient(session:any,userId:string) {
-        const response = await fetch(process.env.SERVER_API + `/users/${userId}`, {
-            headers: {
-                Authorization: `Bearer ${session.user.tokens.accessToken}`,
-            },
-        });
-        return await response.json();
+async function GetClient(session: any, userId: string) {
+    const response = await fetch(process.env.SERVER_API + `/users/${userId}`, {
+        headers: {
+            Authorization: `Bearer ${session.user.tokens.accessToken}`,
+        },
+    });
+    return await response.json();
 
 }
 let establishmentIdWithoutQuotes: string;
-async function GetDogs(session: any, establishmentId?: string | null,ownerId?: string) {
+async function GetDogs(session: any, establishmentId?: string | null, ownerId?: string) {
     let url = process.env.SERVER_API + `/dogs`;
     if (establishmentId) {
         establishmentIdWithoutQuotes = establishmentId.replace(/"/g, "");
@@ -42,26 +42,27 @@ async function GetEstablishments(session: any) {
     if (session) {
         ownerId = session.user.user._id;
     }
-        const response = await fetch(process.env.SERVER_API + `/establishments?ownerId=${ownerId}`, {
-            headers: {
-                Authorization: `Bearer ${session.user.tokens.accessToken}`,
-            },
-        });
-        return await response.json();
+    const response = await fetch(process.env.SERVER_API + `/establishments?ownerId=${ownerId}`, {
+        headers: {
+            Authorization: `Bearer ${session.user.tokens.accessToken}`,
+        },
+    });
+    return await response.json();
 }
 
 async function GetSessions(session: any, params: any) {
     let url = process.env.SERVER_API + `/sessions`;
     if (params.establishmentId) {
-      url += `?establishmentId=${params.establishmentId}`;
+        url += `?establishmentId=${params.establishmentId}`;
     }
     if (params.clientId) {
-      url += `?educatorId=${params.clientId}`;
+        url += `?educatorId=${params.clientId}`;
     }
+    console.log("url", url)
     const response = await fetch(url, {
-      headers: {
-        Authorization: `Bearer ${session.user.tokens.accessToken}`,
-      },
+        headers: {
+            Authorization: `Bearer ${session.user.tokens.accessToken}`,
+        },
     });
     return await response.json();
 }
