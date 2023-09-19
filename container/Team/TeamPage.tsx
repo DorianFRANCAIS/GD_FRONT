@@ -44,7 +44,7 @@ function TeamPage(props: { employees: IUser[], activityTab: IActivity[], establi
                             <h2 className="text-xl font-bold mb-2">
                                 {employee.firstname} {employee.lastname}
                             </h2>
-                            <p className="text-gray-500 mb-2">{employee.role}</p>
+                            <p className="text-gray-500 mb-2">{employee.role === "Educator" ? "Educateur" : "Administrateur"}</p>
                         </div>
                     ))}
                 </div>

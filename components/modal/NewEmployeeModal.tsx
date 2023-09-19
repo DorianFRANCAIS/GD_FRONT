@@ -3,27 +3,30 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { useSession } from "next-auth/react";
-import { IUser } from "@/types/IUser";
-import { IActivity } from "@/types/IActivity";
-import { IEstablishments } from "@/types/IEstablishments";
-import { RxCrossCircled } from 'react-icons/rx';
+import { IEstablishments, IEstablishmentsNewEmployee } from "@/types/IEstablishments";
 import { Modal } from "flowbite-react";
 
+async function PostEmployee(session: any, newEmployee: IEstablishmentsNewEmployee, establishmentId: string) {
+    const response = await fetch(process.env.LOCAL_API + `/api/establishments/${establishmentId}/newEmployee`, {
+        method: 'POST',
+        headers: {
+            Authorization: `Bearer ${session?.user.tokens.accessToken}`,
+        },
+        body: JSON.stringify(newEmployee),
+    });
+    return response.json();
+}
 
 
 const newEmployeeSchema = yup.object({
     firstname: yup.string().required('Veuillez renseigner votre Nom'),
     lastname: yup.string().required('Veuillez renseigner votre Prénom'),
+    avatarUrl: yup.string().required('Veuillez renseigner votre photo'),
+    role: yup.string(),
     emailAddress: yup.string().required('Veuillez renseigner un E-mail').email(),
     birthDate: yup.string().required('Veuillez renseigner votre date de naissance'),
     phoneNumber: yup.string().required('Veuillez renseigner votre numéro de téléphone'),
     password: yup.string().required('Mot de passe invalide'),
-    passwordConfirm: yup.string()
-        .required('Veuillez saisir de nouveau votre mot de passe')
-        .oneOf(
-            [yup.ref('password')],
-            'Les mots de passe ne correspondent pas. Veuillez réessayer.',
-        ),
 }).required();
 
 type FormData = yup.InferType<typeof newEmployeeSchema>;
@@ -38,8 +41,9 @@ function NewEmployeeModal(props: { isModalEmployeeOpen: boolean, closeModalEmplo
     const onSubmit: SubmitHandler<FormData> = async (
         data: FormData
     ) => {
-        //const newBeginDate = new Date(data.beginDate)
-        //await PostSession(session, { ...data, beginDate: newBeginDate.toISOString(), status: "Pending" });
+        data.role = "Educator";
+        console.log(data.avatarUrl)
+        await PostEmployee(session, data, props.establishments[0]._id);
         props.closeModalEmployee();
     };
 
@@ -88,19 +92,19 @@ function NewEmployeeModal(props: { isModalEmployeeOpen: boolean, closeModalEmplo
                                     type="phone" {...register("phoneNumber")} placeholder="Téléphone" />
                                 <p className="text-xs text-red-600">{errors.phoneNumber?.message}</p>
                             </div>
-                            <div className="sm:flex gap-3">
-                                <div className="flex flex-col w-full">
-                                    <label className="text-lg">Mot de passe</label>
-                                    <input className="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
-                                        type="password" {...register("password")} placeholder="Mot de passe" />
-                                    <p className="text-xs text-red-600">{errors.password?.message}</p>
-                                </div>
-                                <div className="flex flex-col w-full">
-                                    <label className="text-lg">Confirmer le mot de passe</label>
-                                    <input className="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
-                                        type="password" {...register("passwordConfirm")} placeholder="Confirmez votre mot de passe" />
-                                    <p className="text-xs text-red-600">{errors.passwordConfirm?.message}</p>
-                                </div>
+                            <div className="col-span-4">
+                                <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Photo</label>
+                                <input
+                                    type="file"
+                                    className="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
+                                    {...register("avatarUrl")}
+                                />
+                            </div>
+                            <div className="flex flex-col w-full">
+                                <label className="text-lg">Mot de passe</label>
+                                <input className="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
+                                    type="password" {...register("password")} placeholder="Mot de passe" />
+                                <p className="text-xs text-red-600">{errors.password?.message}</p>
                             </div>
                         </div>
                         <div className="flex flex-col">
