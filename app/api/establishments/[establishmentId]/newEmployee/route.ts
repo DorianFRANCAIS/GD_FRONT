@@ -7,11 +7,12 @@ export async function POST(request: Request, { params }: { params: { establishme
     const session = await getServerSession(options);
 
     const newEmployee: IEstablishmentsNewEmployee = await request.json()
+    console.log(newEmployee)
     const response = await fetch(process.env.SERVER_API + `/establishments/${params.establishmentId}/newEmployee`, {
         method: 'POST',
         headers: {
             Authorization: `Bearer ${session?.user.tokens.accessToken}`,
-            'Content-Type': 'application/json',
+            'Content-Type': 'multipart/form-data',
         },
         body: JSON.stringify(newEmployee),
     });
