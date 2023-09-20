@@ -16,14 +16,16 @@ async function PostEmployee(session: any, newEmployee: IEstablishmentsNewEmploye
         },
         body: JSON.stringify(newEmployee),
     });
-    //return response.json();
+    return response.json();
 }
 
 
 const newEmployeeSchema = yup.object().shape({
     firstname: yup.string().required('Veuillez renseigner votre Nom'),
     lastname: yup.string().required('Veuillez renseigner votre Prénom'),
-    avatarUrl: yup.string(),
+    avatarUrl: yup.mixed().required('Veuillez renseigner une photo').test("fileSize", "Le fichier est trop volumineux", (value: any) => {
+        return value && value[0].size <= 2000000
+    }),
     role: yup.string(),
     emailAddress: yup.string().required('Veuillez renseigner un E-mail').email(),
     birthDate: yup.string().required('Veuillez renseigner votre date de naissance'),
@@ -112,7 +114,7 @@ function NewEmployeeModal(props: { isModalEmployeeOpen: boolean, closeModalEmplo
                                 <input
                                     type="file"
                                     accept="image/*"
-                                    onChange={handleImageChange}
+                                    {...register("avatarUrl")}
                                     className="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
 
                                 />

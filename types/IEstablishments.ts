@@ -15,7 +15,7 @@ export interface IEstablishments {
 
 export interface IEstablishmentsNewEmployee {
   lastname: string;
-  firstname: string;
+  firstname: any;
   avatarUrl?: string;
   role?: string;
   emailAddress: string;
