@@ -8,10 +8,11 @@ import { IEventSession } from "@/types/ICalendar";
 import { format } from "date-fns";
 import { useEffect, useState } from "react";
 import { useRouter } from 'next/navigation';
+import { ISessionReport } from "@/types/ISession";
 
 
 export async function RemainingPlaces(session: any, sessionId: string) {
-    const response = await fetch(`/api/sessions/${sessionId}/remaining-places`, {
+    const response = await fetch(process.env.LOCAL_API + `/api/sessions/${sessionId}/remaining-places`, {
         headers: {
             Authorization: `Bearer ${session?.user.tokens.accessToken}`,
         },
@@ -19,8 +20,9 @@ export async function RemainingPlaces(session: any, sessionId: string) {
     return response.json();
 }
 
-export async function CreateReport(session: any, sessionId: string, report: string) {
-    const response = await fetch(`/api/sessions/${sessionId}/report`, {
+export async function CreateReport(session: any, sessionId: string, report: ISessionReport) {
+    const response = await fetch(process.env.LOCAL_API + `/api/sessions/${sessionId}/report`, {
+        method: 'POST',
         headers: {
             Authorization: `Bearer ${session?.user.tokens.accessToken}`,
         },
@@ -60,7 +62,7 @@ function SessionInfosModal(props: { isModalInfosSessionOpen: boolean, closeModal
     const onSubmit: SubmitHandler<FormData> = async (
         data: FormData
     ) => {
-        await CreateReport(session, props.selectedSession!._id, data.report);
+        await CreateReport(session, props.selectedSession!._id, data);
         props.closeModalInfosSession();
         router.refresh()
     };
