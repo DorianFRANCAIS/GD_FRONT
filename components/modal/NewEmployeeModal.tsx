@@ -23,9 +23,7 @@ async function PostEmployee(session: any, newEmployee: IEstablishmentsNewEmploye
 const newEmployeeSchema = yup.object().shape({
     firstname: yup.string().required('Veuillez renseigner votre Nom'),
     lastname: yup.string().required('Veuillez renseigner votre Prénom'),
-    avatarUrl: yup.mixed().required('Veuillez renseigner une photo').test("fileSize", "Le fichier est trop volumineux", (value: any) => {
-        return value && value[0].size <= 2000000
-    }),
+    avatarUrl: yup.string().required('Veuillez renseigner votre photo'),
     role: yup.string(),
     emailAddress: yup.string().required('Veuillez renseigner un E-mail').email(),
     birthDate: yup.string().required('Veuillez renseigner votre date de naissance'),
@@ -41,28 +39,16 @@ function NewEmployeeModal(props: { isModalEmployeeOpen: boolean, closeModalEmplo
         mode: "onSubmit"
     });
     const { data: session } = useSession();
-    const [avatarUrl, setAvatarUrl] = useState<string>("");
 
     const onSubmit: SubmitHandler<FormData> = async (
         data: FormData
     ) => {
         data.role = "Educator";
-        data.avatarUrl = avatarUrl;
         console.log(data)
         await PostEmployee(session, data, props.establishments[0]._id);
         props.closeModalEmployee();
     };
 
-    const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const file = e.target.files?.[0];
-        const data: any = { picture: file }
-        console.log(data)
-        if (file) {
-            const blobUrl = URL.createObjectURL(file);
-            setAvatarUrl(data.picture.name);
-            console.log(data.picture.name)
-        }
-    };
 
     return (
         <>
@@ -112,8 +98,8 @@ function NewEmployeeModal(props: { isModalEmployeeOpen: boolean, closeModalEmplo
                             <div className="col-span-4">
                                 <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Photo</label>
                                 <input
-                                    type="file"
-                                    accept="image/*"
+                                    type="text"
+                                    placeholder="https://example.com/image.png"
                                     {...register("avatarUrl")}
                                     className="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
 

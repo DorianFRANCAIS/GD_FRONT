@@ -5,14 +5,12 @@ import { NextResponse } from "next/server";
 
 export async function POST(request: Request, { params }: { params: { establishmentId: string } }) {
     const session = await getServerSession(options);
-
     const newEmployee: IEstablishmentsNewEmployee = await request.json()
-    console.log(newEmployee)
     const response = await fetch(process.env.SERVER_API + `/establishments/${params.establishmentId}/newEmployee`, {
         method: 'POST',
         headers: {
             Authorization: `Bearer ${session?.user.tokens.accessToken}`,
-            'Content-Type': 'multipart/form-data',
+            'Content-Type': 'application/json',
         },
         body: JSON.stringify(newEmployee),
     });
