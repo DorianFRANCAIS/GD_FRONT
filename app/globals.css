@@ -31,7 +31,9 @@ body {
 input {
   @apply rounded-twenty p-4 bg-greyColor w-full;
 }
-
+textarea {
+  @apply border-none focus:outline-none;
+}
 h1 {
   @apply text-mainColor text-4xl font-extrabold;
 }

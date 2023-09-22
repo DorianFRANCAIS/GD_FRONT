@@ -7,8 +7,9 @@ import { IEstablishments, IEstablishmentsSelect } from "@/types/IEstablishments"
 import { useSession } from "next-auth/react";
 import { Modal } from "flowbite-react";
 import { IPostActivity } from "@/types/IActivity";
+import { useRouter } from "next/navigation";
 
-async function PostActivity(session:any,newDog: IPostActivity) {
+async function PostActivity(session: any, newDog: IPostActivity) {
     const response = await fetch(process.env.LOCAL_API + `/api/activities`, {
         method: 'POST',
         headers: {
@@ -38,12 +39,14 @@ function NewActivityModal(props: { isModalAcitivityOpen: boolean, closeModalActi
     });
 
     const { data: session } = useSession();
+    const router = useRouter();
 
     const onSubmit: SubmitHandler<FormData> = async (
         data: FormData
     ) => {
         await PostActivity(session, data);
-        //props.closeModalSession();
+        props.closeModalActivity();
+        router.refresh()
     };
     return (
         <>
@@ -93,7 +96,8 @@ function NewActivityModal(props: { isModalAcitivityOpen: boolean, closeModalActi
                                 <div className="col-span-4">
                                     <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Photo</label>
                                     <input
-                                        type="file"
+                                        type="text"
+                                        placeholder="https://example.com/image.png"
                                         className="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
                                         {...register("imageUrl")}
                                     />

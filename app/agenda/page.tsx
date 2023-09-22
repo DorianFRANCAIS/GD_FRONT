@@ -7,58 +7,59 @@ import { IActivity } from "@/types/IActivity";
 import { options } from "../api/auth/[...nextauth]/options";
 
 async function GetEstablishments(session: any) {
-  let url:string = '';
-    if (session.user.user.role === "Administrator") {
-        url = process.env.SERVER_API + `/establishments?ownerId=${session.user.user._id}`
-    }else {
-        url = process.env.SERVER_API + `/establishments?clientId=${session.user.user._id}`
-    }
-      const response = await fetch(url, {
-          headers: {
-              Authorization: `Bearer ${session.user.tokens.accessToken}`,
-          },
-      });
-      return await response.json();
+  let url: string = '';
+  console.log("role", session.user.user.role)
+  if (session.user.user.role === "Administrator") {
+    url = process.env.SERVER_API + `/establishments?ownerId=${session.user.user._id}`
+  } else {
+    url = process.env.SERVER_API + `/establishments?clientId=${session.user.user._id}`
+  }
+  const response = await fetch(url, {
+    headers: {
+      Authorization: `Bearer ${session.user.tokens.accessToken}`,
+    },
+  });
+  return await response.json();
 }
 
 async function GetStaff(session: any, establishmentId: string | null, role?: string) {
   let url = process.env.SERVER_API + '/users';
   if (establishmentId) {
-      url += `?establishmentId=${establishmentId}`;
+    url += `?establishmentId=${establishmentId}`;
   }
 
   if (role) {
-      url += `${establishmentId ? '&' : '?'}role=${role}`;
+    url += `${establishmentId ? '&' : '?'}role=${role}`;
   }
   const response = await fetch(url, {
-      headers: {
-          Authorization: `Bearer ${session.user.tokens.accessToken}`,
-      },
+    headers: {
+      Authorization: `Bearer ${session.user.tokens.accessToken}`,
+    },
   });
-   return await response.json();
+  return await response.json();
 }
 
 async function GetSessions(session: any, params: any) {
-    let url = process.env.SERVER_API + `/sessions`;
-    if (params.establishmentId) {
-      url += `?establishmentId=${params.establishmentId}`;
-    }
-    if (params.clientId) {
-      url += `?educatorId=${params.clientId}`;
-    }
-    const response = await fetch(url, {
-      headers: {
-        Authorization: `Bearer ${session.user.tokens.accessToken}`,
-      },
-    });
-    return await response.json();
+  let url = process.env.SERVER_API + `/sessions`;
+  if (params.establishmentId) {
+    url += `?establishmentId=${params.establishmentId}`;
+  }
+  if (params.clientId) {
+    url += `?educatorId=${params.clientId}`;
+  }
+  const response = await fetch(url, {
+    headers: {
+      Authorization: `Bearer ${session.user.tokens.accessToken}`,
+    },
+  });
+  return await response.json();
 }
 
 async function GetActivities(session: any, establishmentId: string) {
   const response = await fetch(process.env.SERVER_API + `/activities?establishmentId=${establishmentId}`, {
-      headers: {
-          Authorization: `Bearer ${session.user.tokens.accessToken}`,
-      },
+    headers: {
+      Authorization: `Bearer ${session.user.tokens.accessToken}`,
+    },
   });
   return await response.json();
 }
@@ -70,6 +71,7 @@ async function Agenda(): Promise<JSX.Element> {
   let sessions: ISession[] = [];
   let activities: IActivity[] = [];
   if (establishments.length > 0) {
+    console.log(establishments[0]._id)
     sessions = await GetSessions(session, { establishmentId: establishments[0]._id });
     activities = await GetActivities(session, establishments[0]._id);
   }

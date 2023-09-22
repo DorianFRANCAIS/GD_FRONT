@@ -41,6 +41,5 @@ export async function POST(request: Request) {
         body: JSON.stringify(newDog),
     });
     const data = await response.json();
-    console.log("DOGS",data)
-    return NextResponse.json(data,{status:200})
+    return NextResponse.json(data, { status: 200 })
 }

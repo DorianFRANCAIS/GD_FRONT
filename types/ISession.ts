@@ -24,6 +24,16 @@ export interface IPostSession {
   beginDate: string;
 }
 
+export interface IPutSession {
+  _id: string;
+  educator?: string;
+  activity?: string;
+  status?: "Pending;" | "Confirmed" | "Cancelled";
+  maximumCapacity?: number;
+  report?: string;
+  beginDate?: string;
+  endDate?: string;
+}
 export interface IDailySession {
   today: [{
     educator: string;
@@ -34,4 +44,8 @@ export interface IDailySession {
     beginDate: string;
     endDate: string;
   }]
+}
+
+export interface ISessionReport {
+  report: string;
 }

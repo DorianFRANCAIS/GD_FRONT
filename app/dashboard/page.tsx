@@ -30,24 +30,24 @@ async function GetDogs(session: any, establishmentId: string, ownerId?: string) 
 };
 
 async function DailySessions(session: any, establishmentId: string, date: string) {
-    console.log("esta",establishmentId)
+    console.log("esta", establishmentId)
     const response = await fetch(process.env.SERVER_API + `/sessions/daily?establishmentId=${establishmentId}&date=${date}`, {
         headers: {
             Authorization: `Bearer ${session?.user.tokens.accessToken}`,
         }
     });
-    
+
     const data = response.json();
-    console.log("data",data)
+    console.log("data", data)
     return data;
 };
 
 async function GetEstablishments(session: any) {
-    let url:string = '';
+    let url: string = '';
 
     if (session.user.user.role === "Administrator") {
         url = process.env.SERVER_API + `/establishments?ownerId=${session.user.user._id}`
-    }else {
+    } else {
         url = process.env.SERVER_API + `/establishments?clientId=${session.user.user._id}`
     }
     const response = await fetch(url, {
@@ -94,7 +94,7 @@ async function Dashboard() {
     if (establishments.length > 0) {
         dogs = await GetDogs(session, establishments[0]._id);
         sessions = await DailySessions(session, establishments[0]._id, format(new Date(), 'yyyy-MM-dd'));
-        usersStaff = await GetStaff(session, establishments[0]._id,"Educator");
+        usersStaff = await GetStaff(session, establishments[0]._id, "Educator");
         activities = await GetActivities(session, establishments[0]._id);
     }
 
@@ -176,7 +176,7 @@ async function Dashboard() {
                         {activities && activities.map((activity, idx) => (
                             <div key={idx} className="flex w-full bg-greyColor p-2 rounded-twenty" >
                                 <div className="flex items-center w-full">
-                                    <div className="w-2/6">
+                                    <div className="w-2/12">
                                         <img
                                             src={activity.imageUrl}
                                             alt="Profile"

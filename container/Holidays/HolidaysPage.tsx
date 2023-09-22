@@ -3,15 +3,17 @@ import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import timeGridPlugin from "@fullcalendar/timegrid";
 import interactionPlugin from "@fullcalendar/interaction";
-import React, { useEffect, useRef, useState } from "react";
+import React, { use, useEffect, useRef, useState } from "react";
 import { IHolidays, IPutHolidays } from "@/types/IHolidays";
 import { IEventHolidays } from "@/types/ICalendar";
 import NewHolidaysModal from "@/components/modal/NewHolidaysModal";
 import { useSession } from "next-auth/react";
 import { IEstablishments } from "@/types/IEstablishments";
+import { format } from "date-fns";
+import { useRouter } from "next/navigation";
 
 async function UpdateHolidayStatus(session: any, holidayId: string, newHolidayValue: IPutHolidays) {
-    const response = await fetch(`http://localhost:3000/holidays/${holidayId}`, {
+    const response = await fetch(process.env.LOCAL_API + `/api/holidays/${holidayId}`, {
         method: 'PUT',
         headers: {
             Authorization: `Bearer ${session?.user.tokens.accessToken}`,
@@ -29,6 +31,7 @@ function HolidaysPage(props: { session: any, holidays: IHolidays[], establishmen
     const today = new Date();
     const isoDateString = today.toISOString();
     const { data: session } = useSession();
+    const router = useRouter();
 
     useEffect(() => {
         const eventTempo: IEventHolidays[] = []
@@ -58,6 +61,7 @@ function HolidaysPage(props: { session: any, holidays: IHolidays[], establishmen
             isApproved: true,
         }
         await UpdateHolidayStatus(session, holidayId, holiday)
+        router.refresh()
     }
 
     const closeModalHolidays = () => {
@@ -101,12 +105,14 @@ function HolidaysPage(props: { session: any, holidays: IHolidays[], establishmen
                         props.holidays.map((holiday, idx) => (
                             <div key={idx} className='mt-2 bg-white flex justify-between items-center rounded-twenty p-4 mb-5'>
                                 <div className="ml-2 flex flex-col">
-                                    <span className="bg-orangeColor text-white p-1 text-center rounded-xl" >{holiday.status}</span>
+                                    <span className={`${holiday.isApproved === true ? "bg-green-500" : "bg-orangeColor"} text-white p-1 text-center rounded-xl`} >{holiday.status === "Pending" ? "En attente" : "Approuvé"}</span>
                                     <p>{holiday.employee.firstname} {holiday.employee.lastname}</p>
-                                    <p className="text-mainColor">Du {holiday.beginDate} au {holiday.endDate}</p>
+                                    <p className="text-mainColor">Du {format(new Date(holiday.beginDate), 'dd/MM/yyyy')} au {format(new Date(holiday.endDate), 'dd/MM/yyyy')}</p>
                                 </div>
-                                {props.session && props.session.user.user.role === "Administrator" &&
+                                {props.session && props.session.user.user.role === "Administrator" && holiday.isApproved === false ?
                                     <button className="btn p-2" onClick={() => ApproveHoliday(holiday._id)}>Approuver</button>
+                                    :
+                                    <></>
                                 }
                             </div>
                         ))
