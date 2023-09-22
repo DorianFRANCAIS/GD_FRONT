@@ -15,16 +15,19 @@ async function GetStaff(session: any, establishmentId: string) {
 }
 
 async function GetEstablishments(session: any) {
-    let ownerId: string = '';
-    if (session) {
-        ownerId = session.user.user._id;
+    let url:string = '';
+
+    if (session.user.user.role === "Administrator") {
+        url = process.env.SERVER_API + `/establishments?ownerId=${session.user.user._id}`
+    }else {
+        url = process.env.SERVER_API + `/establishments?clientId=${session.user.user._id}`
     }
-        const response = await fetch(process.env.SERVER_API + `/establishments?ownerId=${ownerId}`, {
-            headers: {
-                Authorization: `Bearer ${session.user.tokens.accessToken}`,
-            },
-        });
-        return await response.json();
+    const response = await fetch(url, {
+        headers: {
+            Authorization: `Bearer ${session.user.tokens.accessToken}`,
+        },
+    });
+    return response.json();
 }
 
 async function GetActivity(session: any, activityId: string) {
