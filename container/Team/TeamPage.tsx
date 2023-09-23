@@ -27,7 +27,7 @@ function TeamPage(props: { employees: IUser[], activityTab: IActivity[], establi
             <div className="bg-greyColor w-full p-6 rounded-md ">
                 <div className="flex justify-between mb-2">
                     <h1 className="text-3xl text-mainColor font-bold mb-6">Mon équipe</h1>
-                    {session && session.user.user.role === "Administrator" &&
+                    {session && session.user.user.role === "Manager" &&
                         <button onClick={openModalEmployee} className="btn text-white px-4 py-2" type="button">
                             Ajouter un éducateur
                         </button>

@@ -143,7 +143,7 @@ function AgendaPage(props: { sessions: ISession[], educators: IUser[], activitie
               <p>{session.activity.title}</p>
               <p className="text-greyBoldColor">{"Le " + format(new Date(session.beginDate), "dd MMMM yyyy 'à' HH'h'mm", { locale: fr })}</p>
             </div>
-            {userSession && userSession.user.user.role === "Administrator" && session.status === "Pending" ?
+            {userSession && userSession.user.user.role === "Manager" && session.status === "Pending" ?
               <button className="btn p-2" onClick={() => ApproveSession(session._id)}>Approuver</button>
               :
               <p className="text-green-500">Session approuvée</p>

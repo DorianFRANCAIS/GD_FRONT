@@ -45,7 +45,7 @@ async function DailySessions(session: any, establishmentId: string, date: string
 async function GetEstablishments(session: any) {
     let url: string = '';
 
-    if (session.user.user.role === "Administrator") {
+    if (session.user.user.role === "Manager") {
         url = process.env.SERVER_API + `/establishments?ownerId=${session.user.user._id}`
     } else {
         url = process.env.SERVER_API + `/establishments?clientId=${session.user.user._id}`
@@ -91,6 +91,7 @@ async function Dashboard() {
     let sessions: IDailySession | null = null;
     let usersStaff: IUser[] = [];
     let activities: IActivity[] = [];
+    console.log(session)
     if (establishments.length > 0) {
         dogs = await GetDogs(session, establishments[0]._id);
         sessions = await DailySessions(session, establishments[0]._id, format(new Date(), 'yyyy-MM-dd'));

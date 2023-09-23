@@ -109,7 +109,7 @@ function HolidaysPage(props: { session: any, holidays: IHolidays[], establishmen
                                     <p>{holiday.employee.firstname} {holiday.employee.lastname}</p>
                                     <p className="text-mainColor">Du {format(new Date(holiday.beginDate), 'dd/MM/yyyy')} au {format(new Date(holiday.endDate), 'dd/MM/yyyy')}</p>
                                 </div>
-                                {props.session && props.session.user.user.role === "Administrator" && holiday.isApproved === false ?
+                                {props.session && props.session.user.user.role === "Manager" && holiday.isApproved === false ?
                                     <button className="btn p-2" onClick={() => ApproveHoliday(holiday._id)}>Approuver</button>
                                     :
                                     <></>

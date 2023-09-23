@@ -17,7 +17,7 @@ async function GetStaff(session: any, establishmentId: string) {
 async function GetEstablishments(session: any) {
     let url:string = '';
 
-    if (session.user.user.role === "Administrator") {
+    if (session.user.user.role === "Manager") {
         url = process.env.SERVER_API + `/establishments?ownerId=${session.user.user._id}`
     }else {
         url = process.env.SERVER_API + `/establishments?clientId=${session.user.user._id}`

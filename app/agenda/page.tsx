@@ -9,7 +9,7 @@ import { options } from "../api/auth/[...nextauth]/options";
 async function GetEstablishments(session: any) {
   let url: string = '';
   console.log("role", session.user.user.role)
-  if (session.user.user.role === "Administrator") {
+  if (session.user.user.role === "Manager") {
     url = process.env.SERVER_API + `/establishments?ownerId=${session.user.user._id}`
   } else {
     url = process.env.SERVER_API + `/establishments?clientId=${session.user.user._id}`
