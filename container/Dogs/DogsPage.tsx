@@ -1,14 +1,16 @@
 'use client';
 import { IDogs } from "@/types/IDogs";
 import { IEstablishmentsSelect } from "@/types/IEstablishments";
+import { useSession } from "next-auth/react";
 import Link from "next/link";
 
 function DogsPage(props: { dogs: IDogs[], establishments: IEstablishmentsSelect[] }) {
+    const {data:session} = useSession();
     return (
         <div className="flex justify-center items-start gap-x-12 w-full">
             <div className="bg-greyColor w-full p-6 rounded-md ">
                 <div className="flex justify-start">
-                    <h3 className="text-mainColor text-3xl font-bold mb-2">Chiens de l'établissement</h3>
+                    <h3 className="text-mainColor text-3xl font-bold mb-2">{session?.user.user.role !== 'Client' ? "Chiens de l'établissement":"Mes chiens"}</h3>
                 </div>
                 <div className="flex max-sm:flex-col gap-x-8 w-full">
                     {props.dogs && props.dogs.map((dog, idx) => (

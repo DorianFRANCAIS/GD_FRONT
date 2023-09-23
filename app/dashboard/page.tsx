@@ -8,7 +8,6 @@ import { fr } from "date-fns/locale";
 import Link from "next/link";
 import { IActivity } from "@/types/IActivity";
 import { options } from "../api/auth/[...nextauth]/options";
-import { cookies } from 'next/headers'
 
 let establishmentIdWithoutQuotes: string;
 
@@ -38,7 +37,6 @@ async function DailySessions(session: any, establishmentId: string, date: string
     });
 
     const data = response.json();
-    console.log("data", data)
     return data;
 };
 
@@ -149,11 +147,13 @@ async function Dashboard() {
                         ))}
                     </div>
                 </div>
+                {session?.user.user.role != 'Client' &&
                 <div className="wrapper">
                     <div className="flex justify-between items-center">
                         <h3 className="text-mainColor text-2xl font-bold">Mon équipe</h3>
                         <Link href="/team" className="text-mainColor cursor-pointer">Voir plus</Link>
                     </div>
+                    
                     <div className="flex flex-grow items-center gap-x-2">
                         {usersStaff && usersStaff.map((staff, idx) => (
                             <div key={idx} className="flex flex-col justify-center items-center">
@@ -168,6 +168,8 @@ async function Dashboard() {
                         ))}
                     </div>
                 </div>
+                }
+                {session?.user.user.role != 'Client' &&
                 <div className="wrapper">
                     <div className="flex justify-between items-center">
                         <h3 className="text-mainColor text-2xl font-bold">Mes activités</h3>
@@ -197,6 +199,7 @@ async function Dashboard() {
 
                     </div>
                 </div>
+                }
             </div>
         </div>
     )

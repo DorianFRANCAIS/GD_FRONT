@@ -59,16 +59,18 @@ function Header() {
                                 <span className="flex-1 ml-3 whitespace-nowrap">Agenda</span>
                             </Link>
                         </li>
+                        {session.user.user.role !== 'Client' &&
                         <li>
                             <Link href="/clients" className="flex items-center p-2 text-mainColor rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
                                 <PiUsersFourFill className="flex-shrink-0 w-5 h-5 text-mainColor transition duration-75 dark:text-gray-400 group-hover:text-mainColor dark:group-hover:text-white" />
                                 <span className="flex-1 ml-3 whitespace-nowrap">Mes clients</span>
                             </Link>
                         </li>
+                        }
                         <li>
                             <Link href="/activities" className="flex items-center p-2 text-mainColor rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
                                 <MdWorkOutline className="flex-shrink-0 w-5 h-5 text-mainColor transition duration-75 dark:text-gray-400 group-hover:text-mainColor dark:group-hover:text-white" />
-                                <span className="flex-1 ml-3 whitespace-nowrap">Mes activités</span>
+                                <span className="flex-1 ml-3 whitespace-nowrap">Activités</span>
                             </Link>
                         </li>
                         <li>
@@ -77,18 +79,22 @@ function Header() {
                                 <span className="flex-1 ml-3 whitespace-nowrap">Mes chiens</span>
                             </Link>
                         </li>
+                        {session.user.user.role !== 'Client' &&
                         <li>
                             <Link href="/team" className="flex items-center p-2 text-mainColor rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
                                 <RiTeamLine className="flex-shrink-0 w-5 h-5 text-mainColor transition duration-75 dark:text-gray-400 group-hover:text-mainColor dark:group-hover:text-white" />
                                 <span className="flex-1 ml-3 whitespace-nowrap">Mon équipe</span>
                             </Link>
                         </li>
+                        }
+                        {session.user.user.role !== 'Client' &&
                         <li>
                             <Link href="/holidays" className="flex items-center p-2 text-mainColor rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
                                 <FaUmbrellaBeach className="flex-shrink-0 w-5 h-5 text-mainColor transition duration-75 dark:text-gray-400 group-hover:text-mainColor dark:group-hover:text-white" />
                                 <span className="flex-1 ml-3 whitespace-nowrap">Congés</span>
                             </Link>
                         </li>
+                        }
                     </ul>
                     <div className="flex items-center">
                         <Link href="/account">

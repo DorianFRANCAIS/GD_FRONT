@@ -40,7 +40,6 @@ function AgendaPage(props: { sessions: ISession[], educators: IUser[], activitie
   const [selectedSession, setSelectedSession] = useState<IEventSession | undefined>();
   const today = new Date();
   const isoDateString = today.toISOString();
-  console.log(userSession)
 
   useEffect(() => {
     const eventTempo: IEventSession[] = []
@@ -126,13 +125,17 @@ function AgendaPage(props: { sessions: ISession[], educators: IUser[], activitie
         />
       </div>
       <div className='col-span-2 flex-col'>
+      {userSession?.user.user.role !== 'Client' &&
+      <>
         <h2 className="text-white text-2xl">Vous souhaitez créer une nouvelle session ?</h2>
         <button className="btn w-full p-4 mt-2" onClick={openModalSession}>Créer une nouvelle session</button>
+      </>
+      }
         <div className="mt-12">
           <h5 className="text-white text-2xl">Sessions prévues :</h5>
         </div>
         {props.sessions && props.sessions.map((session, idx) => (
-          isoDateString < session.beginDate &&
+          isoDateString <= session.beginDate && session.status === 'Pending' ?
           <div key={idx} className='mt-2 bg-white flex justify-between items-center rounded-twenty p-4 mb-5'>
             <img
               src={session.activity.imageUrl}
@@ -149,6 +152,8 @@ function AgendaPage(props: { sessions: ISession[], educators: IUser[], activitie
               <p className="text-green-500">Session approuvée</p>
             }
           </div>
+          :
+          <p className="text-white">Aucune session de prévue.</p>
         ))}
       </div>
     </div>
