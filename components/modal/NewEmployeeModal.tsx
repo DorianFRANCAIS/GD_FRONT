@@ -5,7 +5,7 @@ import * as yup from "yup";
 import { useSession } from "next-auth/react";
 import { IEstablishments, IEstablishmentsNewEmployee } from "@/types/IEstablishments";
 import { Modal } from "flowbite-react";
-import { useState } from "react";
+import { useRouter } from "next/navigation";
 
 async function PostEmployee(session: any, newEmployee: IEstablishmentsNewEmployee, establishmentId: string) {
     const response = await fetch(process.env.LOCAL_API + `/api/establishments/${establishmentId}/newEmployee`, {
@@ -38,6 +38,7 @@ function NewEmployeeModal(props: { isModalEmployeeOpen: boolean, closeModalEmplo
         mode: "onSubmit"
     });
     const { data: session } = useSession();
+    const router = useRouter();
 
     const onSubmit: SubmitHandler<FormData> = async (
         data: FormData
@@ -46,6 +47,7 @@ function NewEmployeeModal(props: { isModalEmployeeOpen: boolean, closeModalEmplo
         console.log(data)
         await PostEmployee(session, data, props.establishments[0]._id);
         props.closeModalEmployee();
+        router.refresh();
     };
 
 

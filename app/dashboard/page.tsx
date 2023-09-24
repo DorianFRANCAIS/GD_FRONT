@@ -95,7 +95,7 @@ async function Dashboard() {
         usersStaff = await GetStaff(session, establishments[0]._id, "Educator");
         activities = await GetActivities(session, establishments[0]._id);
     }
-
+console.log(session)
     return (
         <div className="grid grid-cols-2 justify-center items-start gap-x-12 my-4 w-full">
             <div className="wrapper">
