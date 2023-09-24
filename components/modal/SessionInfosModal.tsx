@@ -57,7 +57,7 @@ function SessionInfosModal(props: { isModalInfosSessionOpen: boolean, closeModal
             }
             getRemainingPlaces()
         }
-    }, [props.selectedSession])
+    }, [session])
 
     const onSubmit: SubmitHandler<FormData> = async (
         data: FormData
@@ -66,7 +66,6 @@ function SessionInfosModal(props: { isModalInfosSessionOpen: boolean, closeModal
         props.closeModalInfosSession();
         router.refresh()
     };
-
     return (
         <>
             {props.selectedSession &&
@@ -81,11 +80,11 @@ function SessionInfosModal(props: { isModalInfosSessionOpen: boolean, closeModal
                         <div className="px-6 py-6 lg:px-8">
                             <form className="space-y-6" onSubmit={handleSubmit(onSubmit)}>
                                 <div className="flex justify-between items-center">
-                                    <p>{remainingPlaces === 0 ? "Aucune places restantes" : `Places restante pour la session : ${remainingPlaces} `}</p>
+                                    <p>{session?.user.user.role !== 'Client' && remainingPlaces === 0 ? "Aucune places restantes" : `Places restante pour la session : ${remainingPlaces} `}</p>
                                 </div>
                                 <div className="bg-gray-100 p-4 rounded-md">
                                     <h2 className="text-lg font-semibold mb-2">Rapport de la session :</h2>
-                                    <textarea className="w-full h-40 border-none focus:outline-none bg-gray-100" disabled={props.selectedSession?.status === "Pending" ? true : false}  {...register("report")} defaultValue={props.selectedSession?.report}></textarea>
+                                    <textarea className="w-full h-40 border-none focus:outline-none bg-gray-100" disabled={props.selectedSession?.status === "Pending" || session?.user.user.role === 'Client' ? true : false}  {...register("report")} defaultValue={props.selectedSession?.report}></textarea>
                                 </div>
                                 {props.selectedSession?.status === "Confirmed" ?
                                     <button type="submit" className="btn w-full p-4 mt-5">Enregistrer</button>

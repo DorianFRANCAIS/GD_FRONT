@@ -42,6 +42,7 @@ function AgendaPage(props: { sessions: ISession[], educators: IUser[], activitie
   const isoDateString = today.toISOString();
 
   useEffect(() => {
+    console.log(props.sessions)
     const eventTempo: IEventSession[] = []
     props.sessions.map((session) => {
       eventTempo.push({
@@ -134,8 +135,9 @@ function AgendaPage(props: { sessions: ISession[], educators: IUser[], activitie
         <div className="mt-12">
           <h5 className="text-white text-2xl">Sessions prévues :</h5>
         </div>
-        {props.sessions && props.sessions.map((session, idx) => (
-          isoDateString <= session.beginDate && session.status === 'Pending' ?
+        {props.sessions.length > 0 ?
+        props.sessions && props.sessions.map((session, idx) => (
+          isoDateString <= session.beginDate &&
           <div key={idx} className='mt-2 bg-white flex justify-between items-center rounded-twenty p-4 mb-5'>
             <img
               src={session.activity.imageUrl}
@@ -152,9 +154,10 @@ function AgendaPage(props: { sessions: ISession[], educators: IUser[], activitie
               <p className="text-green-500">Session approuvée</p>
             }
           </div>
-          :
+        ))
+        :
           <p className="text-white">Aucune session de prévue.</p>
-        ))}
+      }
       </div>
     </div>
   )

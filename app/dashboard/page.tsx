@@ -11,15 +11,16 @@ import { options } from "../api/auth/[...nextauth]/options";
 
 let establishmentIdWithoutQuotes: string;
 
-async function GetDogs(session: any, establishmentId: string, ownerId?: string) {
+async function GetDogs(session: any, establishmentId: string) {
     let url = process.env.SERVER_API + `/dogs`;
-    if (establishmentId) {
+    if (establishmentId && session.user.user.role != "Client") {
         establishmentIdWithoutQuotes = establishmentId.replace(/"/g, "");
         url += `?establishmentId=${establishmentIdWithoutQuotes}`;
     }
-    if (ownerId) {
-        url += `?ownerId=${ownerId}`;
+    if (session.user.user.role === 'Client') {
+        url += `?ownerId=${session.user.user._id}`;
     }
+    console.log(url)
     const response = await fetch(url, {
         headers: {
             Authorization: `Bearer ${session?.user.tokens.accessToken}`,
@@ -29,7 +30,6 @@ async function GetDogs(session: any, establishmentId: string, ownerId?: string) 
 };
 
 async function DailySessions(session: any, establishmentId: string, date: string) {
-    console.log("esta", establishmentId)
     const response = await fetch(process.env.SERVER_API + `/sessions/daily?establishmentId=${establishmentId}&date=${date}`, {
         headers: {
             Authorization: `Bearer ${session?.user.tokens.accessToken}`,
@@ -89,7 +89,6 @@ async function Dashboard() {
     let sessions: IDailySession | null = null;
     let usersStaff: IUser[] = [];
     let activities: IActivity[] = [];
-    console.log(session)
     if (establishments.length > 0) {
         dogs = await GetDogs(session, establishments[0]._id);
         sessions = await DailySessions(session, establishments[0]._id, format(new Date(), 'yyyy-MM-dd'));
@@ -163,7 +162,7 @@ async function Dashboard() {
                                     className="avatar rounded-full"
                                 />
                                 <span className="text-xs font-bold">{staff.firstname}</span>
-                                <span className="text-xs font-bold">{staff.role}</span>
+                                <span className="text-xs font-bold">{staff.role === 'Educator' ? "Educateur": "Manager"}</span>
                             </div>
                         ))}
                     </div>

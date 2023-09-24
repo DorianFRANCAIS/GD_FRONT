@@ -8,7 +8,6 @@ import { Modal } from "flowbite-react";
 import { useState } from "react";
 
 async function PostEmployee(session: any, newEmployee: IEstablishmentsNewEmployee, establishmentId: string) {
-    console.log("establishmentId", establishmentId)
     const response = await fetch(process.env.LOCAL_API + `/api/establishments/${establishmentId}/newEmployee`, {
         method: 'POST',
         headers: {

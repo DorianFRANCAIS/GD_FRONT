@@ -5,28 +5,31 @@ import { options } from "../api/auth/[...nextauth]/options";
 import { IEstablishments } from "@/types/IEstablishments";
 
 async function GetEstablishments(session: any) {
-    let ownerId: string = '';
-    if (session) {
-        ownerId = session.user.user._id;
+    let url: string = '';
+
+    if (session.user.user.role === "Manager") {
+        url = process.env.SERVER_API + `/establishments?ownerId=${session.user.user._id}`
+    } else {
+        url = process.env.SERVER_API + `/establishments?clientId=${session.user.user._id}`
     }
-        const response = await fetch(process.env.SERVER_API + `/establishments?ownerId=${ownerId}`, {
-            headers: {
-                Authorization: `Bearer ${session.user.tokens.accessToken}`,
-            },
-        });
-        return await response.json();
+    const response = await fetch(url, {
+        headers: {
+            Authorization: `Bearer ${session.user.tokens.accessToken}`,
+        },
+    });
+    return response.json();
 }
 
 let establishmentIdWithoutQuotes: string;
 
-async function GetDogs(session: any, establishmentId: string,ownerId?: string) {
+async function GetDogs(session: any, establishmentId: string) {
     let url = process.env.SERVER_API + `/dogs`;
-    if (establishmentId) {
+    if (establishmentId && session.user.user.role != "Client") {
         establishmentIdWithoutQuotes = establishmentId.replace(/"/g, "");
         url += `?establishmentId=${establishmentIdWithoutQuotes}`;
     }
-    if (ownerId) {
-        url += `?ownerId=${ownerId}`;
+    if (session.user.user.role === 'Client') {
+        url += `?ownerId=${session.user.user._id}`;
     }
     const response = await fetch(url, {
         headers: {

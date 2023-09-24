@@ -1,12 +1,8 @@
 'use client';
 import { IUser } from "@/types/IUser";
-import { Pagination } from "flowbite-react";
 import Link from "next/link";
-import { useState } from "react";
 
 function ClientsPage(props: { clients: IUser[] }) {
-    const [currentPage, setCurrentPage] = useState<number>(1);
-    const onPageChange = (page: number) => setCurrentPage(page);
     return (
         <div className="container mx-auto p-6">
             <div className="bg-greyColor w-full p-6 rounded-md ">
@@ -33,16 +29,6 @@ function ClientsPage(props: { clients: IUser[] }) {
                         </tbody>
                     </table>
                 </div>
-                <Pagination
-                    currentPage={1}
-                    layout="pagination"
-                    nextLabel="Suivant"
-                    onPageChange={page => { setCurrentPage(page) }}
-                    previousLabel="Précèdent"
-                    showIcons
-                    totalPages={1000}
-                    className="text-center mt-4"
-                />
             </div>
         </div>
     );

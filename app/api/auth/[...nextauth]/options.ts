@@ -66,8 +66,9 @@ export const options: NextAuthOptions = {
         }),
     ],
     callbacks: {
-        async jwt({ token, user }) {
+        async jwt({ token, user,account }) {
             // Vérifiez si l'objet user existe et contient la propriété jwt
+            account
             return { ...token, ...user }
         },
         async session({ session, token }) {

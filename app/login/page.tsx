@@ -81,7 +81,6 @@ export default function LoginPage() {
               "Connexion"
             }
           </button>
-          <p className="flex justify-center text-mainColor my-2">Vous n&apos;avez pas de compte ?  <span className="font-bold cursor-pointer" onClick={toLogin}> Inscrivez-vous</span></p>
         </div>
       </form>
     </div>

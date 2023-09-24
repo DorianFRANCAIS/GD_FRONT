@@ -92,8 +92,8 @@ function NewActivityModal(props: { isModalAcitivityOpen: boolean, closeModalActi
                                     />
                                 </div>
                             </div>
-                            <div className="grid grid-cols-6 gap-x-2">
-                                <div className="col-span-4">
+                            <div className="mb-6">
+                                <div>
                                     <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Photo</label>
                                     <input
                                         type="text"
@@ -101,13 +101,6 @@ function NewActivityModal(props: { isModalAcitivityOpen: boolean, closeModalActi
                                         className="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
                                         {...register("imageUrl")}
                                     />
-                                </div>
-                                <div className="col-span-2">
-                                    <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Choisir une couleur</label>
-                                    <input
-                                        className="py-1 px-2 block w-full h-12 rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-slate-900 border-mainColor dark:text-gray-400"
-                                        type="color"
-                                        {...register("color")} />
                                 </div>
                             </div>
                             <div className="grid grid-cols-2 gap-x-2">

@@ -8,7 +8,6 @@ import { options } from "../api/auth/[...nextauth]/options";
 
 async function GetEstablishments(session: any) {
   let url: string = '';
-  console.log("role", session.user.user.role)
   if (session.user.user.role === "Manager") {
     url = process.env.SERVER_API + `/establishments?ownerId=${session.user.user._id}`
   } else {
@@ -71,7 +70,6 @@ async function Agenda(): Promise<JSX.Element> {
   let sessions: ISession[] = [];
   let activities: IActivity[] = [];
   if (establishments.length > 0) {
-    console.log(establishments[0]._id)
     sessions = await GetSessions(session, { establishmentId: establishments[0]._id });
     activities = await GetActivities(session, establishments[0]._id);
   }

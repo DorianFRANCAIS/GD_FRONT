@@ -34,7 +34,6 @@ async function Holidays() {
     const session = await getServerSession(options);
     const establishments: IEstablishments[] = await GetEstablishments(session);
     let holidays: IHolidays[] = [];
-    console.log("establishments",establishments)
     if (establishments.length > 0) {
         holidays = await GetHolidays(session, establishments[0]._id);
     }
