@@ -15,11 +15,12 @@ declare module "next-auth" {
                 emailAddress: string;
                 phoneNumber: string;
                 birthDate: string;
-                activities: [],
+                activities: [];
+                establishments: [string];
                 registeredAt: string;
                 lastConnectionAt: string;
                 avatarUrl: string;
-                __v: 0,
+                __v: 0;
                 refreshToken: string;
                 accessToken: string;
             }

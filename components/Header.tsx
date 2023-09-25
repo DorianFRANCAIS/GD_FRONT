@@ -79,7 +79,7 @@ function Header() {
                                 <span className="flex-1 ml-3 whitespace-nowrap">Mes chiens</span>
                             </Link>
                         </li>
-                        {session.user.user.role !== 'Client' &&
+                        {session.user.user.role === 'Manager' &&
                         <li>
                             <Link href="/team" className="flex items-center p-2 text-mainColor rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
                                 <RiTeamLine className="flex-shrink-0 w-5 h-5 text-mainColor transition duration-75 dark:text-gray-400 group-hover:text-mainColor dark:group-hover:text-white" />

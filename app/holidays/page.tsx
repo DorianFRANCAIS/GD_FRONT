@@ -19,8 +19,8 @@ async function GetEstablishments(session: any) {
     return await response.json();
 }
 
-async function GetHolidays(session: any, establishmentId: string) {
-
+async function GetHolidays(session: any) {
+    let establishmentId = session.user.user.establishments[0];
     const response = await fetch(process.env.SERVER_API + `/holidays?establishmentId=${establishmentId}`, {
         headers: {
             Authorization: `Bearer ${session?.user.tokens.accessToken}`,
@@ -34,12 +34,10 @@ async function Holidays() {
     const session = await getServerSession(options);
     const establishments: IEstablishments[] = await GetEstablishments(session);
     let holidays: IHolidays[] = [];
-    if (establishments.length > 0) {
-        holidays = await GetHolidays(session, establishments[0]._id);
-    }
+    holidays = await GetHolidays(session);
     return (
         <div className="h-screen">
-            <HolidaysPage session={session} holidays={holidays} establishments={establishments} />
+            <HolidaysPage session={session} holidays={holidays} />
         </div>
     )
 };

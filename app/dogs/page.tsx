@@ -22,8 +22,9 @@ async function GetEstablishments(session: any) {
 
 let establishmentIdWithoutQuotes: string;
 
-async function GetDogs(session: any, establishmentId: string) {
+async function GetDogs(session: any) {
     let url = process.env.SERVER_API + `/dogs`;
+    let establishmentId = session.user.user.establishments[0];
     if (establishmentId && session.user.user.role != "Client") {
         establishmentIdWithoutQuotes = establishmentId.replace(/"/g, "");
         url += `?establishmentId=${establishmentIdWithoutQuotes}`;
@@ -44,9 +45,7 @@ async function Dogs() {
     const session = await getServerSession(options);
     const establishments: IEstablishments[] = await GetEstablishments(session);
     let dogs: IDogs[] = [];
-    if (establishments.length > 0) {
-        dogs = await GetDogs(session, establishments[0]._id);
-    }
+    dogs = await GetDogs(session);
     return (
         <div className="flex justify-center items-start gap-x-12 w-full">
             <DogsPage dogs={dogs} establishments={establishments} />

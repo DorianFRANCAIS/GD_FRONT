@@ -24,7 +24,7 @@ function ActivitiesPage(props: { activities: IActivity[], establishments: IEstab
             <div className="bg-greyColor w-full p-6 rounded-md ">
                 <div className="flex justify-between items-center">
                     <h3 className="text-mainColor text-3xl font-bold mb-2">Activitées de l'établissement</h3>
-                    {session?.user.user.role !== 'Client' &&
+                    {session?.user.user.role === 'Manager' &&
                     <button className="btn text-white px-4 py-2" onClick={openModalActivity}>Créer une nouvelle activitée</button>
                     }
                 </div>

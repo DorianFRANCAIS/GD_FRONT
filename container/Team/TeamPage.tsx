@@ -1,14 +1,13 @@
 'use client';
 
 import NewEmployeeModal from "@/components/modal/NewEmployeeModal";
-import { IActivity } from "@/types/IActivity";
 import { IEstablishments } from "@/types/IEstablishments";
 import { IUser } from "@/types/IUser";
 import { useSession } from "next-auth/react";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 
-function TeamPage(props: { employees: IUser[], activityTab: IActivity[], establishments: IEstablishments[] }) {
+function TeamPage(props: { employees: IUser[], establishments: IEstablishments[] }) {
     const [isModalEmployeeOpen, setIsModalEmployeeOpen] = useState<boolean>(false);
     const { data: session } = useSession();
 
@@ -35,6 +34,7 @@ function TeamPage(props: { employees: IUser[], activityTab: IActivity[], establi
                 </div>
                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
                     {props.employees && props.employees.map((employee, idx) => (
+                        employee.role !== 'Client' &&
                         <div key={idx} className="bg-white rounded-lg shadow-lg p-4">
                             <img
                                 src={employee.avatarUrl ? employee.avatarUrl : "/img/avatar.svg"}
@@ -44,7 +44,7 @@ function TeamPage(props: { employees: IUser[], activityTab: IActivity[], establi
                             <h2 className="text-xl font-bold mb-2">
                                 {employee.firstname} {employee.lastname}
                             </h2>
-                            <p className="text-gray-500 mb-2">{employee.role === "Educator" ? "Educateur" : "Administrateur"}</p>
+                            <p className="text-gray-500 mb-2">{employee.role === "Administrator" ? "Administrateur" : (employee.role === "Educator" ? "Educateur" : "Manager")}</p>
                         </div>
                     ))}
                 </div>

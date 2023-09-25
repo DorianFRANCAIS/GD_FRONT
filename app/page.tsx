@@ -1,5 +1,4 @@
 import { options } from "./api/auth/[...nextauth]/options";
-import Dashboard from "./dashboard/page";
 import LoginPage from "./login/page";
 import { getServerSession } from "next-auth";
 
@@ -8,9 +7,7 @@ export default async function Home() {
 
   return (
     <div>
-      {session ?
-        <Dashboard/>
-        :
+      {!session &&
         <LoginPage />
       }
     </div>

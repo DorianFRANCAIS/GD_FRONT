@@ -5,13 +5,18 @@ import { getServerSession } from "next-auth";
 import TeamPage from "@/container/Team/TeamPage";
 import { options } from "../api/auth/[...nextauth]/options";
 
-async function GetStaff(session: any, establishmentId: string) {
-    const res = await fetch(process.env.SERVER_API + `/users?establishmentId=${establishmentId}&role=Educator`, {
+async function GetStaff(session: any) {
+    let url = process.env.SERVER_API + '/users';
+    let establishmentId = session.user.user.establishments[0];
+    if (establishmentId) {
+        url += `?establishmentId=${establishmentId}`;
+    }
+    const response = await fetch(url, {
         headers: {
             Authorization: `Bearer ${session.user.tokens.accessToken}`,
         },
     });
-    return res.json();
+    return await response.json();
 }
 
 async function GetEstablishments(session: any) {
@@ -30,29 +35,16 @@ async function GetEstablishments(session: any) {
     return response.json();
 }
 
-async function GetActivity(session: any, activityId: string) {
-    const response = await fetch(process.env.SERVER_API + `/activities?activityId=${activityId}`, {
-        headers: {
-            Authorization: `Bearer ${session.user.tokens.accessToken}`,
-        },
-    });
-    return await response.json();
-}
 async function Team() {
     const session = await getServerSession(options);
     let employees: IUser[] = [];
-    let activityTab: IActivity[] = [];
     const establishments: IEstablishments[] = await GetEstablishments(session);
-    if (establishments.length > 0) {
-        employees = await GetStaff(session, establishments[0]._id);
-        employees.forEach(async employee => {
-
-            activityTab = await GetActivity(session, employee._id);
-        });
+    if (session?.user.user.role === 'Manager') {
+        employees = await GetStaff(session);
     }
-
+    
     return (
-        <TeamPage employees={employees} activityTab={activityTab} establishments={establishments} />
+        <TeamPage employees={employees} establishments={establishments} />
     )
 };
 

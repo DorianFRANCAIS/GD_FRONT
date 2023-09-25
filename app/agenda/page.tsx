@@ -21,30 +21,32 @@ async function GetEstablishments(session: any) {
   return await response.json();
 }
 
-async function GetStaff(session: any, establishmentId: string | null, role?: string) {
+async function GetStaff(session: any, role?: string) {
   let url = process.env.SERVER_API + '/users';
+  let establishmentId = session.user.user.establishments[0];
   if (establishmentId) {
-    url += `?establishmentId=${establishmentId}`;
+      url += `?establishmentId=${establishmentId}`;
   }
 
   if (role) {
-    url += `${establishmentId ? '&' : '?'}role=${role}`;
+      url += `${establishmentId ? '&' : '?'}role=${role}`;
   }
   const response = await fetch(url, {
-    headers: {
-      Authorization: `Bearer ${session.user.tokens.accessToken}`,
-    },
+      headers: {
+          Authorization: `Bearer ${session.user.tokens.accessToken}`,
+      },
   });
   return await response.json();
 }
 
-async function GetSessions(session: any, params: any) {
+async function GetSessions(session: any) {
   let url = process.env.SERVER_API + `/sessions`;
-  if (params.establishmentId) {
-    url += `?establishmentId=${params.establishmentId}`;
+  let establishmentId = session.user.user.establishments[0];
+  if (session.user.user.role === 'Manager' || session.user.user.role === 'Educator') {
+    url += `?establishmentId=${establishmentId}`;
   }
-  if (params.clientId) {
-    url += `?educatorId=${params.clientId}`;
+  if (session.user.user.role === 'Client') {
+    url += `?educatorId=${establishmentId}`;
   }
   const response = await fetch(url, {
     headers: {
@@ -54,7 +56,8 @@ async function GetSessions(session: any, params: any) {
   return await response.json();
 }
 
-async function GetActivities(session: any, establishmentId: string) {
+async function GetActivities(session: any) {
+  let establishmentId = session.user.user.establishments[0];
   const response = await fetch(process.env.SERVER_API + `/activities?establishmentId=${establishmentId}`, {
     headers: {
       Authorization: `Bearer ${session.user.tokens.accessToken}`,
@@ -66,14 +69,15 @@ async function GetActivities(session: any, establishmentId: string) {
 async function Agenda(): Promise<JSX.Element> {
   const session = await getServerSession(options);
   const establishments: IEstablishments[] = await GetEstablishments(session);
-  const educators: IUser[] = await GetStaff(session, null, "Educator");
+  let educators: IUser[] = [];
+  if(session?.user.user.role === 'Manager') {
+    educators = await GetStaff(session,"Educator");
+  }
   let sessions: ISession[] = [];
   let activities: IActivity[] = [];
-  if (establishments.length > 0) {
-    sessions = await GetSessions(session, { establishmentId: establishments[0]._id });
-    activities = await GetActivities(session, establishments[0]._id);
-  }
-
+  sessions = await GetSessions(session);
+  activities = await GetActivities(session);
+  
   return (
     <div className="h-screen">
       <AgendaPage sessions={sessions} educators={educators} activities={activities} establishments={establishments} />

@@ -3,7 +3,7 @@ import { IEstablishments } from "./IEstablishments";
 
 export interface IUser {
   activities: IActivity[];
-  establishments: IEstablishments[];
+  establishments?: [string];
   _id: string;
   lastname: string;
   firstname: string;

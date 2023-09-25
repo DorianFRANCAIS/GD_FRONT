@@ -91,7 +91,6 @@ function AgendaPage(props: { sessions: ISession[], educators: IUser[], activitie
     router.refresh()
   }
 
-
   return (
     <div className="grid grid-cols-6 gap-4">
       {isModalSessionOpen && <NewSessionModal isModalSessionOpen={isModalSessionOpen} closeModalSession={closeModalSession} educators={props.educators} activities={props.activities} establishments={props.establishments} />}
@@ -125,7 +124,7 @@ function AgendaPage(props: { sessions: ISession[], educators: IUser[], activitie
         />
       </div>
       <div className='col-span-2 flex-col'>
-        {userSession?.user.user.role !== 'Client' &&
+        {userSession?.user.user.role === 'Manager' &&
           <>
             <h2 className="text-white text-2xl">Vous souhaitez créer une nouvelle session ?</h2>
             <button className="btn w-full p-4 mt-2" onClick={openModalSession}>Créer une nouvelle session</button>

@@ -24,7 +24,7 @@ async function UpdateHolidayStatus(session: any, holidayId: string, newHolidayVa
 }
 
 
-function HolidaysPage(props: { session: any, holidays: IHolidays[], establishments: IEstablishments[] }) {
+function HolidaysPage(props: { session: any, holidays: IHolidays[] }) {
     const calendarRef = useRef<FullCalendar | null>(null);
     const [events, setEvents] = useState<IEventHolidays[]>()
     const [isModalHolidaysOpen, setIsModalHolidaysOpen] = useState<boolean>(false);
@@ -69,7 +69,7 @@ function HolidaysPage(props: { session: any, holidays: IHolidays[], establishmen
     };
     return (
         <div className="grid grid-cols-6 gap-4">
-            {isModalHolidaysOpen && <NewHolidaysModal isModalHolidaysOpen={isModalHolidaysOpen} closeModalHolidays={closeModalHolidays} session={props.session} establishments={props.establishments} />}
+            {isModalHolidaysOpen && <NewHolidaysModal isModalHolidaysOpen={isModalHolidaysOpen} closeModalHolidays={closeModalHolidays} session={props.session} />}
             <div className='col-span-4 rounded-3xl p-4 mb-5 wrapper'>
                 <FullCalendar
                     plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}

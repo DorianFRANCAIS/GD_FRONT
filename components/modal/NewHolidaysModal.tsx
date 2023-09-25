@@ -30,7 +30,7 @@ const holidaysSchema = yup.object({
 
 type FormData = yup.InferType<typeof holidaysSchema>;
 
-function NewHolidaysModal(props: { session: any, isModalHolidaysOpen: boolean, closeModalHolidays: any, establishments: IEstablishments[] }) {
+function NewHolidaysModal(props: { session: any, isModalHolidaysOpen: boolean, closeModalHolidays: any }) {
     const { register, handleSubmit, formState: { errors } } = useForm<FormData>({
         resolver: yupResolver(holidaysSchema),
         mode: "onSubmit"
@@ -41,7 +41,7 @@ function NewHolidaysModal(props: { session: any, isModalHolidaysOpen: boolean, c
         data: FormData
     ) => {
         data.employee = session?.user.user._id;
-        data.establishment = props.establishments[0]._id;
+        data.establishment = session?.user.user.establishments[0];
         data.status = "Pending";
         await PostHolidays(session, data);
         props.closeModalHolidays();

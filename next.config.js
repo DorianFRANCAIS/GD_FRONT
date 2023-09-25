@@ -13,7 +13,7 @@ const nextConfig = {
     appDir: true,
   },
   env: {
-    SERVER_API: 'https://dev.api.gestidogs.ianlcz.io/v0',
+    SERVER_API: 'https://dev.api.gestidogs.ianlcz.io/v1',
     LOCAL_API:'http://localhost:3000',
     NEXTAUTH_SECRET:'gestidogs'
   },

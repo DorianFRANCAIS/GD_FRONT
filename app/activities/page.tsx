@@ -1,8 +1,8 @@
 import { getServerSession } from "next-auth";
-import { IEstablishments } from "../establishments/page";
 import { IActivity } from "@/types/IActivity";
 import ActivitiesPage from "@/container/Activities/ActivitiesPage";
 import { options } from "../api/auth/[...nextauth]/options";
+import { IEstablishments } from "@/types/IEstablishments";
 
 async function GetEstablishments(session: any) {
     let url:string = '';
@@ -19,7 +19,8 @@ async function GetEstablishments(session: any) {
     return response.json();
 }
 
-async function GetActivities(session: any, establishmentId: string) {
+async function GetActivities(session: any) {
+    let establishmentId = session.user.user.establishments[0];
     const response = await fetch(process.env.SERVER_API + `/activities?establishmentId=${establishmentId}`, {
         headers: {
             Authorization: `Bearer ${session.user.tokens.accessToken}`,
@@ -30,10 +31,11 @@ async function GetActivities(session: any, establishmentId: string) {
 
 async function Activities(): Promise<JSX.Element> {
     const session = await getServerSession(options);
-    const establishments: IEstablishments[] = await GetEstablishments(session);
+    let establishments: IEstablishments[] = [];
     let activities: IActivity[] = [];
-    if (establishments.length > 0) {
-        activities = await GetActivities(session, establishments[0]._id);
+    activities = await GetActivities(session);
+    if(session?.user.user.role === 'Manager') {
+        establishments = await GetEstablishments(session);
     }
     return (
         <div className="h-screen">

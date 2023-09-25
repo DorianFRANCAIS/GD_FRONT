@@ -4,9 +4,11 @@ import NewDogModal from "@/components/modal/NewDogModal";
 import { IDogs } from "@/types/IDogs";
 import { IEstablishments } from "@/types/IEstablishments";
 import { IUser } from "@/types/IUser";
+import { useSession } from "next-auth/react";
 import { useState } from "react";
 
 function ClientDogPage(props: { dogs: IDogs[], establishments: IEstablishments[], client: IUser }) {
+    const {data: session} = useSession();
     const [openModal, setOpenModal] = useState<boolean>(false);
     const closeModalNewDog = () => {
         setOpenModal(false);
@@ -14,9 +16,11 @@ function ClientDogPage(props: { dogs: IDogs[], establishments: IEstablishments[]
     return (
         <div>
             <div className="flex justify-end">
+            {session?.user.user.role === 'Manager' &&
                 <button onClick={() => setOpenModal(true)} className="btn text-white px-4 py-2" type="button">
                     Ajouter un chien
                 </button>
+            }
             </div>
             <div className="flex max-sm:flex-col gap-x-8 w-full">
                 {props.dogs.length > 0 ? (

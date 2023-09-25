@@ -11,9 +11,10 @@ import { options } from "../api/auth/[...nextauth]/options";
 
 let establishmentIdWithoutQuotes: string;
 
-async function GetDogs(session: any, establishmentId: string) {
+async function GetDogs(session: any) {
     let url = process.env.SERVER_API + `/dogs`;
-    if (establishmentId && session.user.user.role != "Client") {
+    let establishmentId = session.user.user.establishments[0];
+    if (session.user.user.role != "Client") {
         establishmentIdWithoutQuotes = establishmentId.replace(/"/g, "");
         url += `?establishmentId=${establishmentIdWithoutQuotes}`;
     }
@@ -28,7 +29,8 @@ async function GetDogs(session: any, establishmentId: string) {
     return await response.json();
 };
 
-async function DailySessions(session: any, establishmentId: string, date: string) {
+async function DailySessions(session: any, date: string) {
+    let establishmentId = session.user.user.establishments[0];
     const response = await fetch(process.env.SERVER_API + `/sessions/daily?establishmentId=${establishmentId}&date=${date}`, {
         headers: {
             Authorization: `Bearer ${session?.user.tokens.accessToken}`,
@@ -55,15 +57,13 @@ async function GetEstablishments(session: any) {
     return response.json();
 }
 
-async function GetStaff(session: any, establishmentId: string | null, role?: string) {
+async function GetStaff(session: any) {
     let url = process.env.SERVER_API + '/users';
+    let establishmentId = session.user.user.establishments[0];
     if (establishmentId) {
         url += `?establishmentId=${establishmentId}`;
     }
 
-    if (role) {
-        url += `${establishmentId ? '&' : '?'}role=${role}`;
-    }
     const response = await fetch(url, {
         headers: {
             Authorization: `Bearer ${session.user.tokens.accessToken}`,
@@ -72,7 +72,8 @@ async function GetStaff(session: any, establishmentId: string | null, role?: str
     return await response.json();
 }
 
-async function GetActivities(session: any, establishmentId: string) {
+async function GetActivities(session: any,) {
+    let establishmentId = session.user.user.establishments[0];
     const response = await fetch(process.env.SERVER_API + `/activities?establishmentId=${establishmentId}`, {
         headers: {
             Authorization: `Bearer ${session.user.tokens.accessToken}`,
@@ -88,11 +89,11 @@ async function Dashboard() {
     let sessions: IDailySession | null = null;
     let usersStaff: IUser[] = [];
     let activities: IActivity[] = [];
-    if (establishments.length > 0) {
-        dogs = await GetDogs(session, establishments[0]._id);
-        sessions = await DailySessions(session, establishments[0]._id, format(new Date(), 'yyyy-MM-dd'));
-        usersStaff = await GetStaff(session, establishments[0]._id, "Educator");
-        activities = await GetActivities(session, establishments[0]._id);
+    dogs = await GetDogs(session);
+    sessions = await DailySessions(session, format(new Date(), 'yyyy-MM-dd'));
+    activities = await GetActivities(session);
+    if (session?.user.user.role === 'Manager') {
+        usersStaff = await GetStaff(session);
     }
     return (
         <div className="grid grid-cols-2 justify-center items-start gap-x-12 my-4 w-full">
@@ -144,7 +145,7 @@ async function Dashboard() {
                         ))}
                     </div>
                 </div>
-                {session?.user.user.role != 'Client' &&
+                {session?.user.user.role === 'Manager' &&
                     <div className="wrapper">
                         <div className="flex justify-between items-center">
                             <h3 className="text-mainColor text-2xl font-bold">Mon équipe</h3>
@@ -153,6 +154,7 @@ async function Dashboard() {
 
                         <div className="flex flex-grow items-center gap-x-2">
                             {usersStaff && usersStaff.map((staff, idx) => (
+                                staff.role !== 'Client' &&
                                 <div key={idx} className="flex flex-col justify-center items-center">
                                     <img
                                         src={staff?.avatarUrl ? staff?.avatarUrl : "/img/avatar.svg"}
