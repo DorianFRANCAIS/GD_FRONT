@@ -25,6 +25,18 @@ export interface IEstablishmentsNewEmployee {
   stripeId?: string;
 }
 
+export interface IEstablishmentsNewClient {
+  lastname: string;
+  firstname: any;
+  avatarUrl?: string;
+  role?: string;
+  emailAddress: string;
+  phoneNumber: string;
+  password: string;
+  birthDate: string;
+  stripeId?: string;
+}
+
 export interface IEstablishmentsSelect {
   _id: string;
   name: string;

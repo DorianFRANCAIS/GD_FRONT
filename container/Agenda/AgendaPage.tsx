@@ -42,7 +42,6 @@ function AgendaPage(props: { sessions: ISession[], educators: IUser[], activitie
   const isoDateString = today.toISOString();
 
   useEffect(() => {
-    console.log(props.sessions)
     const eventTempo: IEventSession[] = []
     props.sessions.map((session) => {
       eventTempo.push({
@@ -126,38 +125,38 @@ function AgendaPage(props: { sessions: ISession[], educators: IUser[], activitie
         />
       </div>
       <div className='col-span-2 flex-col'>
-      {userSession?.user.user.role !== 'Client' &&
-      <>
-        <h2 className="text-white text-2xl">Vous souhaitez créer une nouvelle session ?</h2>
-        <button className="btn w-full p-4 mt-2" onClick={openModalSession}>Créer une nouvelle session</button>
-      </>
-      }
+        {userSession?.user.user.role !== 'Client' &&
+          <>
+            <h2 className="text-white text-2xl">Vous souhaitez créer une nouvelle session ?</h2>
+            <button className="btn w-full p-4 mt-2" onClick={openModalSession}>Créer une nouvelle session</button>
+          </>
+        }
         <div className="mt-12">
           <h5 className="text-white text-2xl">Sessions prévues :</h5>
         </div>
         {props.sessions.length > 0 ?
-        props.sessions && props.sessions.map((session, idx) => (
-          isoDateString <= session.beginDate &&
-          <div key={idx} className='mt-2 bg-white flex justify-between items-center rounded-twenty p-4 mb-5'>
-            <img
-              src={session.activity.imageUrl}
-              alt="Profile"
-              className="avatar rounded-full"
-            />
-            <div className="ml-2 flex items-center flex-col">
-              <p>{session.activity.title}</p>
-              <p className="text-greyBoldColor">{"Le " + format(new Date(session.beginDate), "dd MMMM yyyy 'à' HH'h'mm", { locale: fr })}</p>
+          props.sessions && props.sessions.map((session, idx) => (
+            isoDateString <= session.beginDate &&
+            <div key={idx} className='mt-2 bg-white flex justify-between items-center rounded-twenty p-4 mb-5'>
+              <img
+                src={session.activity.imageUrl}
+                alt="Profile"
+                className="avatar rounded-full"
+              />
+              <div className="ml-2 flex items-center flex-col">
+                <p>{session.activity.title}</p>
+                <p className="text-greyBoldColor">{"Le " + format(new Date(session.beginDate), "dd MMMM yyyy 'à' HH'h'mm", { locale: fr })}</p>
+              </div>
+              {userSession && userSession.user.user.role === "Manager" && session.status === "Pending" ?
+                <button className="btn p-2" onClick={() => ApproveSession(session._id)}>Approuver</button>
+                :
+                <p className="text-green-500">Session approuvée</p>
+              }
             </div>
-            {userSession && userSession.user.user.role === "Manager" && session.status === "Pending" ?
-              <button className="btn p-2" onClick={() => ApproveSession(session._id)}>Approuver</button>
-              :
-              <p className="text-green-500">Session approuvée</p>
-            }
-          </div>
-        ))
-        :
+          ))
+          :
           <p className="text-white">Aucune session de prévue.</p>
-      }
+        }
       </div>
     </div>
   )

@@ -20,7 +20,6 @@ async function GetDogs(session: any, establishmentId: string) {
     if (session.user.user.role === 'Client') {
         url += `?ownerId=${session.user.user._id}`;
     }
-    console.log(url)
     const response = await fetch(url, {
         headers: {
             Authorization: `Bearer ${session?.user.tokens.accessToken}`,
@@ -95,7 +94,6 @@ async function Dashboard() {
         usersStaff = await GetStaff(session, establishments[0]._id, "Educator");
         activities = await GetActivities(session, establishments[0]._id);
     }
-console.log(session)
     return (
         <div className="grid grid-cols-2 justify-center items-start gap-x-12 my-4 w-full">
             <div className="wrapper">
@@ -147,57 +145,57 @@ console.log(session)
                     </div>
                 </div>
                 {session?.user.user.role != 'Client' &&
-                <div className="wrapper">
-                    <div className="flex justify-between items-center">
-                        <h3 className="text-mainColor text-2xl font-bold">Mon équipe</h3>
-                        <Link href="/team" className="text-mainColor cursor-pointer">Voir plus</Link>
+                    <div className="wrapper">
+                        <div className="flex justify-between items-center">
+                            <h3 className="text-mainColor text-2xl font-bold">Mon équipe</h3>
+                            <Link href="/team" className="text-mainColor cursor-pointer">Voir plus</Link>
+                        </div>
+
+                        <div className="flex flex-grow items-center gap-x-2">
+                            {usersStaff && usersStaff.map((staff, idx) => (
+                                <div key={idx} className="flex flex-col justify-center items-center">
+                                    <img
+                                        src={staff?.avatarUrl ? staff?.avatarUrl : "/img/avatar.svg"}
+                                        alt="Profile"
+                                        className="avatar rounded-full"
+                                    />
+                                    <span className="text-xs font-bold">{staff.firstname}</span>
+                                    <span className="text-xs font-bold">{staff.role === 'Educator' ? "Educateur" : "Manager"}</span>
+                                </div>
+                            ))}
+                        </div>
                     </div>
-                    
-                    <div className="flex flex-grow items-center gap-x-2">
-                        {usersStaff && usersStaff.map((staff, idx) => (
-                            <div key={idx} className="flex flex-col justify-center items-center">
-                                <img
-                                    src={staff?.avatarUrl ? staff?.avatarUrl : "/img/avatar.svg"}
-                                    alt="Profile"
-                                    className="avatar rounded-full"
-                                />
-                                <span className="text-xs font-bold">{staff.firstname}</span>
-                                <span className="text-xs font-bold">{staff.role === 'Educator' ? "Educateur": "Manager"}</span>
-                            </div>
-                        ))}
-                    </div>
-                </div>
                 }
                 {session?.user.user.role != 'Client' &&
-                <div className="wrapper">
-                    <div className="flex justify-between items-center">
-                        <h3 className="text-mainColor text-2xl font-bold">Mes activités</h3>
-                        <Link href="/activities" className="text-mainColor cursor-pointer">Voir plus</Link>
-                    </div>
-                    <div className="flex flex-col gap-y-6 mt-9">
-                        {activities && activities.map((activity, idx) => (
-                            <div key={idx} className="flex w-full bg-greyColor p-2 rounded-twenty" >
-                                <div className="flex items-center w-full">
-                                    <div className="w-2/12">
-                                        <img
-                                            src={activity.imageUrl}
-                                            alt="Profile"
-                                            className="h-32 w-full rounded-twenty"
-                                        />
-                                    </div>
+                    <div className="wrapper">
+                        <div className="flex justify-between items-center">
+                            <h3 className="text-mainColor text-2xl font-bold">Mes activités</h3>
+                            <Link href="/activities" className="text-mainColor cursor-pointer">Voir plus</Link>
+                        </div>
+                        <div className="flex flex-col gap-y-6 mt-9">
+                            {activities && activities.map((activity, idx) => (
+                                <div key={idx} className="flex w-full bg-greyColor p-2 rounded-twenty" >
+                                    <div className="flex items-center w-full">
+                                        <div className="w-2/12">
+                                            <img
+                                                src={activity.imageUrl}
+                                                alt="Profile"
+                                                className="h-32 w-full rounded-twenty"
+                                            />
+                                        </div>
 
-                                    <div className="w-4/6 h-full flex flex-col px-2">
-                                        <h3 className="text-center text-mainColor font-bold">{activity.title}</h3>
-                                        <p className="text-xs"><span className="font-bold">Description :</span> {activity.description}</p>
-                                        <p className="text-xs"><span className="font-bold">Durée :</span> {activity.duration}min</p>
-                                        <p className="text-xs"><span className="font-bold">Prix :</span> {activity.price}€</p>
+                                        <div className="w-4/6 h-full flex flex-col px-2">
+                                            <h3 className="text-center text-mainColor font-bold">{activity.title}</h3>
+                                            <p className="text-xs"><span className="font-bold">Description :</span> {activity.description}</p>
+                                            <p className="text-xs"><span className="font-bold">Durée :</span> {activity.duration}min</p>
+                                            <p className="text-xs"><span className="font-bold">Prix :</span> {activity.price}€</p>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                        ))}
+                            ))}
 
+                        </div>
                     </div>
-                </div>
                 }
             </div>
         </div>

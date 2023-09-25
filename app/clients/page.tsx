@@ -5,16 +5,19 @@ import { IUser } from "@/types/IUser";
 import { options } from "../api/auth/[...nextauth]/options";
 
 async function GetEstablishments(session: any) {
-    let ownerId: string = '';
-    if (session) {
-        ownerId = session.user.user._id;
+    let url: string = '';
+
+    if (session.user.user.role === "Manager") {
+        url = process.env.SERVER_API + `/establishments?ownerId=${session.user.user._id}`
+    } else {
+        url = process.env.SERVER_API + `/establishments?clientId=${session.user.user._id}`
     }
-        const response = await fetch(process.env.SERVER_API + `/establishments?ownerId=${ownerId}`, {
-            headers: {
-                Authorization: `Bearer ${session.user.tokens.accessToken}`,
-            },
-        });
-        return await response.json();
+    const response = await fetch(url, {
+        headers: {
+            Authorization: `Bearer ${session.user.tokens.accessToken}`,
+        },
+    });
+    return response.json();
 }
 
 async function GetClients(session: any, establishmentId: string | null, role?: string) {
@@ -31,22 +34,22 @@ async function GetClients(session: any, establishmentId: string | null, role?: s
             Authorization: `Bearer ${session.user.tokens.accessToken}`,
         },
     });
-     return await response.json();
+    return await response.json();
 }
 
 
 
 async function Clients(): Promise<JSX.Element> {
     const session = await getServerSession(options);
-    const establishment: IEstablishments = await GetEstablishments(session);
+    const establishment: IEstablishments[] = await GetEstablishments(session);
     let clients: IUser[] = [];
     if (establishment) {
-        clients = await GetClients(session, establishment._id, "Client");
+        clients = await GetClients(session, establishment[0]._id, "Client");
     }
 
     return (
         <div className="h-screen">
-            <ClientsPage clients={clients} />
+            <ClientsPage clients={clients} establishments={establishment} />
         </div>
     )
 }
