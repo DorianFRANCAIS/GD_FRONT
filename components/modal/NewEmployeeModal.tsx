@@ -44,7 +44,6 @@ function NewEmployeeModal(props: { isModalEmployeeOpen: boolean, closeModalEmplo
         data: FormData
     ) => {
         data.role = "Educator";
-        console.log(data)
         await PostEmployee(session, data, props.establishments[0]._id);
         props.closeModalEmployee();
         router.refresh();
