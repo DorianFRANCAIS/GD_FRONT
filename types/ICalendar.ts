@@ -10,7 +10,7 @@ export interface IEventSession {
     educator: IUser;
     activity: IActivity;
     establishment: IEstablishments;
-    status: "Pending" | "Confirmed" | "Cancelled";
+    status: string;
     maximumCapacity: number;
     report: string;
     beginDate: string;

@@ -1,14 +1,14 @@
 'use client';
 import NewActivityModal from "@/components/modal/NewActivityModal";
 import { IActivity } from "@/types/IActivity";
-import { IEstablishments, IEstablishmentsSelect } from "@/types/IEstablishments";
+import { IEstablishmentsSelect } from "@/types/IEstablishments";
 import { useSession } from "next-auth/react";
 import { useState } from "react";
 
 
 function ActivitiesPage(props: { activities: IActivity[], establishments: IEstablishmentsSelect[] }) {
     const [isModalAcitivityOpen, setIsModalActivityOpen] = useState<boolean>(false);
-    const {data:session} = useSession();
+    const { data: session } = useSession();
 
     const openModalActivity = (e: any) => {
         e.preventDefault()
@@ -25,10 +25,10 @@ function ActivitiesPage(props: { activities: IActivity[], establishments: IEstab
                 <div className="flex justify-between items-center">
                     <h3 className="text-mainColor text-3xl font-bold mb-2">Activitées de l'établissement</h3>
                     {session?.user.user.role === 'Manager' &&
-                    <button className="btn text-white px-4 py-2" onClick={openModalActivity}>Créer une nouvelle activitée</button>
+                        <button className="btn text-white px-4 py-2" onClick={openModalActivity}>Créer une nouvelle activitée</button>
                     }
                 </div>
-                <div className="grid grid-cols-4 gap-2 w-full">
+                <div className="grid grid-cols-6 gap-2 w-full">
                     {props.activities && props.activities.map((activity, idx) => (
                         <div key={idx} className="bg-white rounded-lg shadow-md p-4 max-w-md">
                             <img

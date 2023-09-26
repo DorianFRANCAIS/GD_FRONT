@@ -20,11 +20,11 @@ async function GetStaff(session: any) {
 }
 
 async function GetEstablishments(session: any) {
-    let url:string = '';
+    let url: string = '';
 
     if (session.user.user.role === "Manager") {
         url = process.env.SERVER_API + `/establishments?ownerId=${session.user.user._id}`
-    }else {
+    } else {
         url = process.env.SERVER_API + `/establishments?clientId=${session.user.user._id}`
     }
     const response = await fetch(url, {
@@ -38,11 +38,12 @@ async function GetEstablishments(session: any) {
 async function Team() {
     const session = await getServerSession(options);
     let employees: IUser[] = [];
-    const establishments: IEstablishments[] = await GetEstablishments(session);
+    const establishmentsData: Promise<IEstablishments[]> = await GetEstablishments(session);
     if (session?.user.user.role === 'Manager') {
         employees = await GetStaff(session);
     }
-    
+    const [establishments] = await Promise.all([establishmentsData]);
+
     return (
         <TeamPage employees={employees} establishments={establishments} />
     )

@@ -41,22 +41,6 @@ async function DailySessions(session: any, date: string) {
     return data;
 };
 
-async function GetEstablishments(session: any) {
-    let url: string = '';
-
-    if (session.user.user.role === "Manager") {
-        url = process.env.SERVER_API + `/establishments?ownerId=${session.user.user._id}`
-    } else {
-        url = process.env.SERVER_API + `/establishments?clientId=${session.user.user._id}`
-    }
-    const response = await fetch(url, {
-        headers: {
-            Authorization: `Bearer ${session.user.tokens.accessToken}`,
-        },
-    });
-    return response.json();
-}
-
 async function GetStaff(session: any) {
     let url = process.env.SERVER_API + '/users';
     let establishmentId = session.user.user.establishments[0];
@@ -84,17 +68,15 @@ async function GetActivities(session: any,) {
 
 async function Dashboard() {
     const session = await getServerSession(options);
-    const establishments: IEstablishments[] = await GetEstablishments(session);
-    let dogs: IDogs[] = [];
-    let sessions: IDailySession | null = null;
+    const dogData: Promise<IDogs[]> = await GetDogs(session);
+    const sessionsData: Promise<IDailySession> | null = await DailySessions(session, format(new Date(), 'yyyy-MM-dd'));
+    const activitiesData: Promise<IActivity[]> = await GetActivities(session);
     let usersStaff: IUser[] = [];
-    let activities: IActivity[] = [];
-    dogs = await GetDogs(session);
-    sessions = await DailySessions(session, format(new Date(), 'yyyy-MM-dd'));
-    activities = await GetActivities(session);
     if (session?.user.user.role === 'Manager') {
         usersStaff = await GetStaff(session);
     }
+    const [dogs, sessions, activities] = await Promise.all([dogData, sessionsData, activitiesData]);
+
     return (
         <div className="grid grid-cols-2 justify-center items-start gap-x-12 my-4 w-full">
             <div className="wrapper">

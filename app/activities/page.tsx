@@ -5,10 +5,10 @@ import { options } from "../api/auth/[...nextauth]/options";
 import { IEstablishments } from "@/types/IEstablishments";
 
 async function GetEstablishments(session: any) {
-    let url:string = '';
+    let url: string = '';
     if (session.user.user.role === "Manager") {
         url = process.env.SERVER_API + `/establishments?ownerId=${session.user.user._id}`
-    }else {
+    } else {
         url = process.env.SERVER_API + `/establishments?clientId=${session.user.user._id}`
     }
     const response = await fetch(url, {
@@ -32,11 +32,11 @@ async function GetActivities(session: any) {
 async function Activities(): Promise<JSX.Element> {
     const session = await getServerSession(options);
     let establishments: IEstablishments[] = [];
-    let activities: IActivity[] = [];
-    activities = await GetActivities(session);
-    if(session?.user.user.role === 'Manager') {
+    let activitiesData: Promise<IActivity[]> = await GetActivities(session);
+    if (session?.user.user.role === 'Manager') {
         establishments = await GetEstablishments(session);
     }
+    const [activities] = await Promise.all([activitiesData]);
     return (
         <div className="h-screen">
             <ActivitiesPage activities={activities} establishments={establishments} />

@@ -8,7 +8,7 @@ export interface ISession {
   educator: IUser;
   activity: IActivity;
   establishment: IEstablishments;
-  status: "Pending" | "Confirmed" | "Cancelled";
+  status: string;
   maximumCapacity: number;
   beginDate: string;
   endDate: string;
@@ -28,7 +28,7 @@ export interface IPutSession {
   _id: string;
   educator?: string;
   activity?: string;
-  status?: "Pending;" | "Confirmed" | "Cancelled";
+  status?: string;
   maximumCapacity?: number;
   report?: string;
   beginDate?: string;

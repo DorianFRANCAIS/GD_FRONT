@@ -43,9 +43,10 @@ async function GetDogs(session: any) {
 
 async function Dogs() {
     const session = await getServerSession(options);
-    const establishments: IEstablishments[] = await GetEstablishments(session);
-    let dogs: IDogs[] = [];
-    dogs = await GetDogs(session);
+    const establishmentsData: Promise<IEstablishments[]> = await GetEstablishments(session);
+    let dogsData: Promise<IDogs[]> = await GetDogs(session);
+
+    const [establishments, dogs] = await Promise.all([establishmentsData, dogsData]);
     return (
         <div className="flex justify-center items-start gap-x-12 w-full">
             <DogsPage dogs={dogs} establishments={establishments} />

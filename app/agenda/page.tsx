@@ -25,16 +25,16 @@ async function GetStaff(session: any, role?: string) {
   let url = process.env.SERVER_API + '/users';
   let establishmentId = session.user.user.establishments[0];
   if (establishmentId) {
-      url += `?establishmentId=${establishmentId}`;
+    url += `?establishmentId=${establishmentId}`;
   }
 
   if (role) {
-      url += `${establishmentId ? '&' : '?'}role=${role}`;
+    url += `${establishmentId ? '&' : '?'}role=${role}`;
   }
   const response = await fetch(url, {
-      headers: {
-          Authorization: `Bearer ${session.user.tokens.accessToken}`,
-      },
+    headers: {
+      Authorization: `Bearer ${session.user.tokens.accessToken}`,
+    },
   });
   return await response.json();
 }
@@ -68,16 +68,16 @@ async function GetActivities(session: any) {
 
 async function Agenda(): Promise<JSX.Element> {
   const session = await getServerSession(options);
-  const establishments: IEstablishments[] = await GetEstablishments(session);
+  const establishmentsData: Promise<IEstablishments[]> = await GetEstablishments(session);
+  const sessionsData: Promise<ISession[]> = await GetSessions(session);
+  const activitiesData: Promise<IActivity[]> = await GetActivities(session);
   let educators: IUser[] = [];
-  if(session?.user.user.role === 'Manager') {
-    educators = await GetStaff(session,"Educator");
+  if (session?.user.user.role === 'Manager') {
+    educators = await GetStaff(session, "Educator");
   }
-  let sessions: ISession[] = [];
-  let activities: IActivity[] = [];
-  sessions = await GetSessions(session);
-  activities = await GetActivities(session);
-  
+
+  const [sessions, activities, establishments] = await Promise.all([sessionsData, activitiesData, establishmentsData]);
+
   return (
     <div className="h-screen">
       <AgendaPage sessions={sessions} educators={educators} activities={activities} establishments={establishments} />

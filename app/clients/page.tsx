@@ -34,10 +34,9 @@ async function GetClients(session: any) {
 
 async function Clients(): Promise<JSX.Element> {
     const session = await getServerSession(options);
-    const establishment: IEstablishments[] = await GetEstablishments(session);
-    let clients: IUser[] = [];
-    clients = await GetClients(session);
-
+    const establishmentsData: Promise<IEstablishments[]> = await GetEstablishments(session);
+    const clientsData: Promise<IUser[]> = await GetClients(session);
+    const [establishment, clients] = await Promise.all([establishmentsData, clientsData]);
     return (
         <div className="h-screen">
             <ClientsPage clients={clients} establishments={establishment} />

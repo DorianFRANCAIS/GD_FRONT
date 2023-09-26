@@ -5,10 +5,11 @@ import dayGridPlugin from "@fullcalendar/daygrid";
 import timeGridPlugin from "@fullcalendar/timegrid";
 import interactionPlugin from "@fullcalendar/interaction";
 import { format } from "date-fns";
+import { zonedTimeToUtc } from 'date-fns-tz';
 import { fr } from "date-fns/locale";
 import React, { useEffect, useRef, useState } from "react";
 import { useSession } from "next-auth/react";
-import { IPutSession, ISession } from "@/types/ISession";
+import { ISession } from "@/types/ISession";
 import NewSessionModal from "@/components/modal/NewSessionModal";
 import { IUser } from "@/types/IUser";
 import { IActivity } from "@/types/IActivity";
@@ -58,12 +59,12 @@ function AgendaPage(props: { sessions: ISession[], educators: IUser[], activitie
         beginDate: session.beginDate,
         endDate: session.endDate,
         editable: false,
-        color: session.status === "Pending" ? "#37347A" : (session.status === "Confirmed" ? "green" : "red"),
+        color: "#37347A",
         textColor: `white`
       })
     })
     setEvents(eventTempo)
-  }, [])
+  }, [props.sessions])
 
   const openModalSession = (e: any) => {
     e.preventDefault()

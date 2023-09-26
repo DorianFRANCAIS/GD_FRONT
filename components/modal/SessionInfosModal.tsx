@@ -57,7 +57,7 @@ function SessionInfosModal(props: { isModalInfosSessionOpen: boolean, closeModal
             }
             getRemainingPlaces()
         }
-    }, [session])
+    }, [session, props.selectedSession])
 
     const onSubmit: SubmitHandler<FormData> = async (
         data: FormData
