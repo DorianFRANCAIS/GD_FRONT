@@ -160,7 +160,7 @@ async function Dashboard() {
                             {activities && activities.map((activity, idx) => (
                                 <div key={idx} className="flex w-full bg-greyColor p-2 rounded-twenty" >
                                     <div className="flex items-center w-full">
-                                        <div className="w-2/12">
+                                        <div className="w-3/12">
                                             <img
                                                 src={activity.imageUrl}
                                                 alt="Profile"
