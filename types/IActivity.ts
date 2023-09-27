@@ -15,7 +15,6 @@ export interface IPostActivity {
   title: string;
   description: string;
   imageUrl: string;
-  color: string;
   duration: number;
   price: number;
 }

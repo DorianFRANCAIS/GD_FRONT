@@ -45,7 +45,6 @@ function ProfilePage(props: { client: IUser }) {
                         defaultValue={props.client.phoneNumber}
                     />
                 </div>
-                <button type="submit" className="btn w-full p-4 mt-5">Enregistrer</button>
             </div>
         </div>
     )

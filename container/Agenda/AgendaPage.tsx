@@ -96,7 +96,7 @@ function AgendaPage(props: { sessions: ISession[], educators: IUser[], activitie
     <div className="grid grid-cols-6 gap-4">
       {isModalSessionOpen && <NewSessionModal isModalSessionOpen={isModalSessionOpen} closeModalSession={closeModalSession} educators={props.educators} activities={props.activities} establishments={props.establishments} />}
       <SessionInfosModal isModalInfosSessionOpen={isModalInfosSessionOpen} closeModalInfosSession={closeModalInfosSession} selectedSession={selectedSession} />
-      <div className='col-span-4 rounded-3xl p-4 mb-5 wrapper'>
+      <div className='col-span-4 rounded-3xl p-4 mb-5 wrapper h-screen'>
         <FullCalendar
           plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
           initialView={"timeGridWeek"}

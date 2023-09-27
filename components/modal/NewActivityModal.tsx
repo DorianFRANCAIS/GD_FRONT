@@ -2,21 +2,22 @@
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
-import { RxCrossCircled } from "react-icons/rx";
-import { IEstablishments, IEstablishmentsSelect } from "@/types/IEstablishments";
+import { IEstablishmentsSelect } from "@/types/IEstablishments";
 import { useSession } from "next-auth/react";
 import { Modal } from "flowbite-react";
 import { IPostActivity } from "@/types/IActivity";
 import { useRouter } from "next/navigation";
 
-async function PostActivity(session: any, newDog: IPostActivity) {
+async function PostActivity(session: any, newActivity: IPostActivity) {
+    console.log(newActivity)
     const response = await fetch(process.env.LOCAL_API + `/api/activities`, {
         method: 'POST',
         headers: {
             Authorization: `Bearer ${session?.user.tokens.accessToken}`,
         },
-        body: JSON.stringify(newDog),
+        body: JSON.stringify(newActivity),
     });
+
     return response.json();
 }
 
@@ -25,7 +26,6 @@ const activitySchema = yup.object({
     title: yup.string().required('Veuillez renseigner un titre'),
     description: yup.string().required('Veuillez renseigner une description'),
     imageUrl: yup.string().required('Veuillez sélectionner une image'),
-    color: yup.string().required('Veuillez renseigner une couleur'),
     duration: yup.number().required('Veuillez renseigner une durée'),
     price: yup.number().required('Veuillez renseigner un prix'),
 }).required();
@@ -53,7 +53,7 @@ function NewActivityModal(props: { isModalAcitivityOpen: boolean, closeModalActi
             <Modal show={props.isModalAcitivityOpen === true} size="2xl" popup onClose={props.closeModalActivity}>
                 <Modal.Header className="flex items-center border-b p-4">
                     <h3 className="text-xl font-semibold text-mainColor">
-                        Ajout d&apos;un nouveau chien
+                        Ajout d&apos;une nouvelle activité
                     </h3>
                 </Modal.Header>
                 <Modal.Body>
