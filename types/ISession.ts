@@ -25,7 +25,7 @@ export interface IPostSession {
 }
 
 export interface IPutSession {
-  _id: string;
+  _id?: string;
   educator?: string;
   activity?: string;
   status?: string;

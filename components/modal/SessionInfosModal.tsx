@@ -94,7 +94,7 @@ function SessionInfosModal(props: { isModalInfosSessionOpen: boolean, closeModal
                                     <h2 className="text-lg font-semibold mb-2">Rapport de la session :</h2>
                                     <textarea className="w-full h-40 border-none focus:outline-none bg-gray-100" disabled={props.selectedSession?.status === "Pending" || session?.user.user.role === 'Client' ? true : false}  {...register("report")} defaultValue={props.selectedSession?.report}></textarea>
                                 </div>
-                                {props.selectedSession?.status === "Confirmed" ?
+                                {props.selectedSession?.status === "Online" ?
                                     <button type="submit" className="btn w-full p-4 mt-5">
                                     {isLoading ?
                                         <div className="flex justify-center" role="status">

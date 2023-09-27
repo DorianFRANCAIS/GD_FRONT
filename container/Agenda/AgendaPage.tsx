@@ -8,7 +8,7 @@ import { format } from "date-fns";
 import { fr } from "date-fns/locale";
 import React, { useEffect, useRef, useState } from "react";
 import { useSession } from "next-auth/react";
-import { ISession } from "@/types/ISession";
+import { IPutSession, ISession } from "@/types/ISession";
 import NewSessionModal from "@/components/modal/NewSessionModal";
 import { IUser } from "@/types/IUser";
 import { IActivity } from "@/types/IActivity";
@@ -17,7 +17,7 @@ import SessionInfosModal from "@/components/modal/SessionInfosModal";
 import { IEventSession } from "@/types/ICalendar";
 import { useRouter } from 'next/navigation'
 
-async function UpdateSessionStatus(userSession: any, sessionId: string, status: string) {
+async function UpdateSessionStatus(userSession: any, sessionId: string, status: IPutSession) {
   const response = await fetch(process.env.LOCAL_API +`/api/sessions/${sessionId}`, {
     method: 'PUT',
     headers: {
@@ -85,7 +85,10 @@ function AgendaPage(props: { sessions: ISession[], educators: IUser[], activitie
   }
 
   const ApproveSession = async (sessionId: string) => {
-    const status: string = "Online";
+    const status: IPutSession = 
+    {
+      status: "Online"
+    }
     await UpdateSessionStatus(userSession, sessionId, status)
     router.refresh()
   }
