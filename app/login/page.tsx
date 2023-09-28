@@ -64,7 +64,6 @@ export default function LoginPage() {
             <label className="text-lg	">Mot de passe</label>
             <input className="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
               type="password" {...register("password")} placeholder="Mot de passe" />
-            <span className="flex justify-end text-mainColor mt-2 text-lg">Mot de passe oublié ?</span>
           </div>
         </div>
         <div className="flex flex-col">
